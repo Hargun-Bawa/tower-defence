@@ -1,0 +1,14 @@
+import * as __wonderlandengine_components from '@wonderlandengine/components';
+_registerEditor(__wonderlandengine_components);
+import * as _C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_bullet_physics_js from 'C:/Users/hgnba/Documents/WonderlandEngine/my-wonderland/js/bullet-physics.js';
+_registerEditor(_C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_bullet_physics_js);
+import * as _C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_bullet_spawner_js from 'C:/Users/hgnba/Documents/WonderlandEngine/my-wonderland/js/bullet-spawner.js';
+_registerEditor(_C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_bullet_spawner_js);
+import * as _C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_button_js from 'C:/Users/hgnba/Documents/WonderlandEngine/my-wonderland/js/button.js';
+_registerEditor(_C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_button_js);
+import * as _C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_game_js from 'C:/Users/hgnba/Documents/WonderlandEngine/my-wonderland/js/game.js';
+_registerEditor(_C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_game_js);
+import * as _C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_ship_js from 'C:/Users/hgnba/Documents/WonderlandEngine/my-wonderland/js/ship.js';
+_registerEditor(_C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_ship_js);
+import * as _C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_waypoint_movement_js from 'C:/Users/hgnba/Documents/WonderlandEngine/my-wonderland/js/waypoint-movement.js';
+_registerEditor(_C__Users_hgnba_Documents_WonderlandEngine_my_wonderland_js_waypoint_movement_js);
