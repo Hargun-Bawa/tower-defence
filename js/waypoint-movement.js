@@ -1,5 +1,6 @@
 import {Component, Type} from '@wonderlandengine/api';
 import {vec3} from 'gl-matrix';
+import {state } from './game';
 
 /*
 Original authors — credit is appreciated but not required:
@@ -68,7 +69,6 @@ export class WaypointMovement extends Component {
         this.currentCurveIndex = 0;
         this.curveDistance = Math.max(0.0, Math.min(0.49999, this.curveDistance));
         this.bezFactorMultiplicator = 1 / (2 * this.curveDistance);
-        this._setCurvePoints();
 
         this.onFinalWaypointReachedCallbacks = [];
     }
@@ -191,7 +191,6 @@ export class WaypointMovement extends Component {
             ) {
                 this.currentCurveIndex++;
                 this.incrementCurveIndex = false;
-                this._setCurvePoints();
             }
             vec3.lerp(this.currentPosition, this.fromPosition, this.toPosition, factor);
             // position ahead of the object on the path, determines the looking direction
@@ -210,9 +209,9 @@ export class WaypointMovement extends Component {
             this.currentPositionIndex++;
             // Checks if the final waypoint has been reached
             if (this.currentPositionIndex == this.children.length - 1) {
+                this.object.f();
                 this.currentPositionIndex = 0;
                 this.currentCurveIndex = 0;
-                this._setCurvePoints();
                 this.incrementCurveIndex = false;
                 this.onFinalWaypointReachedCallbacks.forEach((f) => f());
             }

@@ -21,9 +21,10 @@ import {MouseLookComponent} from '@wonderlandengine/components';
 import {PlayerHeight} from '@wonderlandengine/components';
 import {TeleportComponent} from '@wonderlandengine/components';
 import {VrModeActiveSwitch} from '@wonderlandengine/components';
-import {BulletSpawner} from './bullet-spawner.js';
-import {ButtonComponent} from './button.js';
-import {Ship} from './ship.js';
+import {WasdControlsComponent} from '@wonderlandengine/components';
+import {EnemySpawner} from './enemy-spawner.js';
+import {TurretSpawner} from './turret-spawner.js';
+import {UIHandler} from './uiHandler.js';
 import {WaypointMovement} from './waypoint-movement.js';
 /* wle:auto-imports:end */
 
@@ -32,7 +33,7 @@ import * as API from '@wonderlandengine/api'; // Deprecated: Backward compatibil
 
 /* wle:auto-constants:start */
 const Constants = {
-    ProjectName: 'MyWonderland',
+    ProjectName: 'tower-defense',
     RuntimeBaseName: 'WonderlandRuntime',
     WebXRRequiredFeatures: ['local',],
     WebXROptionalFeatures: ['local','local-floor','hand-tracking','hit-test',],
@@ -97,9 +98,10 @@ engine.registerComponent(MouseLookComponent);
 engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
-engine.registerComponent(BulletSpawner);
-engine.registerComponent(ButtonComponent);
-engine.registerComponent(Ship);
+engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(EnemySpawner);
+engine.registerComponent(TurretSpawner);
+engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);
 /* wle:auto-register:end */
 
