@@ -4,15 +4,14 @@
  * update it whenever you need to add something at agame level 
  */
 export const state = {
-    EnemySpawner : null,
-
+    EnemySpawner : [],
     spawn: null,
     currentEnemies : [],
     currency: 0,
     health:100,
      test: function() { return this.health.toString()},
      currUI: null,
-     turretSpawner: null,
+     turretSpawner: [],
      turrets: [],
      buildT : null, 
      spawned:0,

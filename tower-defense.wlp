@@ -22,7 +22,9 @@
                 {
                     "type": "wasd-controls",
                     "wasd-controls": {
-                        "headObject": "17"
+                        "headObject": "17",
+                        "lockY": false,
+                        "speed": 1.0
                     }
                 }
             ]
@@ -33,7 +35,7 @@
             "components": [
                 {
                     "type": "view",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "mouse-look",
@@ -51,7 +53,7 @@
                         "cursorRayObject": "212",
                         "cursorObject": "210"
                     },
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "howler-audio-listener"
@@ -95,13 +97,15 @@
             "parent": "205",
             "components": [
                 {
-                    "type": "view"
+                    "type": "view",
+                    "active": false
                 },
                 {
                     "type": "input",
                     "input": {
                         "type": "eye left"
-                    }
+                    },
+                    "active": false
                 }
             ],
             "translation": [
@@ -126,13 +130,15 @@
             "parent": "205",
             "components": [
                 {
-                    "type": "view"
+                    "type": "view",
+                    "active": false
                 },
                 {
                     "type": "input",
                     "input": {
                         "type": "eye right"
-                    }
+                    },
+                    "active": false
                 }
             ],
             "translation": [
@@ -719,7 +725,8 @@
                     "type": "input",
                     "input": {
                         "type": "hand right"
-                    }
+                    },
+                    "active": false
                 },
                 {
                     "type": "vr-mode-active-switch",
@@ -751,7 +758,8 @@
                     "type": "input",
                     "input": {
                         "type": "hand left"
-                    }
+                    },
+                    "active": false
                 },
                 {
                     "type": "vr-mode-active-switch",
@@ -1550,7 +1558,8 @@
                     "active": false
                 },
                 {
-                    "type": "input"
+                    "type": "input",
+                    "active": true
                 }
             ]
         },
@@ -1561,8 +1570,24 @@
             },
             "components": [
                 {
-                    "active": false
+                    "active": true
                 }
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                39.9962882,
+                31.8563499,
+                28.2387142
             ]
         },
         "272": {
@@ -1616,9 +1641,9 @@
                 "file": "models\\Map_TerrainVF(1) (1).glb"
             },
             "translation": [
-                0.5601852,
-                0.0,
-                -14.7566728
+                -33.3397445,
+                1.8696861,
+                -16.7457904
             ],
             "rotation": [
                 0.0,
@@ -1647,7 +1672,8 @@
                     "type": "waypoint-movement",
                     "waypoint-movement": {
                         "pathObject": "275",
-                        "speed": 5.0
+                        "speed": 5.0,
+                        "curveDistance": 0.0
                     },
                     "active": false
                 },
@@ -1664,9 +1690,9 @@
         "275": {
             "name": "WaypointsA",
             "translation": [
-                0.0,
-                0.0,
-                -14.7598114
+                -33.0809745,
+                1.8406677,
+                -16.549015
             ],
             "rotation": [
                 0.0,
@@ -1695,9 +1721,9 @@
                 1.0
             ],
             "translation": [
-                3.9353089,
-                0.0,
-                10.431281
+                8.6189632,
+                -0.7879257,
+                5.7255077
             ]
         },
         "277": {
@@ -1715,9 +1741,9 @@
                 1.0
             ],
             "translation": [
-                -8.4033966,
-                0.0,
-                0.0
+                15.6111984,
+                -0.9255599,
+                5.1605701
             ]
         },
         "279": {
@@ -1784,6 +1810,375 @@
                 1.0
             ],
             "parent": "17"
+        },
+        "284": {
+            "name": "C",
+            "parent": "275",
+            "translation": [
+                34.3396492,
+                -1.9727478,
+                1.2737598
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "285": {
+            "name": "D",
+            "parent": "275",
+            "translation": [
+                61.3514251,
+                -3.4241027,
+                3.2200355
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "286": {
+            "link": {
+                "name": "Empty",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "translation": [
+                -33.3397445,
+                1.8696861,
+                16.6472511
+            ],
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                -4.3711388286737935e-8
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "Gary-the-EnemySpawner",
+            "components": [
+                {
+                    "type": "enemy-spawner",
+                    "enemy-spawner": {
+                        "defaultMesh": "8",
+                        "defaultMaterial": "22",
+                        "movement": "275",
+                        "spawnTimer": 3
+                    },
+                    "active": true
+                },
+                {
+                    "type": "waypoint-movement",
+                    "waypoint-movement": {
+                        "pathObject": "287",
+                        "speed": 5.0,
+                        "curveDistance": 0.0
+                    },
+                    "active": false
+                },
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "26"
+                    },
+                    "active": true
+                }
+            ],
+            "parent": null
+        },
+        "287": {
+            "name": "Waypoints B",
+            "translation": [
+                -34.3486671,
+                0.0,
+                17.3053607
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "288": {
+            "name": "A",
+            "parent": "287",
+            "translation": [
+                15.2790451,
+                0.0,
+                -7.3753604
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "289": {
+            "name": "B",
+            "parent": "287",
+            "translation": [
+                36.9302825,
+                0.0,
+                -18.3492145
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "290": {
+            "name": "C",
+            "parent": "287",
+            "translation": [
+                48.9926223,
+                0.0,
+                -29.2231864
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "291": {
+            "name": "D",
+            "parent": "287",
+            "translation": [
+                59.862812,
+                0.0,
+                -28.7153644
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "292": {
+            "link": {
+                "name": "Empty",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "translation": [
+                35.8718605,
+                1.8696861,
+                17.0181312
+            ],
+            "rotation": [
+                0.0,
+                1.0,
+                0.0,
+                -4.3711388286737935e-8
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "Joaquin-the-EnemySpawner",
+            "components": [
+                {
+                    "type": "enemy-spawner",
+                    "enemy-spawner": {
+                        "defaultMesh": "11",
+                        "defaultMaterial": "25",
+                        "movement": "275",
+                        "spawnTimer": 3
+                    },
+                    "active": true
+                },
+                {
+                    "type": "waypoint-movement",
+                    "waypoint-movement": {
+                        "pathObject": "293",
+                        "speed": 5.0,
+                        "curveDistance": 0.0
+                    },
+                    "active": false
+                },
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "26"
+                    },
+                    "active": true
+                }
+            ],
+            "parent": null
+        },
+        "293": {
+            "name": "Waypoints C",
+            "translation": [
+                36.2585296,
+                0.0,
+                18.3907432
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": null
+        },
+        "294": {
+            "name": "A",
+            "parent": "293"
+        },
+        "295": {
+            "name": "B",
+            "parent": "293",
+            "translation": [
+                0.4666748,
+                0.0,
+                -10.2279853
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "297": {
+            "name": "C",
+            "parent": "293",
+            "translation": [
+                -23.1681327,
+                0.0,
+                -5.0762863
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "298": {
+            "name": "D",
+            "parent": "293",
+            "translation": [
+                -32.5275306,
+                0.0,
+                -20.1234703
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "299": {
+            "name": "E",
+            "parent": "293",
+            "translation": [
+                -27.5042724,
+                0.0,
+                -26.9016761
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "300": {
+            "name": "F",
+            "parent": "293",
+            "translation": [
+                -9.3318481,
+                0.0,
+                -29.3560352
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
         }
     },
     "meshes": {

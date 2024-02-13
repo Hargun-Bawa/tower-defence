@@ -15385,6 +15385,23 @@ __publicField(Vrm, "Properties", {
   lookAtTarget: { type: Type.Object }
 });
 
+// js/game.js
+var state = {
+  EnemySpawner: [],
+  spawn: null,
+  currentEnemies: [],
+  currency: 0,
+  health: 100,
+  test: function() {
+    return this.health.toString();
+  },
+  currUI: null,
+  turretSpawner: [],
+  turrets: [],
+  buildT: null,
+  spawned: 0
+};
+
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
 var _direction = new Float32Array(3);
 var WasdControlsComponent = class extends Component {
@@ -15393,6 +15410,7 @@ var WasdControlsComponent = class extends Component {
     this.right = false;
     this.down = false;
     this.left = false;
+    this.spawm = false;
     window.addEventListener("keydown", this.press.bind(this));
     window.addEventListener("keyup", this.release.bind(this));
   }
@@ -15429,6 +15447,8 @@ var WasdControlsComponent = class extends Component {
       this.down = true;
     } else if (e.keyCode === 37 || e.keyCode === 65 || e.keyCode === 81) {
       this.left = true;
+    } else if (e.keyCode === 69) {
+      state.buildT();
     }
   }
   release(e) {
@@ -15452,23 +15472,6 @@ __publicField(WasdControlsComponent, "Properties", {
   /** Object of which the orientation is used to determine forward direction */
   headObject: { type: Type.Object }
 });
-
-// js/game.js
-var state = {
-  EnemySpawner: null,
-  spawn: null,
-  currentEnemies: [],
-  currency: 0,
-  health: 100,
-  test: function() {
-    return this.health.toString();
-  },
-  currUI: null,
-  turretSpawner: null,
-  turrets: [],
-  buildT: null,
-  spawned: 0
-};
 
 // js/waypoint-movement.js
 var WaypointMovement = class extends Component {
@@ -15702,10 +15705,10 @@ var EnemySpawner = class extends Component {
   // and instatniates the timer for spawn delay
   init() {
     this.timer = 0;
-    state.EnemySpawner = this;
+    state.EnemySpawner.push(this);
     this.name = "paul";
-    state.spawn = function() {
-      let enemy = this.spawnEnemy();
+    state.spawn = function(object) {
+      let enemy = object.spawnEnemy();
     }.bind(this);
   }
   start() {
@@ -15722,7 +15725,7 @@ var EnemySpawner = class extends Component {
     this.timer += dt;
     if (this.timer > 5) {
       this.timer = 0;
-      state.spawn();
+      state.spawn(this);
     }
   }
   // TODO add a onHIt function to the object that is spawned 
@@ -17336,6 +17339,7 @@ engine.registerComponent(Cursor);
 engine.registerComponent(CursorTarget);
 engine.registerComponent(FingerCursor);
 engine.registerComponent(HandTracking);
+engine.registerComponent(HitTestLocation);
 engine.registerComponent(HowlerAudioListener);
 engine.registerComponent(MouseLookComponent);
 engine.registerComponent(PlayerHeight);

@@ -22,11 +22,11 @@ export class EnemySpawner extends Component {
     // and instatniates the timer for spawn delay
     init() {
         this.timer = 0;
-        state.EnemySpawner = this;
+        state.EnemySpawner.push(this);
         this.name = "paul";
-        state.spawn = function () {
+        state.spawn = function (object) {
 
-            let enemy = this.spawnEnemy();
+            let enemy = object.spawnEnemy();
         }.bind(this);
     }
     start() {
@@ -43,7 +43,7 @@ export class EnemySpawner extends Component {
         this.timer += dt;
         if (this.timer > 5) {
             this.timer = 0;
-            state.spawn();
+            state.spawn(this);
         }
     }
     // TODO add a onHIt function to the object that is spawned 
