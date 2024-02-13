@@ -23,8 +23,8 @@
                     "type": "wasd-controls",
                     "wasd-controls": {
                         "headObject": "17",
-                        "lockY": false,
-                        "speed": 1.0
+                        "lockY": true,
+                        "speed": 0.5
                     }
                 }
             ]
@@ -2178,6 +2178,35 @@
                 1.0,
                 1.0,
                 1.0
+            ]
+        },
+        "301": {
+            "name": "Mesh.000",
+            "parent": "14",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "11",
+                        "material": "20"
+                    }
+                }
+            ],
+            "translation": [
+                22.9301834,
+                0.0000052,
+                -0.0008192
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.9999905,
+                0.9999919,
+                0.9999903
             ]
         }
     },

@@ -15,4 +15,6 @@ export const state = {
      turrets: [],
      buildT : null, 
      spawned:0,
+     currency: 0,
+
 }

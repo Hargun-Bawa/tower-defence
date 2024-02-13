@@ -15399,7 +15399,8 @@ var state = {
   turretSpawner: [],
   turrets: [],
   buildT: null,
-  spawned: 0
+  spawned: 0,
+  currency: 0
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15568,6 +15569,7 @@ var WaypointMovement = class extends Component {
   }
   update(dt) {
     this.currentLength += dt * this.speed;
+    this.object.walked += 1;
     let factor = this.currentLength / this.fromToLength;
     if (factor > 0.5 && this.currentPositionIndex != this.positions.length - 1) {
       this.incrementCurveIndex = true;
@@ -15737,11 +15739,10 @@ var EnemySpawner = class extends Component {
     mesh.mesh = this.defaultMesh;
     mesh.material = this.defaultMaterial;
     mesh.active = true;
-    const trigger = this.engine.scene.addObject(obj);
-    trigger.addComponent("collision", {
+    obj.addComponent("collision", {
       shape: WL.Collider.Sphere,
       extents: [5, 0, 0],
-      group: 1 << 1,
+      group: 1 << 5,
       active: true
     });
     obj.walked = 0;
@@ -15751,10 +15752,11 @@ var EnemySpawner = class extends Component {
       state.health -= 5;
       const index = state.currentEnemies.indexOf(obj);
       const x = state.currentEnemies.splice(index, 1);
-      console.log("boop");
+      console.log(obj.walked);
       obj.destroy();
     };
     obj.addComponent(WaypointMovement, o);
+    obj.setScalingLocal([0.2, 0.2, 0.2]);
     obj.active = true;
     obj.name = "dave";
     obj.setDirty();
@@ -15776,20 +15778,37 @@ var turretAimer = class extends Component {
   init() {
     this.timer = 0;
     this.hits = 0;
+    console.log(this.object.getComponents());
   }
+  /*
   seek() {
-    let g = new Float32Array(3);
-    this.object.getForwardWorld(g);
-    let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 1, 1 << 2);
-    let hits = ray.hitCount;
-    this.loc = ray.locations;
-    this.dis = ray.distances;
-    let obs = ray.objects;
-    if (hits > 0) {
-      this.object.target = obs[0];
-      this.object.lookAt(this.object.target.getPositionWorld());
-    } else {
-      this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
+      let g = new Float32Array(3);
+      this.object.getForwardWorld(g);
+      let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 1, 1 << 2);
+      let hits = ray.hitCount;
+      this.loc = ray.locations;
+      this.dis = ray.distances;
+      let obs = ray.objects;
+      if (hits > 0) {
+          this.object.target = obs[0];
+          this.object.lookAt(this.object.target.getPositionWorld())
+      }
+      else {
+          this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
+      }
+  }*/
+  seek() {
+    const collision = this.object.getComponent("collision");
+    const overlaps = collision.queryOverlaps();
+    for (const coll of overlaps) {
+      if (coll.object.name === "dave") {
+        console.log(coll.object.name);
+        if (this.object.target === null || this.object.target.walked < coll.object.walked) {
+          this.object.target = coll.object;
+        } else {
+          this.object.target = null;
+        }
+      }
     }
   }
   update(dt) {
@@ -15798,14 +15817,29 @@ var turretAimer = class extends Component {
     if (this.object.target == null || this.object.target.objectId < 0) {
       this.seek();
     }
-    if (this.object.target && this.dis < 90 && this.object.target.isDestroyed == false) {
-      this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
-      if (this.timer > this.object.cd) {
-        this.object.shoot(this.object.getForwardWorld(g));
-        this.object.target.health -= 25;
-        this.timer = 0;
+    if (this.object.target && this.object.target.isDestroyed == false) {
+      let g2 = new Float32Array(3);
+      const collision = this.object.getComponent("collision");
+      const overlaps = collision.queryOverlaps();
+      let fired = false;
+      for (const coll of overlaps) {
+        if (fired == false && coll.object === this.object.target) {
+          this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+          if (this.timer > this.object.cd) {
+            this.object.shoot(this.object.getForwardWorld(g2));
+            this.object.target.health -= 25;
+            this.timer = 0;
+            if (this.object.target.health <= 0) {
+              this.object.target.destroy();
+            }
+          }
+          fired = true;
+        }
       }
-      this.object.target = null;
+      if (!fired) {
+        this.object.target = null;
+      }
+      ;
     }
   }
 };
@@ -15925,24 +15959,28 @@ var TurretSpawner = class extends Component {
     console.log("start() turret spawner");
   }
   update(dt) {
-    this.timer += dt;
-    if (this.timer > 10 && state.spawned < 1) {
-      this.timer = 0;
-      state.spawned++;
-      state.buildT();
-    }
   }
   makeTurret() {
     const obj = this.engine.scene.addObject();
     obj.target = null;
+    obj.targets = /* @__PURE__ */ new Set();
     obj.shoot = null;
     obj.cd = this.shootingCD;
     obj.name = "sam";
-    obj.dir = [0, 0, 0];
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
+    const x = new Float32Array(3);
+    obj.setScalingLocal([0.2, 0.4, 0.2]);
+    obj.setRotationLocal([0, 0, 0, 1]);
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.defaultMesh;
     mesh.material = this.defaultMaterial;
+    obj.addComponent("collision", {
+      collider: WL.Collider.Sphere,
+      extents: [5, 0, 0],
+      group: 1 << 5,
+      CollisionEventType: 1,
+      active: true
+    });
     mesh.active = true;
     const aimer = obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
@@ -17339,7 +17377,6 @@ engine.registerComponent(Cursor);
 engine.registerComponent(CursorTarget);
 engine.registerComponent(FingerCursor);
 engine.registerComponent(HandTracking);
-engine.registerComponent(HitTestLocation);
 engine.registerComponent(HowlerAudioListener);
 engine.registerComponent(MouseLookComponent);
 engine.registerComponent(PlayerHeight);

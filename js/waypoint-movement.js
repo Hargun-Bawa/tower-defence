@@ -149,6 +149,7 @@ export class WaypointMovement extends Component {
 
     update(dt) {
         this.currentLength += dt * this.speed;
+        this.object.walked += 1;
         // factor indicates the percentage of how much of a given distance between two points has already been traversed
         let factor = this.currentLength / this.fromToLength;
         // Check if it is the curve point, if it is, don't increment the index of curves

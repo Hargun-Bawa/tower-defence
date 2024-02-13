@@ -17,7 +17,6 @@ export class TurretSpawner extends Component {
         bulletMesh: { type: Type.Mesh},
         bulletMaterial: { type : Type.Material},
         shootingCD: { type: Type.Int, default: 2 },
-
     };
     init() {
     /* the timer is temporary and used to spawn a turret every 10 seconds for testing purposes*/
@@ -39,12 +38,6 @@ export class TurretSpawner extends Component {
 
     update(dt) {
         //* eventualy This code should take in a location from the user and build a turret there maybe using a build queue? 
-        this.timer += dt;
-        if (this.timer >10 && state.spawned < 1){
-            this.timer = 0; 
-            state.spawned ++;
-           state.buildT();
-        }
     }
 
     makeTurret() {
@@ -52,14 +45,24 @@ export class TurretSpawner extends Component {
         // TODO make the towers spawn at ground level instead of floating
         const obj = this.engine.scene.addObject();
         obj.target = null;
+        obj.targets = new Set();
         obj.shoot = null;
         obj.cd = this.shootingCD;
         obj.name = "sam";
-        obj.dir = [0,0,0];
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
+        const x = new Float32Array(3);
+        obj.setScalingLocal([0.2, 0.4, 0.2]);
+        obj.setRotationLocal([0,0,0,1]);
         const mesh = obj.addComponent('mesh')
         mesh.mesh = this.defaultMesh;
         mesh.material = this.defaultMaterial;
+        obj.addComponent("collision", {
+            collider: WL.Collider.Sphere,
+            extents: [5, 0, 0],
+            group: 1 << 5,
+            CollisionEventType:1,
+            active: true,
+        });
         mesh.active = true;
         const aimer = obj.addComponent(turretAimer);
         obj.addComponent(ProjectileSpawner);

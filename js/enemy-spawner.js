@@ -62,11 +62,10 @@ export class EnemySpawner extends Component {
         mesh.active = true;
         // grants the new enemy object a collision box
 
-        const trigger = this.engine.scene.addObject(obj);
-        trigger.addComponent("collision", {
+        obj.addComponent("collision", {
             shape: WL.Collider.Sphere,
             extents: [5, 0, 0],
-            group: 1 << 1,
+            group: 1 << 5,
             active: true,
         });
         // potential distance traveled for enemy selection
@@ -82,7 +81,7 @@ export class EnemySpawner extends Component {
             state.health -= 5;
             const index = state.currentEnemies.indexOf(obj);
             const x = state.currentEnemies.splice(index, 1);
-            console.log('boop');
+            console.log(obj.walked);
             obj.destroy()
         };
 
@@ -90,6 +89,7 @@ export class EnemySpawner extends Component {
         // the pathObject of the parent specified in the editor
 
         obj.addComponent(WaypointMovement, o);
+        obj.setScalingLocal([.2,.2,.2]);
         obj.active = true;
         obj.name = "dave";
         obj.setDirty();
