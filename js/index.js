@@ -28,7 +28,7 @@ import {UIHandler} from './uiHandler.js';
 import {WaypointMovement} from './waypoint-movement.js';
 /* wle:auto-imports:end */
 
-import {loadRuntime} from '@wonderlandengine/api';
+import { loadRuntime } from '@wonderlandengine/api';
 import * as API from '@wonderlandengine/api'; // Deprecated: Backward compatibility.
 
 /* wle:auto-constants:start */

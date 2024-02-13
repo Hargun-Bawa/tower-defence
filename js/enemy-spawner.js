@@ -89,7 +89,7 @@ export class EnemySpawner extends Component {
         // the pathObject of the parent specified in the editor
 
         obj.addComponent(WaypointMovement, o);
-        obj.setScalingLocal([.2,.2,.2]);
+        obj.setScalingLocal([.2, .2, .2]);
         obj.active = true;
         obj.name = "dave";
         obj.setDirty();

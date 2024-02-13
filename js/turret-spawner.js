@@ -1,5 +1,5 @@
 import { Component, Property, Type } from '@wonderlandengine/api';
-import { turretAimer} from './turret-aimer';
+import { turretAimer } from './turret-aimer';
 import { state } from './game';
 import { ProjectileSpawner } from './projectile-spawner';
 
@@ -14,14 +14,14 @@ export class TurretSpawner extends Component {
     static Properties = {
         defaultMesh: { type: Type.Mesh },
         defaultMaterial: { type: Type.Material },
-        bulletMesh: { type: Type.Mesh},
-        bulletMaterial: { type : Type.Material},
+        bulletMesh: { type: Type.Mesh },
+        bulletMaterial: { type: Type.Material },
         shootingCD: { type: Type.Int, default: 2 },
     };
     init() {
-    /* the timer is temporary and used to spawn a turret every 10 seconds for testing purposes*/
+        /* the timer is temporary and used to spawn a turret every 10 seconds for testing purposes*/
         this.timer = 0;
-        this.name ='dave';
+        this.name = 'dave';
         state.turretSpawner = this;
         state.buildT = function () {
             let turret = this.makeTurret();
@@ -34,7 +34,7 @@ export class TurretSpawner extends Component {
     start() {
         console.log('start() turret spawner');
     }
-    
+
 
     update(dt) {
         //* eventualy This code should take in a location from the user and build a turret there maybe using a build queue? 
@@ -52,7 +52,7 @@ export class TurretSpawner extends Component {
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
         const x = new Float32Array(3);
         obj.setScalingLocal([0.2, 0.4, 0.2]);
-        obj.setRotationLocal([0,0,0,1]);
+        obj.setRotationLocal([0, 0, 0, 1]);
         const mesh = obj.addComponent('mesh')
         mesh.mesh = this.defaultMesh;
         mesh.material = this.defaultMaterial;
@@ -60,14 +60,14 @@ export class TurretSpawner extends Component {
             collider: WL.Collider.Sphere,
             extents: [5, 0, 0],
             group: 1 << 5,
-            CollisionEventType:1,
+            CollisionEventType: 1,
             active: true,
         });
         mesh.active = true;
         const aimer = obj.addComponent(turretAimer);
         obj.addComponent(ProjectileSpawner);
         obj.active = true;
-        state.turrets.push(obj);        
+        state.turrets.push(obj);
         obj.setDirty();
     }
 

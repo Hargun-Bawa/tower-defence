@@ -1,5 +1,5 @@
-import {Component, InputComponent, MeshComponent, Property} from '@wonderlandengine/api';
-import {CursorTarget, HowlerAudioSource} from '@wonderlandengine/components';
+import { Component, InputComponent, MeshComponent, Property } from '@wonderlandengine/api';
+import { CursorTarget, HowlerAudioSource } from '@wonderlandengine/components';
 
 /**
  * Helper function to trigger haptic feedback pulse.

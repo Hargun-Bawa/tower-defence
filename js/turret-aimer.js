@@ -38,14 +38,13 @@ export class turretAimer extends Component {
         const collision = this.object.getComponent('collision');
         const overlaps = collision.queryOverlaps();
         for (const coll of overlaps) {
-            if(coll.object.name ==="dave")
-            {
-            console.log(coll.object.name);
-            if (this.object.target === null || this.object.target.walked < coll.object.walked) {
-                this.object.target = coll.object;
+            if (coll.object.name === "dave") {
+                console.log(coll.object.name);
+                if (this.object.target === null || this.object.target.walked < coll.object.walked) {
+                    this.object.target = coll.object;
+                }
+                else { this.object.target = null; }
             }
-            else { this.object.target = null; }
-        }
         }
     }
 
@@ -65,23 +64,22 @@ export class turretAimer extends Component {
             // console.log(ray.distances);
             //     if (ray.distances > 100) { this.object.target = null; }
 
-        const collision = this.object.getComponent('collision');
-        const overlaps = collision.queryOverlaps();
+            const collision = this.object.getComponent('collision');
+            const overlaps = collision.queryOverlaps();
             let fired = false;
-        for (const coll of overlaps) {
-            if(fired == false && coll.object === this.object.target)          
-            {
+            for (const coll of overlaps) {
+                if (fired == false && coll.object === this.object.target) {
                     this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
                     if (this.timer > this.object.cd) {
                         this.object.shoot(this.object.getForwardWorld(g));
                         this.object.target.health -= 25;
                         this.timer = 0;
-                        if(this.object.target.health <= 0){this.object.target.destroy()}
+                        if (this.object.target.health <= 0) { this.object.target.destroy() }
                     }
                     fired = true;
                 }
             }
-            if(!fired){ this.object.target = null};
+            if (!fired) { this.object.target = null };
         }
     }
-    }
+}

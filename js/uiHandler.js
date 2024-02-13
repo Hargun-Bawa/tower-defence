@@ -1,4 +1,4 @@
-import {Component, Property} from '@wonderlandengine/api';
+import { Component, Property } from '@wonderlandengine/api';
 import { HowlerAudioSource } from '@wonderlandengine/components';
 import { CanvasUI } from './CanvasUI.js';
 import { state } from './game.js';
@@ -6,15 +6,15 @@ import { state } from './game.js';
 // TODO Add other HUD features for the user to interact with
 export class UIHandler extends Component {
     static TypeName = "uiHandler";
-    static Properties = { 
+    static Properties = {
         panel: Property.enum(['simple', 'buttons', 'scrolling', 'images', 'input-text'], 'simple')
     };
-    
-    static onRegister(engine){
-        engine.registerComponent( HowlerAudioSource );
+
+    static onRegister(engine) {
+        engine.registerComponent(HowlerAudioSource);
     }
 
-    
+
     init() {
         this.hp = state.test();
     }
@@ -26,71 +26,71 @@ export class UIHandler extends Component {
         this.target.addMoveFunction(this.onMove.bind(this));
         this.target.addDownFunction(this.onDown.bind(this));
         this.target.addUpFunction(this.onUp.bind(this));
-        
-        this.soundClick = this.object.addComponent(HowlerAudioSource, {src: 'sfx/click.wav', spatial: true});
-        this.soundUnClick = this.object.addComponent(HowlerAudioSource, {src: 'sfx/unclick.wav', spatial: true});
 
-        switch ( this.panel ){
+        this.soundClick = this.object.addComponent(HowlerAudioSource, { src: 'sfx/click.wav', spatial: true });
+        this.soundUnClick = this.object.addComponent(HowlerAudioSource, { src: 'sfx/unclick.wav', spatial: true });
+
+        switch (this.panel) {
             case 0://simple
-            this.simplePanel();
-            break;
+                this.simplePanel();
+                break;
             case 1://buttons
-            this.buttonsPanel();
-            break;
+                this.buttonsPanel();
+                break;
             case 2://scrolling
-            this.scrollPanel();
-            break;
+                this.scrollPanel();
+                break;
             case 3://images
-            this.imagePanel();
-            break;
+                this.imagePanel();
+                break;
             case 4://input-text
-            this.inputTextPanel();
-            break;
+                this.inputTextPanel();
+                break;
         }
     }
 
-    simplePanel(){
+    simplePanel() {
         const config = {
-            header:{
+            header: {
                 type: "text",
-                position:{ top:10 },
+                position: { top: 10 },
                 paddingTop: 30,
                 height: 100
             },
         }
-        
+
         const content = {
-            header:this.hp, 
+            header: this.hp,
         }
-        
-        this.ui = new CanvasUI( content, config, this.object, this.engine );
+
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.updateConfig(this, config.height, 100);
         let ui = this.ui;
     }
 
-    buttonsPanel(){
-        function onPrev(){
+    buttonsPanel() {
+        function onPrev() {
             const msg = "Prev pressed";
             console.log(msg);
-            ui.updateElement( "info", msg );
+            ui.updateElement("info", msg);
         }
-        
-        function onStop(){
+
+        function onStop() {
             const msg = "Stop pressed";
             console.log(msg);
-            ui.updateElement( "info", msg );
+            ui.updateElement("info", msg);
         }
-        
-        function onNext(){
+
+        function onNext() {
             const msg = "Next pressed";
             console.log(msg);
-            ui.updateElement( "info", msg );
+            ui.updateElement("info", msg);
         }
-        
-        function onContinue(){
+
+        function onContinue() {
             const msg = "Continue pressed";
             console.log(msg);
-            ui.updateElement( "info", msg );
+            ui.updateElement("info", msg);
         }
         //console.log('start() with param', this.param);
         const config = {
@@ -101,7 +101,7 @@ export class UIHandler extends Component {
             height: 128,
             info: {
                 type: "text",
-                position:{ left: 6, top: 6 },
+                position: { left: 6, top: 6 },
                 width: 500,
                 height: 58,
                 backgroundColor: "#aaa",
@@ -109,7 +109,7 @@ export class UIHandler extends Component {
             },
             prev: {
                 type: "button",
-                position:{ top: 64, left: 0 }, 
+                position: { top: 64, left: 0 },
                 width: 64,
                 fontColor: "#bb0",
                 hover: "#ff0",
@@ -117,7 +117,7 @@ export class UIHandler extends Component {
             },
             stop: {
                 type: "button",
-                position:{ top: 64, left: 64 },
+                position: { top: 64, left: 64 },
                 width: 64,
                 fontColor: "#bb0",
                 hover: "#ff0",
@@ -125,7 +125,7 @@ export class UIHandler extends Component {
             },
             next: {
                 type: "button",
-                position:{ top: 64, left: 128 },
+                position: { top: 64, left: 128 },
                 width: 64,
                 fontColor: "#bb0",
                 hover: "#ff0",
@@ -133,7 +133,7 @@ export class UIHandler extends Component {
             },
             continue: {
                 type: "button",
-                position:{ top: 70, right: 10 },
+                position: { top: 70, right: 10 },
                 width: 200,
                 height: 52,
                 fontColor: "#fff",
@@ -142,7 +142,7 @@ export class UIHandler extends Component {
                 onSelect: onContinue
             }
         }
-        
+
         const content = {
             info: "",
             prev: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
@@ -151,12 +151,12 @@ export class UIHandler extends Component {
             continue: "Continue"
         }
 
-        this.ui = new CanvasUI( content, config, this.object, this.engine );
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.update();
         let ui = this.ui;
     }
 
-    scrollPanel(){
+    scrollPanel() {
         const config = {
             body: {
                 backgroundColor: "#666"
@@ -171,17 +171,17 @@ export class UIHandler extends Component {
                 fontColor: "#000"
             }
         }
-        
+
         const content = {
             txt: "This is an example of a scrolling panel. Select it with a controller and move the controller while keeping the select button pressed. In an AR app just press and drag. If a panel is set to scroll and the overflow setting is 'scroll', then a scroll bar will appear when the panel is active. But to scroll you can just drag anywhere on the panel. This is an example of a scrolling panel. Select it with a controller and move the controller while keeping the select button pressed. In an AR app just press and drag. If a panel is set to scroll and the overflow setting is 'scroll', then a scroll bar will appear when the panel is active. But to scroll you can just drag anywhere on the panel."
         }
-        
-        this.ui = new CanvasUI( content, config, this.object, this.engine );
+
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.update();
         let ui = this.ui;
     }
 
-    imagePanel(){
+    imagePanel() {
         const config = {
             image: {
                 type: "img",
@@ -193,27 +193,27 @@ export class UIHandler extends Component {
                 position: { top: 300 }
             }
         }
-        
+
         const content = {
             image: "images/promo.png",
             info: "The promo image from the course: Learn to create WebXR, VR and AR, experiences using Wonderland Engine"
         }
-        
-        
-        this.ui = new CanvasUI( content, config, this.object, this.engine );
+
+
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.update();
         let ui = this.ui;
     }
 
-    inputTextPanel(){
-        function onChanged( txt ){
-            console.log( `message changed: ${txt}`);
+    inputTextPanel() {
+        function onChanged(txt) {
+            console.log(`message changed: ${txt}`);
         }
-        
-        function onEnter( txt ){
+
+        function onEnter(txt) {
             console.log(`message enter: ${txt}`);
         }
-        
+
         const config = {
             panelSize: { width: 1, height: 0.25 },
             height: 128,
@@ -232,13 +232,13 @@ export class UIHandler extends Component {
                 position: { top: 64 }
             }
         }
-        
+
         const content = {
             message: "",
             label: "Select the panel above."
         }
-        
-        this.ui = new CanvasUI( content, config, this.object, this.engine );
+
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
 
         const target = this.ui.keyboard.object.getComponent('cursor-target');
         target.addHoverFunction(this.onHoverKeyboard.bind(this));
@@ -253,12 +253,12 @@ export class UIHandler extends Component {
 
     onHover(_, cursor) {
         //console.log('onHover');
-        if (this.ui){
+        if (this.ui) {
             const xy = this.ui.worldToCanvas(cursor.cursorPos);
             this.ui.hover(0, xy);
         }
 
-        if(cursor.type == 'finger-cursor') {
+        if (cursor.type == 'finger-cursor') {
             this.onDown(_, cursor);
         }
 
@@ -266,7 +266,7 @@ export class UIHandler extends Component {
     }
 
     onMove(_, cursor) {
-        if (this.ui){
+        if (this.ui) {
             const xy = this.ui.worldToCanvas(cursor.cursorPos);
             this.ui.hover(0, xy);
         }
@@ -285,14 +285,14 @@ export class UIHandler extends Component {
         console.log('onUp');
         this.soundUnClick.play();
 
-        if (this.ui) this.ui.select( 0, true );
+        if (this.ui) this.ui.select(0, true);
 
         this.hapticFeedback(cursor.object, 0.7, 20);
     }
 
     onUnHover(_, cursor) {
         console.log('onUnHover');
-        
+
         if (this.ui) this.ui.hover(0);
 
         this.hapticFeedback(cursor.object, 0.3, 50);
@@ -306,7 +306,7 @@ export class UIHandler extends Component {
         const xy = ui.worldToCanvas(cursor.cursorPos);
         ui.hover(0, xy);
 
-        if(cursor.type == 'finger-cursor') {
+        if (cursor.type == 'finger-cursor') {
             this.onDown(_, cursor);
         }
 
@@ -323,7 +323,7 @@ export class UIHandler extends Component {
         this.hapticFeedback(cursor.object, 0.5, 50);
     }
 
-    onUpKeyboard(_, cursor)  {
+    onUpKeyboard(_, cursor) {
         console.log('onUpKeyboard');
         this.soundUnClick.play();
 
@@ -334,7 +334,7 @@ export class UIHandler extends Component {
 
     onUnHoverKeyboard(_, cursor) {
         console.log('onUnHoverKeyboard');
-        
+
         if (this.ui && this.ui.keyboard && this.ui.keyboard.keyboard) this.ui.keyboard.keyboard.hover(0);
 
         this.hapticFeedback(cursor.object, 0.3, 50);
@@ -342,19 +342,18 @@ export class UIHandler extends Component {
 
     hapticFeedback(object, strength, duration) {
         const input = object.getComponent('input');
-        if(input && input.xrInputSource) {
+        if (input && input.xrInputSource) {
             const gamepad = input.xrInputSource.gamepad;
-            if(gamepad && gamepad.hapticActuators) gamepad.hapticActuators[0].pulse(strength, duration);
+            if (gamepad && gamepad.hapticActuators) gamepad.hapticActuators[0].pulse(strength, duration);
         }
     }
-    
+
     update(dt) {
 
-        if(state.test() != this.ui.content.header)
-        {
-        this.ui.content= {header : state.test()} 
-        this.ui.needsUpdate = true;
-        console.log(this.ui.content);
+        if (state.test() != this.ui.content.header) {
+            this.ui.content = { header: state.test() }
+            this.ui.needsUpdate = true;
+            console.log(this.ui.content);
         }
         if (this.ui) this.ui.update();
     }

@@ -1,6 +1,6 @@
-import {Component, Type} from '@wonderlandengine/api';
-import {vec3} from 'gl-matrix';
-import {state } from './game';
+import { Component, Type } from '@wonderlandengine/api';
+import { vec3 } from 'gl-matrix';
+import { state } from './game';
 
 /*
 Original authors — credit is appreciated but not required:
@@ -32,11 +32,11 @@ export class WaypointMovement extends Component {
     static Properties = {
         /** This object is the container of the waypoints. It should contain children
     with an alphebetically ascending naming (e.g. A, B, C, D, E, F) */
-        pathObject: {type: Type.Object},
+        pathObject: { type: Type.Object },
         /** Movement speed of the object */
-        speed: {type: Type.Float, default: 1.0},
+        speed: { type: Type.Float, default: 1.0 },
         /** Distance in normal space [0, 0.5) after which the objects starts moving on a curve */
-        curveDistance: {type: Type.Float, default: 0.1},
+        curveDistance: { type: Type.Float, default: 0.1 },
     };
 
     init() {

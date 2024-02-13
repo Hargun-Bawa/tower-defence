@@ -38,8 +38,8 @@ export class ProjectilePhysics extends Component {
         this.position = [0, 0, 0];
         console.log(this.object);
         this.object.getPositionWorld(this.position);
-        this.object.setScalingWorld([.1,.1,.1]);
-        this.correctedSpeed = this.speed * 5 ;
+        this.object.setScalingWorld([.1, .1, .1]);
+        this.correctedSpeed = this.speed * 5;
         this.collision = this.object.getComponent('collision', 0);
         if (!this.collision) {
             console.warn(
@@ -75,12 +75,12 @@ export class ProjectilePhysics extends Component {
 
         let overlaps = this.collision.queryOverlaps();
         for (let i = 0; i < overlaps.length; ++i) {
-                this.destroyBullet(0);
-                
-                console.log("HIT");
-                return;
-            }
-        
+            this.destroyBullet(0);
+
+            console.log("HIT");
+            return;
+        }
+
     }
     destroyBullet(time) {
         if (time == 0) {
