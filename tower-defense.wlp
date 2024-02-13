@@ -24,7 +24,7 @@
                     "wasd-controls": {
                         "headObject": "17",
                         "lockY": true,
-                        "speed": 0.5
+                        "speed": 0.2
                     }
                 }
             ]
@@ -87,9 +87,9 @@
                 1.0
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.2,
+                0.2,
+                0.2
             ]
         },
         "18": {
@@ -166,7 +166,12 @@
                     "light": {
                         "intensity": 3.3329999,
                         "type": "sun",
-                        "shadows": true
+                        "shadows": false,
+                        "color": [
+                            2.0,
+                            1.0,
+                            1.0
+                        ]
                     }
                 }
             ],
@@ -1344,7 +1349,10 @@
             "parent": "14",
             "components": [
                 {
-                    "type": "player-height"
+                    "type": "player-height",
+                    "player-height": {
+                        "height": 0.1
+                    }
                 }
             ],
             "translation": [
@@ -1574,9 +1582,9 @@
                 }
             ],
             "translation": [
-                0.0,
-                0.0,
-                0.0
+                -0.0467529,
+                1.7776206,
+                -0.1482238
             ],
             "rotation": [
                 0.0,
@@ -1610,7 +1618,7 @@
                                 28.0
                             ]
                         },
-                        "groups": 252
+                        "groups": 129
                     },
                     "active": true
                 },
@@ -1631,7 +1639,7 @@
             ],
             "translation": [
                 1.4901161193847656e-8,
-                -3.5469405,
+                -2.1988363,
                 0.0
             ]
         },
@@ -1642,7 +1650,7 @@
             },
             "translation": [
                 -33.3397445,
-                1.8696861,
+                0.0,
                 -16.7457904
             ],
             "rotation": [
@@ -1652,9 +1660,9 @@
                 -4.3711388286737935e-8
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.1,
+                0.1,
+                0.1
             ],
             "name": "Dave-the-EnemySpawner",
             "components": [
@@ -1672,7 +1680,7 @@
                     "type": "waypoint-movement",
                     "waypoint-movement": {
                         "pathObject": "275",
-                        "speed": 5.0,
+                        "speed": 3.0,
                         "curveDistance": 0.0
                     },
                     "active": false
@@ -1744,33 +1752,6 @@
                 15.6111984,
                 -0.9255599,
                 5.1605701
-            ]
-        },
-        "279": {
-            "name": "Empty.002",
-            "translation": [
-                7.49649,
-                0.0,
-                -15.5973863
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                6.0720829,
-                1.0
-            ],
-            "components": [
-                {
-                    "type": "hit-test-location",
-                    "hit-test-location": {
-                        "scaleObject": true
-                    }
-                }
             ]
         },
         "281": {
@@ -1858,7 +1839,7 @@
             },
             "translation": [
                 -33.3397445,
-                1.8696861,
+                0.0,
                 16.6472511
             ],
             "rotation": [
@@ -1868,9 +1849,9 @@
                 -4.3711388286737935e-8
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.1,
+                0.1,
+                0.1
             ],
             "name": "Gary-the-EnemySpawner",
             "components": [
@@ -1888,7 +1869,7 @@
                     "type": "waypoint-movement",
                     "waypoint-movement": {
                         "pathObject": "287",
-                        "speed": 5.0,
+                        "speed": 3.0,
                         "curveDistance": 0.0
                     },
                     "active": false
@@ -2010,7 +1991,7 @@
             },
             "translation": [
                 35.8718605,
-                1.8696861,
+                0.0,
                 17.0181312
             ],
             "rotation": [
@@ -2020,9 +2001,9 @@
                 -4.3711388286737935e-8
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.1,
+                0.1,
+                0.1
             ],
             "name": "Joaquin-the-EnemySpawner",
             "components": [
@@ -2040,7 +2021,7 @@
                     "type": "waypoint-movement",
                     "waypoint-movement": {
                         "pathObject": "293",
-                        "speed": 5.0,
+                        "speed": 3.0,
                         "curveDistance": 0.0
                     },
                     "active": false
@@ -2180,33 +2161,17 @@
                 1.0
             ]
         },
-        "301": {
-            "name": "Mesh.000",
-            "parent": "14",
+        "303": {
+            "name": "Light.000",
+            "parent": "271",
             "components": [
                 {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "11",
-                        "material": "20"
-                    }
+                    "type": "light",
+                    "light": {
+                        "shadows": false
+                    },
+                    "active": false
                 }
-            ],
-            "translation": [
-                22.9301834,
-                0.0000052,
-                -0.0008192
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                0.9999905,
-                0.9999919,
-                0.9999903
             ]
         }
     },
