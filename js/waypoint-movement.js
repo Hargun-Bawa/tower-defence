@@ -1,5 +1,6 @@
-import {Component, Type} from '@wonderlandengine/api';
-import {vec3} from 'gl-matrix';
+import { Component, Type } from '@wonderlandengine/api';
+import { vec3 } from 'gl-matrix';
+import { state } from './game';
 
 /*
 Original authors — credit is appreciated but not required:
@@ -31,11 +32,11 @@ export class WaypointMovement extends Component {
     static Properties = {
         /** This object is the container of the waypoints. It should contain children
     with an alphebetically ascending naming (e.g. A, B, C, D, E, F) */
-        pathObject: {type: Type.Object},
+        pathObject: { type: Type.Object },
         /** Movement speed of the object */
-        speed: {type: Type.Float, default: 1.0},
+        speed: { type: Type.Float, default: 1.0 },
         /** Distance in normal space [0, 0.5) after which the objects starts moving on a curve */
-        curveDistance: {type: Type.Float, default: 0.1},
+        curveDistance: { type: Type.Float, default: 0.1 },
     };
 
     init() {
@@ -68,7 +69,6 @@ export class WaypointMovement extends Component {
         this.currentCurveIndex = 0;
         this.curveDistance = Math.max(0.0, Math.min(0.49999, this.curveDistance));
         this.bezFactorMultiplicator = 1 / (2 * this.curveDistance);
-        this._setCurvePoints();
 
         this.onFinalWaypointReachedCallbacks = [];
     }
@@ -149,6 +149,7 @@ export class WaypointMovement extends Component {
 
     update(dt) {
         this.currentLength += dt * this.speed;
+        this.object.walked += 1;
         // factor indicates the percentage of how much of a given distance between two points has already been traversed
         let factor = this.currentLength / this.fromToLength;
         // Check if it is the curve point, if it is, don't increment the index of curves
@@ -191,7 +192,6 @@ export class WaypointMovement extends Component {
             ) {
                 this.currentCurveIndex++;
                 this.incrementCurveIndex = false;
-                this._setCurvePoints();
             }
             vec3.lerp(this.currentPosition, this.fromPosition, this.toPosition, factor);
             // position ahead of the object on the path, determines the looking direction
@@ -210,9 +210,9 @@ export class WaypointMovement extends Component {
             this.currentPositionIndex++;
             // Checks if the final waypoint has been reached
             if (this.currentPositionIndex == this.children.length - 1) {
+                this.object.f();
                 this.currentPositionIndex = 0;
                 this.currentCurveIndex = 0;
-                this._setCurvePoints();
                 this.incrementCurveIndex = false;
                 this.onFinalWaypointReachedCallbacks.forEach((f) => f());
             }
