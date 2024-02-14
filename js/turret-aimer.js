@@ -18,7 +18,7 @@ export class turretAimer extends Component {
         this.hits = 0;
         console.log(this.object.getComponents());
     }
-    /*
+    /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
     seek() {
         let g = new Float32Array(3);
         this.object.getForwardWorld(g);
@@ -35,6 +35,7 @@ export class turretAimer extends Component {
             this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
         }
     }*/
+    
     seek() {
         const collision = this.object.getComponent('collision');
         const overlaps = collision.queryOverlaps();
@@ -60,11 +61,8 @@ export class turretAimer extends Component {
         // TODO find some way to lock the non Y axis rotation
         if (this.object.target && this.object.target.isDestroyed == false) {
             let g = new Float32Array(3);
-            // this.object.target.getPositionWorld(g);
-            // let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 5); 
-            // console.log(ray.distances);
-            //     if (ray.distances > 100) { this.object.target = null; }
-
+            // this part of the code checks to make sure the target is still in range, and then shoots
+            // at the target and deletes it if the target is at less than or equal to 0 hp
             const collision = this.object.getComponent('collision');
             const overlaps = collision.queryOverlaps();
             let fired = false;
@@ -73,7 +71,7 @@ export class turretAimer extends Component {
                     this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
                     if (this.timer > this.object.cd) {
                         this.object.shoot(this.object.getForwardWorld(g));
-                        this.object.target.health -= 25;
+                        this.object.target.health -= this.object.damage;
                         this.timer = 0;
                         if (this.object.target.health <= 0) { this.object.target.destroy(); state.currency+= 10; state.needsUpdate = true;}
                     }

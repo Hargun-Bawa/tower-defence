@@ -20,11 +20,9 @@ import { state } from "./game";
 Deactivates bullet updates to preserve performance. Bullets collision is also
 deactivated when the bullet is on the ground. This is done to prevent the 
 score-trigger going off when the mice run over the bullets.
-
 */
 
 let newDir = new Float32Array(3);
-
 export class ProjectilePhysics extends Component {
     static TypeName = "projectile-physics";
     static Properties = {
@@ -32,7 +30,6 @@ export class ProjectilePhysics extends Component {
     }
 
     init() {
-
         // Sets position, scale, speed, and gets the collision box of the object
         this.dir = new Float32Array(3);
         this.position = [0, 0, 0];
@@ -43,7 +40,7 @@ export class ProjectilePhysics extends Component {
         this.collision = this.object.getComponent('collision', 0);
         if (!this.collision) {
             console.warn(
-                "'bullet-physics' component on object",
+                "bullet-physics' component on object",
                 this.object.name,
                 "requires a collision component"
             );
@@ -54,7 +51,6 @@ export class ProjectilePhysics extends Component {
             console.log("dt is NaN");
             return;
         }
-
         //update position
         this.object.getPositionWorld(this.position);
         //deactivate bullet if through the floor
@@ -72,19 +68,15 @@ export class ProjectilePhysics extends Component {
         vec3.scale(newDir, newDir, this.correctedSpeed);
         vec3.add(this.position, this.position, newDir);
         this.object.setPositionLocal(this.position);
-
         let overlaps = this.collision.queryOverlaps();
         for (let i = 0; i < overlaps.length; ++i) {
             this.destroyBullet(0);
-
             console.log("HIT");
             return;
         }
-
     }
     destroyBullet(time) {
         if (time == 0) {
-            console.log("oh");
             this.object.destroy();
         } else {
             setTimeout(() => {

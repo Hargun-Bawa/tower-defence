@@ -23,7 +23,6 @@ export class ProjectileSpawner extends Component {
             projectile.object.setDirty();
             projectile.physics.active = true;
         }.bind(this);
-
     };
     start() {
         console.log("projectile-spawner");
@@ -39,8 +38,4 @@ export class ProjectileSpawner extends Component {
         physics.active = true;
         return { object: obj, physics: physics };
     }
-
-
-
-
 }

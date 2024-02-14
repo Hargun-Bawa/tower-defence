@@ -14,8 +14,9 @@ export class UIHandler extends Component {
         engine.registerComponent(HowlerAudioSource);
     }
 
-
     init() {
+        // these fnctions are members of state, and used to get the elements as string objects
+        // as Wonderland seems  to not like "${ state.health}" for reasons I don't understand
         this.hp = state.getHealth();
         this.currency = state.getCurrency();
     }
@@ -50,28 +51,23 @@ export class UIHandler extends Component {
         }
     }
 
+    // this is the code for the Health and currency HUD 
     simplePanel() {
         const config = {
-            
-       
             body: {
-                fontSize:50,
-                type:"text",  
-                position: { top: 10},
+                fontSize: 50,
+                type: "text",
+                position: { top: 10 },
                 paddingTop: 50,
                 height: 256
-                },
-            }
-
-            
-            const content = {body: "Health: "+ state.getHealth()+ "\rMoney: "+ state.getCurrency() };
-
-    
+            },
+        }
+        // TODO  figure out why \n doesnt work for newline functions
+        const content = { body: "Health: " + state.getHealth() + "\rMoney: " + state.getCurrency() };
         this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.updateConfig(this, config.height, 100);
         let ui = this.ui;
-}
-    
+    }
 
     buttonsPanel() {
         function onPrev() {
@@ -331,9 +327,7 @@ export class UIHandler extends Component {
     onUpKeyboard(_, cursor) {
         console.log('onUpKeyboard');
         this.soundUnClick.play();
-
         if (this.ui && this.ui.keyboard && this.ui.keyboard.keyboard) this.ui.keyboard.keyboard.select(0);
-
         this.hapticFeedback(cursor.object, 0.7, 20);
     }
 
@@ -353,10 +347,12 @@ export class UIHandler extends Component {
         }
     }
 
+    // if needsUpdate is called will nilly to update the health and currency, then 
+    // eventually the hud breaks so now any changes to the hud only update when 
+    // changed. 
     update(dt) {
-
-        if (state.needsUpdate === true){
-            this.ui.content = {body: "Health: "+ state.getHealth()+ "\r\nMoney: "+ state.getCurrency() };
+        if (state.needsUpdate === true) {
+            this.ui.content = { body: "Health: " + state.getHealth() + "\r\nMoney: " + state.getCurrency() };
             this.ui.needsUpdate = true;
             state.needsUpdate = false;
         }
