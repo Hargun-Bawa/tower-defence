@@ -81,7 +81,7 @@ export class EnemySpawner extends Component {
             state.health -= 5;
             const index = state.currentEnemies.indexOf(obj);
             const x = state.currentEnemies.splice(index, 1);
-            console.log(obj.walked);
+            state.needsUpdate = true;
             obj.destroy()
         };
 

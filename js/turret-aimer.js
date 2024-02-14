@@ -1,4 +1,5 @@
 import { CollisionEventType, Component, Property } from '@wonderlandengine/api';
+import {state} from "./game";
 
 /**
  * Turretaimer
@@ -74,7 +75,7 @@ export class turretAimer extends Component {
                         this.object.shoot(this.object.getForwardWorld(g));
                         this.object.target.health -= 25;
                         this.timer = 0;
-                        if (this.object.target.health <= 0) { this.object.target.destroy() }
+                        if (this.object.target.health <= 0) { this.object.target.destroy(); state.currency+= 10; state.needsUpdate = true;}
                     }
                     fired = true;
                 }

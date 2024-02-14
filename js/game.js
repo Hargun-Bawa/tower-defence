@@ -7,13 +7,14 @@ export const state = {
     EnemySpawner: [],
     spawn: null,
     currentEnemies: [],
-    currency: 0,
     health: 100,
-    test: function () { return this.health.toString() },
+    getHealth: function () { return this.health.toString() },
+    getCurrency: function () { return this.currency.toString() },
     currUI: null,
     turretSpawner: [],
     turrets: [],
     buildT: null, spawned: 0,
-    currency: 0,
+    currency: 50,
+    needsUpdate: false,
 
 }

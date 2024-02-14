@@ -15390,17 +15390,20 @@ var state = {
   EnemySpawner: [],
   spawn: null,
   currentEnemies: [],
-  currency: 0,
   health: 100,
-  test: function() {
+  getHealth: function() {
     return this.health.toString();
+  },
+  getCurrency: function() {
+    return this.currency.toString();
   },
   currUI: null,
   turretSpawner: [],
   turrets: [],
   buildT: null,
   spawned: 0,
-  currency: 0
+  currency: 50,
+  needsUpdate: false
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15752,7 +15755,7 @@ var EnemySpawner = class extends Component {
       state.health -= 5;
       const index = state.currentEnemies.indexOf(obj);
       const x = state.currentEnemies.splice(index, 1);
-      console.log(obj.walked);
+      state.needsUpdate = true;
       obj.destroy();
     };
     obj.addComponent(WaypointMovement, o);
@@ -15831,6 +15834,8 @@ var turretAimer = class extends Component {
             this.timer = 0;
             if (this.object.target.health <= 0) {
               this.object.target.destroy();
+              state.currency += 10;
+              state.needsUpdate = true;
             }
           }
           fired = true;
@@ -15948,7 +15953,11 @@ var TurretSpawner = class extends Component {
     this.name = "dave";
     state.turretSpawner = this;
     state.buildT = function() {
-      let turret = this.makeTurret();
+      if (state.currency >= 25) {
+        let turret = this.makeTurret();
+        state.currency -= 25;
+        state.needsUpdate = true;
+      }
     }.bind(this);
   }
   static onRegister(engine2) {
@@ -17030,7 +17039,8 @@ var UIHandler = class extends Component {
     engine2.registerComponent(HowlerAudioSource);
   }
   init() {
-    this.hp = state.test();
+    this.hp = state.getHealth();
+    this.currency = state.getCurrency();
   }
   start() {
     this.target = this.object.getComponent("cursor-target");
@@ -17061,16 +17071,15 @@ var UIHandler = class extends Component {
   }
   simplePanel() {
     const config = {
-      header: {
+      body: {
+        fontSize: 50,
         type: "text",
         position: { top: 10 },
-        paddingTop: 30,
-        height: 100
+        paddingTop: 50,
+        height: 256
       }
     };
-    const content = {
-      header: this.hp
-    };
+    const content = { body: "Health: " + state.getHealth() + "\rMoney: " + state.getCurrency() };
     this.ui = new CanvasUI(content, config, this.object, this.engine);
     this.ui.updateConfig(this, config.height, 100);
     let ui = this.ui;
@@ -17313,10 +17322,10 @@ var UIHandler = class extends Component {
     }
   }
   update(dt) {
-    if (state.test() != this.ui.content.header) {
-      this.ui.content = { header: state.test() };
+    if (state.needsUpdate === true) {
+      this.ui.content = { body: "Health: " + state.getHealth() + "\r\nMoney: " + state.getCurrency() };
       this.ui.needsUpdate = true;
-      console.log(this.ui.content);
+      state.needsUpdate = false;
     }
     if (this.ui)
       this.ui.update();

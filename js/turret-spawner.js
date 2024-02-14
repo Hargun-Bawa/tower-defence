@@ -24,7 +24,11 @@ export class TurretSpawner extends Component {
         this.name = 'dave';
         state.turretSpawner = this;
         state.buildT = function () {
+            if(state.currency >= 25){
             let turret = this.makeTurret();
+            state.currency -= 25;
+            state.needsUpdate = true;
+            }
         }.bind(this);
     }
     static onRegister(engine) {

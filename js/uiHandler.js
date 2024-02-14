@@ -16,7 +16,8 @@ export class UIHandler extends Component {
 
 
     init() {
-        this.hp = state.test();
+        this.hp = state.getHealth();
+        this.currency = state.getCurrency();
     }
 
     start() {
@@ -51,22 +52,26 @@ export class UIHandler extends Component {
 
     simplePanel() {
         const config = {
-            header: {
-                type: "text",
-                position: { top: 10 },
-                paddingTop: 30,
-                height: 100
-            },
-        }
+            
+       
+            body: {
+                fontSize:50,
+                type:"text",  
+                position: { top: 10},
+                paddingTop: 50,
+                height: 256
+                },
+            }
 
-        const content = {
-            header: this.hp,
-        }
+            
+            const content = {body: "Health: "+ state.getHealth()+ "\rMoney: "+ state.getCurrency() };
 
+    
         this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.updateConfig(this, config.height, 100);
         let ui = this.ui;
-    }
+}
+    
 
     buttonsPanel() {
         function onPrev() {
@@ -350,10 +355,10 @@ export class UIHandler extends Component {
 
     update(dt) {
 
-        if (state.test() != this.ui.content.header) {
-            this.ui.content = { header: state.test() }
+        if (state.needsUpdate === true){
+            this.ui.content = {body: "Health: "+ state.getHealth()+ "\r\nMoney: "+ state.getCurrency() };
             this.ui.needsUpdate = true;
-            console.log(this.ui.content);
+            state.needsUpdate = false;
         }
         if (this.ui) this.ui.update();
     }

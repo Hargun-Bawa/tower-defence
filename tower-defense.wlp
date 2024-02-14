@@ -164,20 +164,37 @@
                 {
                     "type": "light",
                     "light": {
-                        "intensity": 3.3329999,
-                        "type": "sun",
+                        "intensity": 1111.0,
+                        "type": "spot",
                         "shadows": false,
                         "color": [
-                            2.0,
-                            1.0,
-                            1.0
-                        ]
+                            0.3607842,
+                            0.2108112,
+                            0.2108112
+                        ],
+                        "outerAngle": 130.0
                     }
+                },
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "25"
+                    }
+                },
+                {
+                    "type": "waypoint-movement",
+                    "waypoint-movement": {
+                        "pathObject": "304",
+                        "speed": 2.0,
+                        "curveDistance": 0.0
+                    },
+                    "active": true
                 }
             ],
             "translation": [
-                0.0,
-                19.205595,
+                0.8867278,
+                27.6359672,
                 2.0
             ],
             "rotation": [
@@ -2172,6 +2189,121 @@
                     },
                     "active": false
                 }
+            ]
+        },
+        "304": {
+            "name": "Waypoints D",
+            "parent": null,
+            "translation": [
+                50.9302291,
+                -10.0265741,
+                6.773405
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "305": {
+            "name": "A",
+            "parent": "304"
+        },
+        "306": {
+            "name": "B",
+            "parent": "304",
+            "translation": [
+                -10.4286804,
+                29.2597827,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "307": {
+            "name": "Light.001",
+            "parent": null,
+            "components": [
+                {
+                    "type": "light",
+                    "light": {
+                        "type": "spot",
+                        "innerAngle": 1.0,
+                        "outerAngle": 200.0,
+                        "intensity": 200.0
+                    }
+                }
+            ],
+            "translation": [
+                -0.5236182,
+                55.5973434,
+                2.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "309": {
+            "name": "C",
+            "parent": "304",
+            "translation": [
+                -62.7020912,
+                49.4506835,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "310": {
+            "name": "D",
+            "parent": "304",
+            "translation": [
+                -169.7929382,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
             ]
         }
     },
