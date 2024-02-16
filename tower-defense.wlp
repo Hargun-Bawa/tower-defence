@@ -23,7 +23,7 @@
                     "type": "wasd-controls",
                     "wasd-controls": {
                         "headObject": "17",
-                        "lockY": true,
+                        "lockY": false,
                         "speed": 0.2
                     }
                 }
@@ -63,16 +63,6 @@
                     "vr-mode-active-switch": {
                         "activateComponents": "in non-VR"
                     }
-                },
-                {
-                    "type": "turret-spawner",
-                    "turret-spawner": {
-                        "defaultMesh": "8",
-                        "defaultMaterial": "25",
-                        "bulletMesh": "9",
-                        "bulletMaterial": "26"
-                    },
-                    "active": false
                 }
             ],
             "translation": [
@@ -186,7 +176,7 @@
                     "type": "waypoint-movement",
                     "waypoint-movement": {
                         "pathObject": "304",
-                        "speed": 2.0,
+                        "speed": 5.0,
                         "curveDistance": 0.0
                     },
                     "active": true
@@ -1493,15 +1483,6 @@
                 },
                 {
                     "type": "vr-mode-active-switch"
-                },
-                {
-                    "type": "turret-spawner",
-                    "turret-spawner": {
-                        "defaultMesh": "10",
-                        "defaultMaterial": "22",
-                        "bulletMesh": "9",
-                        "bulletMaterial": "26"
-                    }
                 }
             ],
             "translation": [
@@ -2242,10 +2223,10 @@
                 {
                     "type": "light",
                     "light": {
-                        "type": "spot",
+                        "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 200.0
+                        "intensity": 0.25
                     }
                 }
             ],
@@ -2293,6 +2274,75 @@
                 -169.7929382,
                 0.0,
                 0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "311": {
+            "name": "Empty",
+            "parent": "205",
+            "components": [
+                {
+                    "type": "turret-spawner",
+                    "turret-spawner": {
+                        "defaultMesh": "11",
+                        "defaultMaterial": "25",
+                        "bulletMesh": "10",
+                        "bulletMaterial": "22"
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                -0.8,
+                0.0
+            ]
+        },
+        "313": {
+            "name": "Empty.000",
+            "translation": [
+                0.7161384,
+                6.5195517,
+                -0.8362892
+            ],
+            "rotation": [
+                -0.2154381,
+                0.8851991,
+                -0.1638584,
+                -0.3783638
+            ],
+            "scaling": [
+                0.9999987,
+                0.9999916,
+                0.9999991
+            ]
+        },
+        "314": {
+            "name": "Mesh.000",
+            "parent": "313",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "8",
+                        "material": "20"
+                    },
+                    "active": false
+                }
+            ],
+            "translation": [
+                0.0,
+                3.2984504,
+                -6.9691033
             ],
             "rotation": [
                 0.0,

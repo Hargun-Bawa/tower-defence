@@ -352,7 +352,7 @@ export class UIHandler extends Component {
     // changed. 
     update(dt) {
         if (state.needsUpdate === true) {
-            this.ui.content = { body: "Health: " + state.getHealth() + "\r\nMoney: " + state.getCurrency() };
+            this.ui.content = { body: "Health: " + state.getHealth() + "\r\\nMoney: " + state.getCurrency() };
             this.ui.needsUpdate = true;
             state.needsUpdate = false;
         }

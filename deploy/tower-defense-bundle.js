@@ -15403,7 +15403,9 @@ var state = {
   buildT: null,
   spawned: 0,
   currency: 50,
-  needsUpdate: false
+  needsUpdate: false,
+  gameOver: false,
+  selectedTurret: "drone"
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15728,7 +15730,7 @@ var EnemySpawner = class extends Component {
   // TODO add a spawntimer function and use that instead of hardcoding the time
   update(dt) {
     this.timer += dt;
-    if (this.timer > 5) {
+    if (this.timer > this.spawnTimer) {
       this.timer = 0;
       state.spawn(this);
     }
@@ -15770,7 +15772,7 @@ __publicField(EnemySpawner, "TypeName", "enemy-spawner");
 __publicField(EnemySpawner, "Properties", {
   defaultMesh: { type: Type.Mesh },
   defaultMaterial: { type: Type.Material },
-  spawnTimer: { type: Type.Int, default: 15 }
+  spawnTimer: { type: Type.Int, default: 5 }
 });
 
 // js/turret-aimer.js
@@ -15783,7 +15785,7 @@ var turretAimer = class extends Component {
     this.hits = 0;
     console.log(this.object.getComponents());
   }
-  /*
+  /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
   seek() {
       let g = new Float32Array(3);
       this.object.getForwardWorld(g);
@@ -15830,7 +15832,7 @@ var turretAimer = class extends Component {
           this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
           if (this.timer > this.object.cd) {
             this.object.shoot(this.object.getForwardWorld(g2));
-            this.object.target.health -= 25;
+            this.object.target.health -= this.object.damage;
             this.timer = 0;
             if (this.object.target.health <= 0) {
               this.object.target.destroy();
@@ -15865,7 +15867,7 @@ var ProjectilePhysics = class extends Component {
     this.collision = this.object.getComponent("collision", 0);
     if (!this.collision) {
       console.warn(
-        "'bullet-physics' component on object",
+        "bullet-physics' component on object",
         this.object.name,
         "requires a collision component"
       );
@@ -15898,7 +15900,6 @@ var ProjectilePhysics = class extends Component {
   }
   destroyBullet(time) {
     if (time == 0) {
-      console.log("oh");
       this.object.destroy();
     } else {
       setTimeout(() => {
@@ -15948,14 +15949,15 @@ __publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
 // js/turret-spawner.js
 var tempQuat23 = new Float32Array(8);
 var TurretSpawner = class extends Component {
+  /// drone turret?
   init() {
     this.timer = 0;
     this.name = "dave";
     state.turretSpawner = this;
     state.buildT = function() {
-      if (state.currency >= 25) {
+      if (state.currency >= this.turretCost) {
         let turret = this.makeTurret();
-        state.currency -= 25;
+        state.currency -= this.turretCost;
         state.needsUpdate = true;
       }
     }.bind(this);
@@ -15965,21 +15967,17 @@ var TurretSpawner = class extends Component {
     engine2.registerComponent(ProjectileSpawner);
   }
   start() {
-    console.log("start() turret spawner");
+    console.log("start turret spawner");
   }
   update(dt) {
   }
   makeTurret() {
     const obj = this.engine.scene.addObject();
     obj.target = null;
-    obj.targets = /* @__PURE__ */ new Set();
     obj.shoot = null;
     obj.cd = this.shootingCD;
     obj.name = "sam";
-    obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
-    const x = new Float32Array(3);
-    obj.setScalingLocal([0.2, 0.4, 0.2]);
-    obj.setRotationLocal([0, 0, 0, 1]);
+    obj.damage = this.damage;
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.defaultMesh;
     mesh.material = this.defaultMaterial;
@@ -15987,12 +15985,20 @@ var TurretSpawner = class extends Component {
       collider: WL.Collider.Sphere,
       extents: [5, 0, 0],
       group: 1 << 5,
+      // this code is a test to see how to trigger Collision Onhit and onleave that has
+      // some documentation on wonderland, but I cant figre out how to use
+      // IF we can get it working it would make aiming and shooting signifficantly
+      //   more efficient
       CollisionEventType: 1,
       active: true
     });
     mesh.active = true;
     const aimer = obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
+    obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
+    const x = new Float32Array(3);
+    obj.setScalingLocal([0.2, 0.4, 0.2]);
+    obj.setRotationLocal([0, 0, 0, 1]);
     obj.active = true;
     state.turrets.push(obj);
     obj.setDirty();
@@ -16004,7 +16010,9 @@ __publicField(TurretSpawner, "Properties", {
   defaultMaterial: { type: Type.Material },
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material },
-  shootingCD: { type: Type.Int, default: 2 }
+  shootingCD: { type: Type.Int, default: 2 },
+  damage: { type: Type.Int, default: 20 },
+  turretCost: { type: Type.Int, default: 25 }
 });
 
 // js/CanvasUI.js
@@ -17069,6 +17077,7 @@ var UIHandler = class extends Component {
         break;
     }
   }
+  // this is the code for the Health and currency HUD 
   simplePanel() {
     const config = {
       body: {
@@ -17321,9 +17330,12 @@ var UIHandler = class extends Component {
         gamepad.hapticActuators[0].pulse(strength, duration);
     }
   }
+  // if needsUpdate is called will nilly to update the health and currency, then 
+  // eventually the hud breaks so now any changes to the hud only update when 
+  // changed. 
   update(dt) {
     if (state.needsUpdate === true) {
-      this.ui.content = { body: "Health: " + state.getHealth() + "\r\nMoney: " + state.getCurrency() };
+      this.ui.content = { body: "Health: " + state.getHealth() + "\r\\nMoney: " + state.getCurrency() };
       this.ui.needsUpdate = true;
       state.needsUpdate = false;
     }

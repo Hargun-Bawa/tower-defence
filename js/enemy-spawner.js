@@ -14,7 +14,7 @@ export class EnemySpawner extends Component {
     static Properties = {
         defaultMesh: { type: Type.Mesh },
         defaultMaterial: { type: Type.Material },
-        spawnTimer: { type: Type.Int, default: 15 },
+        spawnTimer: { type: Type.Int, default: 5 },
     };
 
     // The game file contains the state object, the init function adds a function
@@ -41,7 +41,7 @@ export class EnemySpawner extends Component {
     // TODO add a spawntimer function and use that instead of hardcoding the time
     update(dt) {
         this.timer += dt;
-        if (this.timer > 5) {
+        if (this.timer > this.spawnTimer) {
             this.timer = 0;
             state.spawn(this);
         }
@@ -70,7 +70,6 @@ export class EnemySpawner extends Component {
         });
         // potential distance traveled for enemy selection
         obj.walked = 0;
-
         obj.health = 50;
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
@@ -79,6 +78,7 @@ export class EnemySpawner extends Component {
         //This code is meant to be how we track the health of the enemies, currently not doing anything
         obj.f = function () {
             state.health -= 5;
+            // if state.health <= 0 state.gameOver = true;
             const index = state.currentEnemies.indexOf(obj);
             const x = state.currentEnemies.splice(index, 1);
             state.needsUpdate = true;

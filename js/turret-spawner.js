@@ -20,15 +20,19 @@ export class TurretSpawner extends Component {
         damage: {type: Type.Int, default: 20},
         turretCost: { type: Type.Int, default: 25},
     };
+
+     
+    /// drone turret?
+  
     init() {
         /* the timer is temporary and used to spawn a turret every 10 seconds for testing purposes*/
         this.timer = 0;
         this.name = 'dave';
         state.turretSpawner = this;
         state.buildT = function () {
-            if(state.currency >= turretCost){
+            if(state.currency >= this.turretCost){
             let turret = this.makeTurret();
-            state.currency -= turretCost;
+            state.currency -= this.turretCost;
             // state.needsUpdate is for the Hud update function specifically
             // if the hud just calles update as it wants it eventually breaks
             state.needsUpdate = true;
