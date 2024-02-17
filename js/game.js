@@ -34,6 +34,12 @@ export const state = {
     currency: 50,
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "drone",
+    selectedTurret : "default",
+    endGame: null,
+    gameStage: 0,
+    timer: 0,
+    maxEnemies: 0,
+    enemiesDestroyed: 0,
+    buildTime: 15,
 }
  

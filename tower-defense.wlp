@@ -3,9 +3,9 @@
         "14": {
             "name": "Player",
             "translation": [
-                -11.9165182,
+                -15.4348039,
                 0.0,
-                -11.0148983
+                2.3251309
             ],
             "rotation": [
                 0.0,
@@ -1752,44 +1752,6 @@
                 5.1605701
             ]
         },
-        "281": {
-            "name": "Mesh",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "7",
-                        "material": "283"
-                    }
-                },
-                {
-                    "type": "uiHandler",
-                    "uiHandler": {
-                        "panel": "simple"
-                    }
-                },
-                {
-                    "type": "cursor-target"
-                }
-            ],
-            "translation": [
-                9.353197,
-                5.3584237,
-                -14.1777362
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "parent": "17"
-        },
         "284": {
             "name": "C",
             "parent": "275",
@@ -2226,7 +2188,7 @@
                         "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 0.25
+                        "intensity": 1.0
                     }
                 }
             ],
@@ -2307,42 +2269,70 @@
                 0.0
             ]
         },
-        "313": {
-            "name": "Empty.000",
-            "translation": [
-                0.7161384,
-                6.5195517,
-                -0.8362892
-            ],
-            "rotation": [
-                -0.2154381,
-                0.8851991,
-                -0.1638584,
-                -0.3783638
-            ],
-            "scaling": [
-                0.9999987,
-                0.9999916,
-                0.9999991
-            ]
-        },
-        "314": {
-            "name": "Mesh.000",
-            "parent": "313",
+        "315": {
+            "name": "Mesh2",
+            "parent": "17",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "8",
-                        "material": "20"
-                    },
-                    "active": false
+                        "mesh": "7",
+                        "material": "283"
+                    }
+                },
+                {
+                    "type": "uiHandler",
+                    "uiHandler": {
+                        "panel": "simple"
+                    }
+                },
+                {
+                    "type": "cursor-target"
                 }
             ],
             "translation": [
+                -33.4829711,
+                -15.269762,
+                -9.888875
+            ],
+            "rotation": [
                 0.0,
-                3.2984504,
-                -6.9691033
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                5.0,
+                5.0,
+                5.0
+            ]
+        },
+        "281": {
+            "name": "Mesh",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "283"
+                    },
+                    "active": true
+                },
+                {
+                    "type": "uiHandler",
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "active": true
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                9.353197,
+                5.3584237,
+                -14.1777362
             ],
             "rotation": [
                 0.0,
@@ -2354,6 +2344,20 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "parent": "17"
+        },
+        "316": {
+            "name": "Empty.000",
+            "parent": "129",
+            "components": [
+                {
+                    "type": "bullet-spawner",
+                    "bullet-spawner": {
+                        "bulletMesh": "10",
+                        "bulletMaterial": "22"
+                    }
+                }
             ]
         }
     },

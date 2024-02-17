@@ -70,79 +70,27 @@ export class UIHandler extends Component {
     }
 
     buttonsPanel() {
-        function onPrev() {
-            const msg = "Prev pressed";
+        function defaultTurret() {
+            const msg = "default";
             console.log(msg);
             ui.updateElement("info", msg);
+            state.selectedTurret = "default";
         }
 
-        function onStop() {
-            const msg = "Stop pressed";
+        function droneTurret() {
+            const msg = "drone";
             console.log(msg);
             ui.updateElement("info", msg);
+            state.selectedTurret = "drone";
         }
 
-        function onNext() {
-            const msg = "Next pressed";
+        function laser() {
+            const msg = "laser";
             console.log(msg);
             ui.updateElement("info", msg);
+            state.selectedTurret = "laser";
         }
 
-        function onContinue() {
-            const msg = "Continue pressed";
-            console.log(msg);
-            ui.updateElement("info", msg);
-        }
-        //console.log('start() with param', this.param);
-        const config = {
-            panelSize: {
-                width: 1,
-                height: 0.25
-            },
-            height: 128,
-            info: {
-                type: "text",
-                position: { left: 6, top: 6 },
-                width: 500,
-                height: 58,
-                backgroundColor: "#aaa",
-                fontColor: "#000"
-            },
-            prev: {
-                type: "button",
-                position: { top: 64, left: 0 },
-                width: 64,
-                fontColor: "#bb0",
-                hover: "#ff0",
-                onSelect: onPrev
-            },
-            stop: {
-                type: "button",
-                position: { top: 64, left: 64 },
-                width: 64,
-                fontColor: "#bb0",
-                hover: "#ff0",
-                onSelect: onStop
-            },
-            next: {
-                type: "button",
-                position: { top: 64, left: 128 },
-                width: 64,
-                fontColor: "#bb0",
-                hover: "#ff0",
-                onSelect: onNext
-            },
-            continue: {
-                type: "button",
-                position: { top: 70, right: 10 },
-                width: 200,
-                height: 52,
-                fontColor: "#fff",
-                backgroundColor: "#1bf",
-                hover: "#3df",
-                onSelect: onContinue
-            }
-        }
 
         const content = {
             info: "",
@@ -152,9 +100,9 @@ export class UIHandler extends Component {
             continue: "Continue"
         }
 
-        this.ui = new CanvasUI(content, config, this.object, this.engine);
-        this.ui.update();
-        let ui = this.ui;
+        this.ui2 = new CanvasUI(content, config, this.object, this.engine);
+        this.ui2.update();
+        let ui2 = this.ui2;
     }
 
     scrollPanel() {
@@ -357,5 +305,6 @@ export class UIHandler extends Component {
             state.needsUpdate = false;
         }
         if (this.ui) this.ui.update();
+        if(this.ui2) this.ui2.update();
     }
 }
