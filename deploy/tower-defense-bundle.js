@@ -15407,7 +15407,6 @@ var state = {
   gameOver: false,
   selectedTurret: "default",
   endGame: null,
-  gameStage: 0,
   timer: 0,
   maxEnemies: 0,
   enemiesDestroyed: 0,
