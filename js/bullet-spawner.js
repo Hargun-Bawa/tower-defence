@@ -85,8 +85,8 @@ export class BulletSpawner extends Component {
         obj.scaleLocal([0.05, 0.05, 0.05]);
 
         obj.addComponent("mesh", {
-            mesh: this.bulletMesh,
-            material: this.bulletMaterial,
+            mesh: this.bulletMesh.mesh,
+            material: this.bulletMaterial.material,
         });
         obj.addComponent("collision", {
             shape: WL.Collider.Sphere,

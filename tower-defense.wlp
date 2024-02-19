@@ -3,9 +3,9 @@
         "14": {
             "name": "Player",
             "translation": [
-                -15.4348039,
-                0.0,
-                2.3251309
+                27.5282173,
+                -0.7703294,
+                -7.5311474
             ],
             "rotation": [
                 0.0,
@@ -23,7 +23,7 @@
                     "type": "wasd-controls",
                     "wasd-controls": {
                         "headObject": "17",
-                        "lockY": false,
+                        "lockY": true,
                         "speed": 0.2
                     }
                 }
@@ -179,7 +179,7 @@
                         "speed": 5.0,
                         "curveDistance": 0.0
                     },
-                    "active": true
+                    "active": false
                 }
             ],
             "translation": [
@@ -527,6 +527,9 @@
             "components": [
                 {
                     "active": true
+                },
+                {
+                    "type": "bullet-spawner"
                 }
             ]
         },
@@ -2121,19 +2124,6 @@
                 1.0
             ]
         },
-        "303": {
-            "name": "Light.000",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "shadows": false
-                    },
-                    "active": false
-                }
-            ]
-        },
         "304": {
             "name": "Waypoints D",
             "parent": null,
@@ -2189,7 +2179,8 @@
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
                         "intensity": 1.0
-                    }
+                    },
+                    "active": true
                 }
             ],
             "translation": [
@@ -2250,7 +2241,7 @@
             ]
         },
         "311": {
-            "name": "Empty",
+            "name": "TurretSpawner",
             "parent": "205",
             "components": [
                 {
@@ -2259,7 +2250,8 @@
                         "defaultMesh": "11",
                         "defaultMaterial": "25",
                         "bulletMesh": "10",
-                        "bulletMaterial": "22"
+                        "bulletMaterial": "22",
+                        "shootingCD": 1
                     }
                 }
             ],
@@ -2267,44 +2259,6 @@
                 0.0,
                 -0.8,
                 0.0
-            ]
-        },
-        "315": {
-            "name": "Mesh2",
-            "parent": "17",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "7",
-                        "material": "283"
-                    }
-                },
-                {
-                    "type": "uiHandler",
-                    "uiHandler": {
-                        "panel": "simple"
-                    }
-                },
-                {
-                    "type": "cursor-target"
-                }
-            ],
-            "translation": [
-                -33.4829711,
-                -15.269762,
-                -9.888875
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                5.0,
-                5.0,
-                5.0
             ]
         },
         "281": {
@@ -2356,6 +2310,299 @@
                     "bullet-spawner": {
                         "bulletMesh": "10",
                         "bulletMaterial": "22"
+                    }
+                }
+            ]
+        },
+        "317": {
+            "name": "Empty.001",
+            "components": [
+                {
+                    "type": "ship"
+                },
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "8",
+                        "material": "203"
+                    }
+                },
+                {
+                    "type": "level-tracker"
+                }
+            ],
+            "translation": [
+                30.3230857,
+                -0.6476974,
+                -12.1436052
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                2.0,
+                2.0,
+                4.0
+            ]
+        },
+        "320": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                20.0,
+                                8.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.4782769,
+                0.0291855,
+                -0.2307647
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "321": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                8.0,
+                                7.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.7926036,
+                0.0622722,
+                -0.0216047
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "322": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                8.0,
+                                7.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.8040649,
+                0.0478477,
+                0.1887052
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "323": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                8.0,
+                                7.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.8299567,
+                0.0,
+                0.2769719
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "326": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                8.0,
+                                7.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -1.0760599,
+                -0.032655,
+                0.4656772
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "327": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                8.0,
+                                7.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.456089,
+                -0.0653101,
+                0.643469
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "328": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                8.0,
+                                7.0,
+                                3.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.5770391,
+                -0.0326553,
+                0.6699274
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "330": {
+            "name": "Collision.000",
+            "parent": "14",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "sphere": {
+                            "radius": 2.0
+                        }
                     }
                 }
             ]

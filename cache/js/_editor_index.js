@@ -6,6 +6,8 @@ import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_bullet_physics_js 
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_bullet_physics_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_bullet_spawner_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/bullet-spawner.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_bullet_spawner_js);
+import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_button_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/button.js';
+_registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_button_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_enemy_spawner_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/enemy-spawner.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_enemy_spawner_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_game_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/game.js';
@@ -16,6 +18,8 @@ import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_projectile_physics
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_projectile_physics_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_projectile_spawner_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/projectile-spawner.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_projectile_spawner_js);
+import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_ship_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/ship.js';
+_registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_ship_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_sun_movement_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/sun-movement.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_sun_movement_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_turret_aimer_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/turret-aimer.js';

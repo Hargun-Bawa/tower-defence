@@ -18,13 +18,14 @@ export class LevelTracker extends Component {
     }
     start(){
     }
-
     update(dt) {
         if (this.day) {
             this.timer += dt;
             if (this.timer > state.buildTime) {
                 this.day = false;
                 this.timer = 0;
+                state.pauseEnemies = false;
+                state.pauseBuilding = true;
             }
         }
         if(state.enemiesDestroyed > state.maxEnemies)
@@ -32,6 +33,10 @@ export class LevelTracker extends Component {
             levelUp();
             state.currency += this.level * 5;
             this.day = true;
+            state.enemiesDestroyed = 0; 
+            state.maxEnemies += 5;
+            state.pauseEnemies = true;
+            state.pauseBuilding = false;
         }
     }
 

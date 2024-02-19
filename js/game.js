@@ -4,12 +4,12 @@
  * update it whenever you need to add something at agame level 
  */
 // Global TODO
-// Music/sound
-// Levels/increasing difficulty . Maybe a day night cycle to signify increased difficulty?
-// Extra types of towers
+// Music/sound - Ron
+// Levels/increasing difficulty . Maybe a day night cycle to signify increased difficulty? - Hargun
+// Extra types of towers - Hieu
 // Turret UPgrades
 // Hud for turret selection
-// Enemy types
+// Enemy types - Saul
 // Flying enemy 
 // Boss monster/ seige weapon
 // High Score
@@ -22,23 +22,32 @@
 // alternatively, 
 export const state = {
     EnemySpawner: [],
+    //this is the function that spawns enemeies
     spawn: null,
+    spawnedEnemies: 0,
     currentEnemies: [],
+    maxEnemies: 15,
+
     health: 100,
     getHealth: function () { return this.health.toString() },
     getCurrency: function () { return this.currency.toString() },
-    currUI: null,
+
     turretSpawner: [],
     turrets: [],
-    buildT: null, spawned: 0,
+    buildT: null, 
+    spawnedTurrets: 0,
+    maxTurrets: 10,
     currency: 50,
+
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "default",
-    endGame: null,
-    timer: 0,
-    maxEnemies: 0,
-    enemiesDestroyed: 0,
-    buildTime: 15,
+    selectedTurret : "drone",
+    ship: null,
+    shipHit:null,
+    buildTime : 15,
+
+    pauseEnemies: true,
+    pauseBuilding: false,
+
 }
  

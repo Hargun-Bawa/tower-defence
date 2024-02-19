@@ -29,7 +29,7 @@ export class ProjectileSpawner extends Component {
     }
     spawn() {
         const obj = this.engine.scene.addObject();
-        let mesh = obj.addComponent('mesh', this.object.getComponent('mesh'));
+        let mesh = obj.addComponent('mesh', this.object.bulletMesh);
         mesh.active = true;
         obj.addComponent('collision', { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 })
         obj.name = "steven";

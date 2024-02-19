@@ -16,26 +16,27 @@ export class TurretSpawner extends Component {
         defaultMaterial: { type: Type.Material },
         bulletMesh: { type: Type.Mesh },
         bulletMaterial: { type: Type.Material },
-        shootingCD: { type: Type.Int, default: 2 },
-        damage: {type: Type.Int, default: 20},
-        turretCost: { type: Type.Int, default: 25},
+        shootingCD: { type: Type.Int, default: 1 },
+        damage: { type: Type.Int, default: 20 },
+        turretCost: { type: Type.Int, default: 25 },
     };
 
-     
+
     /// drone turret?
-  
+
     init() {
         /* the timer is temporary and used to spawn a turret every 10 seconds for testing purposes*/
         this.timer = 0;
         this.name = 'dave';
         state.turretSpawner = this;
         state.buildT = function () {
-            if(state.currency >= this.turretCost){
-            let turret = this.makeTurret();
-            state.currency -= this.turretCost;
-            // state.needsUpdate is for the Hud update function specifically
-            // if the hud just calles update as it wants it eventually breaks
-            state.needsUpdate = true;
+            if (state.currency >= this.turretCost && state.pauseBuilding === false) {
+                let turret = this.makeTurret();
+                state.spawnedTurrets += 1;
+                state.currency -= this.turretCost;
+                // state.needsUpdate is for the Hud update function specifically
+                // if the hud just calles update as it wants it eventually breaks
+                state.needsUpdate = true;
             }
         }.bind(this);
     }
@@ -66,9 +67,13 @@ export class TurretSpawner extends Component {
         obj.cd = this.shootingCD;
         obj.name = "sam";
         obj.damage = this.damage;
-        const mesh = obj.addComponent('mesh')
+        const mesh = obj.addComponent('mesh');
         mesh.mesh = this.defaultMesh;
         mesh.material = this.defaultMaterial;
+        obj.bulletMesh = {
+            mesh: this.bulletMesh,
+            material: this.bulletMaterial
+        }
         obj.addComponent("collision", {
             collider: WL.Collider.Sphere,
             extents: [5, 0, 0],
@@ -92,7 +97,7 @@ export class TurretSpawner extends Component {
         const x = new Float32Array(3);
         obj.setScalingLocal([0.2, 0.4, 0.2]);
         obj.setRotationLocal([0, 0, 0, 1]);
-   
+
         obj.active = true;
         // pushes the turrets to a vector in state
         // state.turrets can be called in other classes for bugfixing.

@@ -94,10 +94,9 @@ export class UIHandler extends Component {
 
         const content = {
             info: "",
-            prev: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
-            stop: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
-            next: "<path>M 54 32 L 10 10 L 10 54 Z</path>",
-            continue: "Continue"
+            defaultTurret: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
+            droneTurret: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
+            laser: "<path>M 54 32 L 10 10 L 10 54 Z</path>",
         }
 
         this.ui2 = new CanvasUI(content, config, this.object, this.engine);
@@ -305,6 +304,6 @@ export class UIHandler extends Component {
             state.needsUpdate = false;
         }
         if (this.ui) this.ui.update();
-        if(this.ui2) this.ui2.update();
+        if( this.ui2 ) this.ui2.update();
     }
 }

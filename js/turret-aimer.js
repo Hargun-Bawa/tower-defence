@@ -16,7 +16,6 @@ export class turretAimer extends Component {
     init() {
         this.timer = 0;
         this.hits = 0;
-        console.log(this.object.getComponents());
     }
     /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
     seek() {
@@ -41,7 +40,6 @@ export class turretAimer extends Component {
         const overlaps = collision.queryOverlaps();
         for (const coll of overlaps) {
             if (coll.object.name === "dave") {
-                console.log(coll.object.name);
                 if (this.object.target === null || this.object.target.walked < coll.object.walked) {
                     this.object.target = coll.object;
                 }

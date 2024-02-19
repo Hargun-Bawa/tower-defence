@@ -15388,8 +15388,11 @@ __publicField(Vrm, "Properties", {
 // js/game.js
 var state = {
   EnemySpawner: [],
+  //this is the function that spawns enemeies
   spawn: null,
+  spawnedEnemies: 0,
   currentEnemies: [],
+  maxEnemies: 15,
   health: 100,
   getHealth: function() {
     return this.health.toString();
@@ -15397,20 +15400,20 @@ var state = {
   getCurrency: function() {
     return this.currency.toString();
   },
-  currUI: null,
   turretSpawner: [],
   turrets: [],
   buildT: null,
-  spawned: 0,
+  spawnedTurrets: 0,
+  maxTurrets: 10,
   currency: 50,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "default",
-  endGame: null,
-  timer: 0,
-  maxEnemies: 0,
-  enemiesDestroyed: 0,
-  buildTime: 15
+  selectedTurret: "drone",
+  ship: null,
+  shipHit: null,
+  buildTime: 15,
+  pauseEnemies: true,
+  pauseBuilding: false
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15588,8 +15591,8 @@ var BulletSpawner = class extends Component {
     const obj = this.engine.scene.addObject();
     obj.scaleLocal([0.05, 0.05, 0.05]);
     obj.addComponent("mesh", {
-      mesh: this.bulletMesh,
-      material: this.bulletMaterial
+      mesh: this.bulletMesh.mesh,
+      material: this.bulletMaterial.material
     });
     obj.addComponent("collision", {
       shape: WL.Collider.Sphere,
@@ -15864,6 +15867,7 @@ var EnemySpawner = class extends Component {
     this.name = "paul";
     state.spawn = function(object) {
       let enemy = object.spawnEnemy();
+      state.currentEnemies.push(enemy);
     }.bind(this);
   }
   start() {
@@ -15879,6 +15883,7 @@ var EnemySpawner = class extends Component {
   update(dt) {
     this.timer += dt;
     if (this.timer > this.spawnTimer) {
+      state.spawnedEnemies += 1;
       this.timer = 0;
       state.spawn(this);
     }
@@ -15886,7 +15891,6 @@ var EnemySpawner = class extends Component {
   // TODO add a onHIt function to the object that is spawned 
   spawnEnemy() {
     const obj = this.engine.scene.addObject();
-    state.currentEnemies.push(obj);
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.defaultMesh;
@@ -15900,10 +15904,12 @@ var EnemySpawner = class extends Component {
     });
     obj.walked = 0;
     obj.health = this.defaultHealth;
+    obj.damage = this.defaultDamage;
+    obj.value = this.defaultReward;
     let o = this.object.getComponent(WaypointMovement);
     o.speed = this.defaultSpeed;
     obj.f = function() {
-      state.health -= this.defaultDamage;
+      state.health -= obj.damage;
       const index = state.currentEnemies.indexOf(obj);
       const x = state.currentEnemies.splice(index, 1);
       state.needsUpdate = true;
@@ -15929,6 +15935,140 @@ __publicField(EnemySpawner, "Properties", {
   defaultDamage: { type: Type.Int, default: 5 }
 });
 
+// js/level-tracker.js
+var LevelTracker = class extends Component {
+  init() {
+    this.level = 0;
+  }
+  start() {
+  }
+  update(dt) {
+    if (this.day) {
+      this.timer += dt;
+      if (this.timer > state.buildTime) {
+        this.day = false;
+        this.timer = 0;
+        state.pauseEnemies = false;
+        state.pauseBuilding = true;
+      }
+    }
+    if (state.enemiesDestroyed > state.maxEnemies) {
+      levelUp();
+      state.currency += this.level * 5;
+      this.day = true;
+      state.enemiesDestroyed = 0;
+      state.maxEnemies += 5;
+      state.pauseEnemies = true;
+      state.pauseBuilding = false;
+    }
+  }
+  levelUp() {
+    this.level += 1;
+    this.maxEnemies += 10;
+    for (spawner in state.EnemySpawner) {
+      spawner.defaultReward += 1;
+    }
+    if (this.level % 2 === 0) {
+      for (spawner in state.EnemySpawner) {
+        spawner.defaultHeath += 25;
+      }
+    }
+    if (this.level % 3 === 0) {
+      for (spawner in state.EnemySpawner) {
+        spawner.defaultDamage += 5;
+      }
+    }
+    if (this.level % 4 === 0) {
+      for (spawner in state.EnemySpawner) {
+        spawner.defaultSpeed += 0.1;
+      }
+    }
+    if (this.level % 5 === 0) {
+      for (spawner in state.EnemySpawner) {
+        spawner.spawnTimer -= 0.3;
+      }
+    }
+  }
+};
+__publicField(LevelTracker, "TypeName", "level-tracker");
+/* Properties that are configurable in the editor */
+__publicField(LevelTracker, "Properties", {
+  level: { type: Type.Int, default: 1 },
+  timer: { type: Type.Int, default: state.timer },
+  day: { type: Type.Bool, default: true }
+});
+
+// js/ship.js
+var Ship = class extends Component {
+  init() {
+    state.ship = this;
+    state.needsUpdate = true;
+    state.shipHit = function(damage) {
+      this.hull -= damage;
+      state.health = this.getHealth();
+    }.bind(this);
+  }
+  purchase(selector, amount) {
+    switch (selector) {
+      case 0:
+        state.currency -= amount;
+        this.hull += amount;
+        break;
+      case 1:
+        state.currency -= amount;
+        this.shields += amount;
+        break;
+      case 2:
+        state.currency -= amount;
+        this.scanners += amount;
+        break;
+      case 3:
+        state.currency -= amount;
+        this.autofactories += amount;
+        break;
+      case 4:
+        state.currency -= amount;
+        this.targettingSystems += amount;
+        break;
+      case 5:
+        state.currency -= amount;
+        this.harvestingDroids += amount;
+        break;
+      case 6:
+        state.currency -= amount;
+        this.fuelGenerators += amount;
+        break;
+    }
+  }
+  setHealth() {
+    let health = 0;
+    return health;
+  }
+};
+__publicField(Ship, "TypeName", "ship");
+/// Currency earned from defeating monsters can be invested in the ship
+/// these properties define critical and non critical systems needed to 
+/// repair the ship and escape the planet. when reaching certain values
+/// they also upgrade the users turrets/ personal stats 
+__publicField(Ship, "Properties", {
+  // default health value 
+  // Other values can only be upgraded once hull threshholds are reached
+  /// IE Hull must be level 2 before shields can become level 2 
+  hull: { type: Type.Int, default: 200 },
+  // reduces the amount of damage done by enemies 
+  shields: { type: Type.Int, default: 0 },
+  // increases the attack range of turrets
+  scanners: { type: Type.Int, default: 0 },
+  /// allows for more ( or maybe different ) turrets
+  autofactories: { type: Type.Int, default: 0 },
+  /// Increases attack speed 
+  targettingSystems: { type: Type.Int, default: 0 },
+  /// increases the amount of money earned from killing enemies
+  harvestingDroids: { type: Type.Int, default: 0 },
+  /// Provides more material/ currency 
+  fuelGenerators: { type: Type.Int, default: 0 }
+});
+
 // js/turret-aimer.js
 var turretAimer = class extends Component {
   start() {
@@ -15937,7 +16077,6 @@ var turretAimer = class extends Component {
   init() {
     this.timer = 0;
     this.hits = 0;
-    console.log(this.object.getComponents());
   }
   /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
   seek() {
@@ -15961,7 +16100,6 @@ var turretAimer = class extends Component {
     const overlaps = collision.queryOverlaps();
     for (const coll of overlaps) {
       if (coll.object.name === "dave") {
-        console.log(coll.object.name);
         if (this.object.target === null || this.object.target.walked < coll.object.walked) {
           this.object.target = coll.object;
         } else {
@@ -16088,7 +16226,7 @@ var ProjectileSpawner = class extends Component {
   }
   spawn() {
     const obj = this.engine.scene.addObject();
-    let mesh = obj.addComponent("mesh", this.object.getComponent("mesh"));
+    let mesh = obj.addComponent("mesh", this.object.bulletMesh);
     mesh.active = true;
     obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
     obj.name = "steven";
@@ -16109,8 +16247,9 @@ var TurretSpawner = class extends Component {
     this.name = "dave";
     state.turretSpawner = this;
     state.buildT = function() {
-      if (state.currency >= this.turretCost) {
+      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
         let turret = this.makeTurret();
+        state.spawnedTurrets += 1;
         state.currency -= this.turretCost;
         state.needsUpdate = true;
       }
@@ -16135,6 +16274,10 @@ var TurretSpawner = class extends Component {
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.defaultMesh;
     mesh.material = this.defaultMaterial;
+    obj.bulletMesh = {
+      mesh: this.bulletMesh,
+      material: this.bulletMaterial
+    };
     obj.addComponent("collision", {
       collider: WL.Collider.Sphere,
       extents: [5, 0, 0],
@@ -16164,7 +16307,7 @@ __publicField(TurretSpawner, "Properties", {
   defaultMaterial: { type: Type.Material },
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material },
-  shootingCD: { type: Type.Int, default: 2 },
+  shootingCD: { type: Type.Int, default: 1 },
   damage: { type: Type.Int, default: 20 },
   turretCost: { type: Type.Int, default: 25 }
 });
@@ -17268,10 +17411,9 @@ var UIHandler = class extends Component {
     }
     const content = {
       info: "",
-      prev: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
-      stop: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
-      next: "<path>M 54 32 L 10 10 L 10 54 Z</path>",
-      continue: "Continue"
+      defaultTurret: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
+      droneTurret: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
+      laser: "<path>M 54 32 L 10 10 L 10 54 Z</path>"
     };
     this.ui2 = new CanvasUI(content, config, this.object, this.engine);
     this.ui2.update();
@@ -17511,6 +17653,8 @@ engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(EnemySpawner);
+engine.registerComponent(LevelTracker);
+engine.registerComponent(Ship);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);
