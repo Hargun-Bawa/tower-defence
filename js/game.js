@@ -49,6 +49,7 @@ export const state = {
     buildTime : 15,
 
     levelUp : null,
+    day: true,
     pauseEnemies: true,
     pauseBuilding: false,
 

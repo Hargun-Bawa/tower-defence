@@ -76,8 +76,6 @@ export class Ship extends Component {
                 break;
         }
     }
-
-
     setHealth() 
     {
         let health = 0;

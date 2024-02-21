@@ -47,11 +47,6 @@ export class BulletPhysics extends Component {
         }
     }
     update(dt) {
-        if (isNaN(dt)) {
-            console.log("dt is NaN");
-            return;
-        }
-
         //update position
         this.object.getPositionWorld(this.position);
         //deactivate bullet if through the floor

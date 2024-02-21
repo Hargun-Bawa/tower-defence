@@ -33,6 +33,7 @@ export class TurretSpawner extends Component {
             if (state.currency >= this.turretCost && state.pauseBuilding === false) {
                 let turret = this.makeTurret();
                 state.spawnedTurrets += 1;
+                state.turrets.push(turret);
                 state.currency -= this.turretCost;
                 // state.needsUpdate is for the Hud update function specifically
                 // if the hud just calles update as it wants it eventually breaks

@@ -47,7 +47,7 @@ export class EnemySpawner extends Component {
     // TODO add a spawntimer function and use that instead of hardcoding the time
     update(dt) {
         this.timer += dt;
-        if (this.timer > this.spawnTimer /*&& state.pauseEnemies === false*/) {
+        if (this.timer > this.spawnTimer && state.pauseEnemies === false) {
             this.timer = 0;
             state.spawn(this);
         }

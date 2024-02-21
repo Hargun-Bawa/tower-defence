@@ -1,5 +1,5 @@
 import { Component, Property, Type } from '@wonderlandengine/api';
-
+import {state } from './game';
 /**
  * DayNight
  */
@@ -59,6 +59,9 @@ export class DayNight extends Component {
                 this.g -= .001;
                 this.b -= .001;
                 this.temp -= .001;
+                state.day = true;
+                state.pauseBuilding = false;
+                state.pauseEnemies = true;
             }
             else { 
 
@@ -67,8 +70,10 @@ export class DayNight extends Component {
                     this.r += .001;
                     this.g += .001;
                     this.b += .001;
+                    state.day = false;
+                    state.pauseEnemies = false;
+                    state.pauseBuilding = true;
                 }
-
 
                 if (this.r == 1) { // light out again
                     this.temp = 1;

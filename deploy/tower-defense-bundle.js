@@ -15414,6 +15414,7 @@ var state = {
   shipHit: null,
   buildTime: 15,
   levelUp: null,
+  day: true,
   pauseEnemies: true,
   pauseBuilding: false
 };
@@ -15489,6 +15490,59 @@ __publicField(WasdControlsComponent, "Properties", {
   headObject: { type: Type.Object }
 });
 
+// js/DayNight.js
+var DayNight = class extends Component {
+  start() {
+    console.log("start() with param", this.param);
+  }
+  init() {
+    this.timer1 = 0;
+    this.timer2 = 0;
+    this.temp = 1;
+    this.r = 1;
+    this.g = 1;
+    this.b = 1;
+  }
+  update(dt) {
+    this.timer1 += dt;
+    let x = new Float32Array(3);
+    if (this.timer1 > this.dayTimer) {
+      if (this.temp > 0.2) {
+        this.r -= 1e-3;
+        this.g -= 1e-3;
+        this.b -= 1e-3;
+        this.temp -= 1e-3;
+        state.day = true;
+        state.pauseBuilding = false;
+        state.pauseEnemies = true;
+      } else {
+        this.timer2 += dt;
+        if (this.timer2 > this.nightTimer) {
+          this.r += 1e-3;
+          this.g += 1e-3;
+          this.b += 1e-3;
+          state.day = false;
+          state.pauseEnemies = false;
+          state.pauseBuilding = true;
+        }
+        if (this.r == 1) {
+          this.temp = 1;
+          this.timer1 = 0;
+          this.timer2 = 0;
+        }
+      }
+      x = [this.r, this.g, this.b];
+      this.object.getComponent("light").setColor(x);
+    }
+  }
+};
+__publicField(DayNight, "TypeName", "DayNight");
+/* Properties that are configurable in the editor */
+__publicField(DayNight, "Properties", {
+  dayTimer: { type: Type.Int, default: 3 },
+  nightTimer: { type: Type.Int, default: 3 }
+});
+
 // js/bullet-physics.js
 var newDir = new Float32Array(3);
 var BulletPhysics = class extends Component {
@@ -15507,10 +15561,6 @@ var BulletPhysics = class extends Component {
     }
   }
   update(dt) {
-    if (isNaN(dt)) {
-      console.log("dt is NaN");
-      return;
-    }
     this.object.getPositionWorld(this.position);
     if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
       this.destroyBullet(0);
@@ -15885,7 +15935,7 @@ var EnemySpawner = class extends Component {
   // TODO add a spawntimer function and use that instead of hardcoding the time
   update(dt) {
     this.timer += dt;
-    if (this.timer > this.spawnTimer) {
+    if (this.timer > this.spawnTimer && state.pauseEnemies === false) {
       this.timer = 0;
       state.spawn(this);
     }
@@ -16254,6 +16304,7 @@ var TurretSpawner = class extends Component {
       if (state.currency >= this.turretCost && state.pauseBuilding === false) {
         let turret = this.makeTurret();
         state.spawnedTurrets += 1;
+        state.turrets.push(turret);
         state.currency -= this.turretCost;
         state.needsUpdate = true;
       }
@@ -17655,6 +17706,7 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(DayNight);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
