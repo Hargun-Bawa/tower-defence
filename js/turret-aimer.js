@@ -71,7 +71,7 @@ export class turretAimer extends Component {
                         this.object.shoot(this.object.getForwardWorld(g));
                         this.object.target.health -= this.object.damage;
                         this.timer = 0;
-                        if (this.object.target.health <= 0) { this.object.target.destroy(); state.currency+= 10; state.needsUpdate = true;}
+                        if (this.object.target.health <= 0) { state.currency += this.object.target.value; this.object.target.destroy();  state.needsUpdate = true; state.enemiesDestroyed++;}
                     }
                     fired = true;
                 }

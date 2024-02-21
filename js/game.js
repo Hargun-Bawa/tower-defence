@@ -27,6 +27,8 @@ export const state = {
     spawnedEnemies: 0,
     currentEnemies: [],
     maxEnemies: 15,
+    enemiesDestroyed: 0,
+
 
     health: 100,
     getHealth: function () { return this.health.toString() },
@@ -46,6 +48,7 @@ export const state = {
     shipHit:null,
     buildTime : 15,
 
+    levelUp : null,
     pauseEnemies: true,
     pauseBuilding: false,
 

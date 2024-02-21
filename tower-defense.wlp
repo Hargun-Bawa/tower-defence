@@ -88,7 +88,7 @@
             "components": [
                 {
                     "type": "view",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "input",
@@ -121,7 +121,7 @@
             "components": [
                 {
                     "type": "view",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "input",
@@ -163,7 +163,8 @@
                             0.2108112
                         ],
                         "outerAngle": 130.0
-                    }
+                    },
+                    "active": false
                 },
                 {
                     "type": "mesh",
@@ -2178,7 +2179,12 @@
                         "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 1.0
+                        "intensity": 0.8999999,
+                        "color": [
+                            0.9607843,
+                            0.4935794,
+                            0.4935794
+                        ]
                     },
                     "active": true
                 }
@@ -2257,8 +2263,19 @@
             ],
             "translation": [
                 0.0,
-                -0.8,
+                1.727433,
                 0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
             ]
         },
         "281": {
@@ -2346,251 +2363,6 @@
                 2.0,
                 2.0,
                 4.0
-            ]
-        },
-        "320": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                20.0,
-                                8.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -0.4782769,
-                0.0291855,
-                -0.2307647
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "321": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                8.0,
-                                7.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -0.7926036,
-                0.0622722,
-                -0.0216047
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "322": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                8.0,
-                                7.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -0.8040649,
-                0.0478477,
-                0.1887052
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "323": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                8.0,
-                                7.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -0.8299567,
-                0.0,
-                0.2769719
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "326": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                8.0,
-                                7.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -1.0760599,
-                -0.032655,
-                0.4656772
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "327": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                8.0,
-                                7.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -0.456089,
-                -0.0653101,
-                0.643469
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "328": {
-            "name": "Collision",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                8.0,
-                                7.0,
-                                3.0
-                            ]
-                        }
-                    }
-                }
-            ],
-            "translation": [
-                -0.5770391,
-                -0.0326553,
-                0.6699274
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
             ]
         },
         "330": {

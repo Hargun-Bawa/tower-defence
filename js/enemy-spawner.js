@@ -27,6 +27,7 @@ export class EnemySpawner extends Component {
     // and instatniates the timer for spawn delay
     init() {
         this.timer = 0;
+        this.drone = false;
         state.EnemySpawner.push(this);
         this.name = "paul";
         state.spawn = function (object) {
@@ -47,7 +48,6 @@ export class EnemySpawner extends Component {
     update(dt) {
         this.timer += dt;
         if (this.timer > this.spawnTimer /*&& state.pauseEnemies === false*/) {
-            state.spawnedEnemies  += 1;
             this.timer = 0;
             state.spawn(this);
         }
@@ -73,6 +73,11 @@ export class EnemySpawner extends Component {
             group: 1 << 5,
             active: true,
         });
+        if(obj.drone)
+        {
+            Float32Array()
+            obj. addComponent(WaypointMovement)
+        }
         // potential distance traveled for enemy selection
         obj.walked = 0;
         obj.health = this.defaultHealth;

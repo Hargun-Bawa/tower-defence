@@ -15393,6 +15393,7 @@ var state = {
   spawnedEnemies: 0,
   currentEnemies: [],
   maxEnemies: 15,
+  enemiesDestroyed: 0,
   health: 100,
   getHealth: function() {
     return this.health.toString();
@@ -15412,6 +15413,7 @@ var state = {
   ship: null,
   shipHit: null,
   buildTime: 15,
+  levelUp: null,
   pauseEnemies: true,
   pauseBuilding: false
 };
@@ -15863,6 +15865,7 @@ var EnemySpawner = class extends Component {
   // and instatniates the timer for spawn delay
   init() {
     this.timer = 0;
+    this.drone = false;
     state.EnemySpawner.push(this);
     this.name = "paul";
     state.spawn = function(object) {
@@ -15883,7 +15886,6 @@ var EnemySpawner = class extends Component {
   update(dt) {
     this.timer += dt;
     if (this.timer > this.spawnTimer) {
-      state.spawnedEnemies += 1;
       this.timer = 0;
       state.spawn(this);
     }
@@ -15902,6 +15904,10 @@ var EnemySpawner = class extends Component {
       group: 1 << 5,
       active: true
     });
+    if (obj.drone) {
+      Float32Array();
+      obj.addComponent(WaypointMovement);
+    }
     obj.walked = 0;
     obj.health = this.defaultHealth;
     obj.damage = this.defaultDamage;
@@ -15938,24 +15944,19 @@ __publicField(EnemySpawner, "Properties", {
 // js/level-tracker.js
 var LevelTracker = class extends Component {
   init() {
-    this.level = 0;
-  }
-  start() {
   }
   update(dt) {
     if (this.day) {
       this.timer += dt;
       if (this.timer > state.buildTime) {
-        this.day = false;
         this.timer = 0;
         state.pauseEnemies = false;
         state.pauseBuilding = true;
       }
     }
-    if (state.enemiesDestroyed > state.maxEnemies) {
-      levelUp();
+    if (state.enemiesDestroyed >= 2) {
+      this.levelUp();
       state.currency += this.level * 5;
-      this.day = true;
       state.enemiesDestroyed = 0;
       state.maxEnemies += 5;
       state.pauseEnemies = true;
@@ -15963,29 +15964,31 @@ var LevelTracker = class extends Component {
     }
   }
   levelUp() {
+    console.log("levelup!");
     this.level += 1;
     this.maxEnemies += 10;
-    for (spawner in state.EnemySpawner) {
-      spawner.defaultReward += 1;
+    let spawner = state.EnemySpawner;
+    for (let i = 0; i < state.EnemySpawner.length; i++) {
+      spawner[i].defaultReward += 1;
     }
     if (this.level % 2 === 0) {
-      for (spawner in state.EnemySpawner) {
-        spawner.defaultHeath += 25;
+      for (let i = 0; i < state.EnemySpawner.length; i++) {
+        spawner[i].defaultHeath += 25;
       }
     }
     if (this.level % 3 === 0) {
-      for (spawner in state.EnemySpawner) {
-        spawner.defaultDamage += 5;
+      for (let i = 0; i < state.EnemySpawner.length; i++) {
+        spawner[i].defaultDamage += 5;
       }
     }
     if (this.level % 4 === 0) {
-      for (spawner in state.EnemySpawner) {
-        spawner.defaultSpeed += 0.1;
+      for (let i = 0; i < state.EnemySpawner.length; i++) {
+        spawner[i].defaultSpeed += 0.1;
       }
     }
     if (this.level % 5 === 0) {
-      for (spawner in state.EnemySpawner) {
-        spawner.spawnTimer -= 0.3;
+      for (let i = 0; i < state.EnemySpawner.length; i++) {
+        spawner[i].spawnTimer -= 0.3;
       }
     }
   }
@@ -16127,9 +16130,10 @@ var turretAimer = class extends Component {
             this.object.target.health -= this.object.damage;
             this.timer = 0;
             if (this.object.target.health <= 0) {
+              state.currency += this.object.target.value;
               this.object.target.destroy();
-              state.currency += 10;
               state.needsUpdate = true;
+              state.enemiesDestroyed++;
             }
           }
           fired = true;
