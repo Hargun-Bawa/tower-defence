@@ -15490,812 +15490,6 @@ __publicField(WasdControlsComponent, "Properties", {
   headObject: { type: Type.Object }
 });
 
-// js/bullet-physics.js
-var newDir = new Float32Array(3);
-var BulletPhysics = class extends Component {
-  init() {
-    this.dir = new Float32Array(3);
-    this.position = [0, 0, 0];
-    this.object.getPositionWorld(this.position);
-    this.correctedSpeed = this.speed / 6;
-    this.collision = this.object.getComponent("collision", 0);
-    if (!this.collision) {
-      console.warn(
-        "'bullet-physics' component on object",
-        this.object.name,
-        "requires a collision component"
-      );
-    }
-  }
-  update(dt) {
-    this.object.getPositionWorld(this.position);
-    if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
-      this.destroyBullet(0);
-      return;
-    }
-    if (vec3_exports.length(this.position) > 175) {
-      this.destroyBullet(0);
-      return;
-    }
-    newDir.set(this.dir);
-    vec3_exports.scale(newDir, newDir, this.correctedSpeed);
-    vec3_exports.add(this.position, this.position, newDir);
-    this.object.setPositionLocal(this.position);
-    let overlaps = this.collision.queryOverlaps();
-    for (let i = 0; i < overlaps.length; ++i) {
-      let t = overlaps[i].object.getComponent("score-trigger");
-      if (t && !this.scored) {
-        t.onHit();
-        this.destroyBullet(0);
-        return;
-      }
-    }
-  }
-  destroyBullet(time) {
-    if (time == 0) {
-      this.object.destroy();
-    } else {
-      setTimeout(() => {
-        this.object.destroy();
-      }, time);
-    }
-  }
-};
-__publicField(BulletPhysics, "TypeName", "bullet-physics");
-__publicField(BulletPhysics, "Properties", {
-  speed: { type: Type.Float, default: 1 }
-});
-
-// js/bullet-spawner.js
-var tempQuat22 = new Float32Array(8);
-var BulletSpawner = class extends Component {
-  static onRegister(engine2) {
-    engine2.registerComponent(BulletPhysics);
-  }
-  init() {
-    state.launch = function(dir) {
-      let bullet = this.spawnBullet();
-      bullet.object.setTransformLocal(this.object.getTransformWorld(tempQuat22));
-      bullet.object.setDirty();
-      bullet.physics.dir.set(dir);
-      bullet.physics.scored = false;
-      bullet.physics.active = true;
-    }.bind(this);
-  }
-  start() {
-    this.engine.onXRSessionStart.add(this.xrSessionStart.bind(this));
-    this.start = new Float32Array(2);
-    this.bullets = [];
-    this.nextIndex = 0;
-    this.lastShotTime = 0;
-    state.bulletSpawner = this.object;
-    this.soundClick = this.object.addComponent(HowlerAudioSource, {
-      volume: 0.5
-    });
-  }
-  onTouchDown(e) {
-    if (e.inputSource.handedness == "right") {
-      let currentTime = Date.now();
-      let lastShotTimeGap = Math.abs(currentTime - this.lastShotTime);
-      if (lastShotTimeGap > 500) {
-        const dir = [0, 0, 0];
-        this.object.getComponent("cursor").cursorRayObject.getForward(dir);
-        state.launch(dir);
-        this.lastShotTime = currentTime;
-      }
-    }
-  }
-  spawnBullet() {
-    const obj = this.engine.scene.addObject();
-    obj.scaleLocal([0.05, 0.05, 0.05]);
-    obj.addComponent("mesh", {
-      mesh: this.bulletMesh.mesh,
-      material: this.bulletMaterial.material
-    });
-    obj.addComponent("collision", {
-      shape: WL.Collider.Sphere,
-      extents: [0.05, 0, 0],
-      group: 1 << 0
-    });
-    const physics = obj.addComponent(BulletPhysics, {
-      speed: this.bulletSpeed
-    });
-    physics.active = true;
-    return {
-      object: obj,
-      physics
-    };
-  }
-  //vibrates controller for haptic feedback
-  onActivate() {
-    if (!this.engine.xr)
-      return;
-    this.engine.xr.session.addEventListener(
-      "selectstart",
-      this.onTouchDown.bind(this)
-    );
-  }
-  xrSessionStart(session) {
-    if (!this.active)
-      return;
-    session.addEventListener("selectstart", this.onTouchDown.bind(this));
-  }
-};
-__publicField(BulletSpawner, "TypeName", "bullet-spawner");
-__publicField(BulletSpawner, "Properties", {
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material },
-  bulletSpeed: { type: Type.Float, default: 1 }
-});
-
-// js/waypoint-movement.js
-var WaypointMovement = class extends Component {
-  init() {
-    this.children = this.pathObject.children.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
-    });
-    this.positions = new Array(this.children.length);
-    for (let i = 0; i < this.children.length; i++) {
-      this.positions[i] = new Float32Array(3);
-      this.children[i].getTranslationWorld(this.positions[i]);
-    }
-    this.currentPositionIndex = 0;
-    this.currentPosition = new Float32Array(3);
-    this.lookPosition = new Float32Array(3);
-    this.fromPosition = this.positions[0];
-    this.toPosition = this.positions[1];
-    vec3_exports.sub(this.currentPosition, this.toPosition, this.fromPosition);
-    this.fromToLength = vec3_exports.length(this.currentPosition);
-    this.currentLength = 0;
-    this.up = [0, 1, 0];
-    this.quat = new Float32Array(4);
-    lookAt2(this.quat, this.fromPosition, this.toPosition, this.up);
-    this.object.resetTranslationRotation();
-    this.object.rotate(this.quat);
-    this.object.setTranslationWorld(this.fromPosition);
-    this.p0 = new Float32Array(3);
-    this.p1 = new Float32Array(3);
-    this.p2 = new Float32Array(3);
-    this.currentCurveIndex = 0;
-    this.curveDistance = Math.max(0, Math.min(0.49999, this.curveDistance));
-    this.bezFactorMultiplicator = 1 / (2 * this.curveDistance);
-    this.onFinalWaypointReachedCallbacks = [];
-  }
-  /**
-   * Adds a function to a callback array which, then calls the function after the final waypoint has been reached.
-   * @param  {function} f Function to be added.
-   */
-  addOnFinalWaypointReachedCallback(f) {
-    this.onFinalWaypointReachedCallbacks.push(f);
-  }
-  /**
-   * Removes a function from the callback array for reaching the final waypoint..
-   * @param  {function} f Function to be removed.
-   */
-  removeOnFinalWaypointReachedCallback(f) {
-    const index = array.indexOf(f);
-    if (index > -1) {
-      this.onFinalWaypointReachedCallbacks.splice(index, 1);
-    }
-  }
-  /**
-   * Sets the points needed for the next curve
-   */
-  _setCurvePoints() {
-    vec3_exports.sub(
-      this.currentPosition,
-      this.positions[this.currentCurveIndex],
-      this.positions[this.currentCurveIndex + 1]
-    );
-    vec3_exports.scale(this.currentPosition, this.currentPosition, this.curveDistance);
-    vec3_exports.add(this.p0, this.positions[this.currentCurveIndex + 1], this.currentPosition);
-    this.p1 = this.positions[this.currentCurveIndex + 1];
-    vec3_exports.sub(
-      this.currentPosition,
-      this.positions[this.currentCurveIndex + 2],
-      this.positions[this.currentCurveIndex + 1]
-    );
-    vec3_exports.scale(this.currentPosition, this.currentPosition, this.curveDistance);
-    vec3_exports.add(this.p2, this.positions[this.currentCurveIndex + 1], this.currentPosition);
-  }
-  /**
-   * Sets the object's path object and configures it.
-   * @param  {WL.Object} pathObject [Object containing alphebetically named children]
-   */
-  setPathObject(pathObject) {
-    this.pathObject = pathObject;
-    this.children = this.pathObject.children.sort(function(a, b) {
-      return a.name.localeCompare(b.name);
-    });
-    this.positions = new Array(this.children.length);
-    for (let i = 0; i < this.children.length; i++) {
-      this.positions[i] = new Float32Array(3);
-      this.children[i].getTranslationWorld(this.positions[i]);
-    }
-    this.currentPositionIndex = 0;
-    this.currentCurveIndex = 0;
-    this.currentLength = 0;
-    this._setCurvePoints();
-    this.fromPosition = this.positions[0];
-    this.toPosition = this.positions[1];
-    vec3_exports.sub(this.currentPosition, this.toPosition, this.fromPosition);
-    this.fromToLength = vec3_exports.length(this.currentPosition);
-  }
-  update(dt) {
-    this.currentLength += dt * this.speed;
-    this.object.walked += 1;
-    let factor = this.currentLength / this.fromToLength;
-    if (factor > 0.5 && this.currentPositionIndex != this.positions.length - 1) {
-      this.incrementCurveIndex = true;
-    }
-    if (Math.abs(factor - Math.round(factor)) < this.curveDistance && !(this.currentPositionIndex == this.children.length - 2 && factor > 0.5) && !(this.currentPositionIndex == 0 && factor < 0.5)) {
-      let bezFactor = (factor - Math.round(factor) + this.curveDistance) * this.bezFactorMultiplicator;
-      vec3_exports.bezier(
-        this.currentPosition,
-        this.p0,
-        this.p1,
-        this.p1,
-        this.p2,
-        bezFactor
-      );
-      vec3_exports.bezier(
-        this.lookPosition,
-        this.p0,
-        this.p1,
-        this.p1,
-        this.p2,
-        bezFactor + 0.01
-      );
-    } else {
-      if (this.incrementCurveIndex && factor < 0.5 && factor > this.curveDistance && this.currentCurveIndex != this.positions.length - 3) {
-        this.currentCurveIndex++;
-        this.incrementCurveIndex = false;
-      }
-      vec3_exports.lerp(this.currentPosition, this.fromPosition, this.toPosition, factor);
-      vec3_exports.lerp(this.lookPosition, this.fromPosition, this.toPosition, factor + 0.01);
-    }
-    this.object.resetTranslationRotation();
-    lookAt2(this.quat, this.currentPosition, this.lookPosition, this.up);
-    this.object.rotate(this.quat);
-    this.object.setTranslationWorld(this.currentPosition);
-    if (this.currentLength > this.fromToLength) {
-      this.start = false;
-      this.currentPositionIndex++;
-      if (this.currentPositionIndex == this.children.length - 1) {
-        this.object.f();
-        this.currentPositionIndex = 0;
-        this.currentCurveIndex = 0;
-        this.incrementCurveIndex = false;
-        this.onFinalWaypointReachedCallbacks.forEach((f) => f());
-      }
-      this.fromPosition = this.positions[this.currentPositionIndex];
-      this.toPosition = this.positions[this.currentPositionIndex + 1];
-      vec3_exports.sub(this.currentPosition, this.toPosition, this.fromPosition);
-      this.fromToLength = vec3_exports.length(this.currentPosition);
-      this.currentLength = 0;
-    }
-  }
-};
-__publicField(WaypointMovement, "TypeName", "waypoint-movement");
-__publicField(WaypointMovement, "Properties", {
-  /** This object is the container of the waypoints. It should contain children
-  with an alphebetically ascending naming (e.g. A, B, C, D, E, F) */
-  pathObject: { type: Type.Object },
-  /** Movement speed of the object */
-  speed: { type: Type.Float, default: 1 },
-  /** Distance in normal space [0, 0.5) after which the objects starts moving on a curve */
-  curveDistance: { type: Type.Float, default: 0.1 }
-});
-var lookAt2 = function() {
-  let forwardTemp = new Float32Array(3);
-  let temp = new Float32Array(3);
-  let dotTemp = 0;
-  let vector = new Float32Array(3);
-  let vector2 = new Float32Array(3);
-  let vector3 = new Float32Array(3);
-  return function(quaternion, sourcePoint, destPoint, up) {
-    if (!up) {
-      up = [0, 1, 0];
-    }
-    vec3_exports.sub(forwardTemp, destPoint, sourcePoint);
-    vec3_exports.normalize(forwardTemp, forwardTemp);
-    dotTemp = vec3_exports.dot(up, forwardTemp);
-    vec3_exports.scale(temp, forwardTemp, dotTemp);
-    vec3_exports.sub(up, up, temp);
-    vec3_exports.normalize(up, up);
-    vec3_exports.normalize(vector, forwardTemp);
-    vec3_exports.cross(vector2, up, vector);
-    vec3_exports.cross(vector3, vector, vector2);
-    let m00 = vector2[0];
-    let m01 = vector2[1];
-    let m02 = vector2[2];
-    let m10 = vector3[0];
-    let m11 = vector3[1];
-    let m12 = vector3[2];
-    let m20 = vector[0];
-    let m21 = vector[1];
-    let m22 = vector[2];
-    let num8 = m00 + m11 + m22;
-    if (num8 > 0) {
-      let num = Math.sqrt(num8 + 1);
-      quaternion[3] = num * 0.5;
-      num = 0.5 / num;
-      quaternion[0] = (m12 - m21) * num;
-      quaternion[1] = (m20 - m02) * num;
-      quaternion[2] = (m01 - m10) * num;
-      return quaternion;
-    }
-    if (m00 >= m11 && m00 >= m22) {
-      let num7 = Math.sqrt(1 + m00 - m11 - m22);
-      let num4 = 0.5 / num7;
-      quaternion[0] = 0.5 * num7;
-      quaternion[1] = (m01 + m10) * num4;
-      quaternion[2] = (m02 + m20) * num4;
-      quaternion[3] = (m12 - m21) * num4;
-      return quaternion;
-    }
-    if (m11 > m22) {
-      let num6 = Math.sqrt(1 + m11 - m00 - m22);
-      let num3 = 0.5 / num6;
-      quaternion[0] = (m10 + m01) * num3;
-      quaternion[1] = 0.5 * num6;
-      quaternion[2] = (m21 + m12) * num3;
-      quaternion[3] = (m20 - m02) * num3;
-      return quaternion;
-    }
-    let num5 = Math.sqrt(1 + m22 - m00 - m11);
-    let num2 = 0.5 / num5;
-    quaternion[0] = (m20 + m02) * num2;
-    quaternion[1] = (m21 + m12) * num2;
-    quaternion[2] = 0.5 * num5;
-    quaternion[3] = (m01 - m10) * num2;
-    return quaternion;
-  };
-}();
-
-// js/enemy-spawner.js
-var tempQuat23 = new Float32Array(8);
-var EnemySpawner = class extends Component {
-  // The game file contains the state object, the init function adds a function
-  // called spawn to the state file, assigns the calling object as the spawnpoint,
-  // and instatniates the timer for spawn delay
-  init() {
-    this.timer = 0;
-    this.drone = false;
-    state.EnemySpawner.push(this);
-    this.name = "paul";
-    state.spawn = function(object) {
-      let enemy = object.spawnEnemy();
-      state.currentEnemies.push(enemy);
-    }.bind(this);
-  }
-  start() {
-    console.log("start");
-    console.log(this.name);
-  }
-  // Not exactly sure why we need this but we do
-  static onRegister(engine2) {
-    engine2.registerComponent(WaypointMovement);
-  }
-  // spawns a new enemy every 5 seconds 
-  // TODO add a spawntimer function and use that instead of hardcoding the time
-  update(dt) {
-    this.timer += dt;
-    if (this.timer > this.spawnTimer && state.pauseEnemies === false) {
-      this.timer = 0;
-      state.spawn(this);
-    }
-  }
-  // TODO add a onHIt function to the object that is spawned 
-  spawnEnemy() {
-    const obj = this.engine.scene.addObject();
-    obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = this.defaultMesh;
-    mesh.material = this.defaultMaterial;
-    mesh.active = true;
-    obj.addComponent("collision", {
-      shape: WL.Collider.Sphere,
-      extents: [5, 0, 0],
-      group: 1 << 5,
-      active: true
-    });
-    if (obj.drone) {
-      Float32Array();
-      obj.addComponent(WaypointMovement);
-    }
-    obj.walked = 0;
-    obj.health = this.defaultHealth;
-    obj.damage = this.defaultDamage;
-    obj.value = this.defaultReward;
-    let o = this.object.getComponent(WaypointMovement);
-    o.speed = this.defaultSpeed;
-    obj.f = function() {
-      state.health -= obj.damage;
-      const index = state.currentEnemies.indexOf(obj);
-      const x = state.currentEnemies.splice(index, 1);
-      state.needsUpdate = true;
-      obj.destroy();
-    };
-    obj.addComponent(WaypointMovement, o);
-    obj.setScalingLocal([0.2, 0.2, 0.2]);
-    obj.active = true;
-    obj.name = "dave";
-    obj.setDirty();
-  }
-};
-__publicField(EnemySpawner, "TypeName", "enemy-spawner");
-/* Properties that are configurable in the editor */
-__publicField(EnemySpawner, "Properties", {
-  defaultMesh: { type: Type.Mesh },
-  defaultMaterial: { type: Type.Material },
-  spawnTimer: { type: Type.Int, default: 5 },
-  defaultHealth: { type: Type.Int, default: 50 },
-  defaultReward: { type: Type.Int, default: 10 },
-  specialRewardChance: { type: Type.Int, default: 1 },
-  defaultSpeed: { type: Type.Float, default: 3 },
-  defaultDamage: { type: Type.Int, default: 5 }
-});
-
-// js/level-tracker.js
-var LevelTracker = class extends Component {
-  init() {
-  }
-  start() {
-    this.timer = 0;
-    state.levelUp = function() {
-      console.log("levelup!");
-      this.level += 1;
-      this.maxEnemies += 10;
-      let spawner = state.EnemySpawner;
-      for (let i = 0; i < state.EnemySpawner.length; i++) {
-        spawner[i].defaultReward += 1;
-      }
-      if (this.level % 2 === 0) {
-        for (let i = 0; i < state.EnemySpawner.length; i++) {
-          spawner[i].defaultHeath += 25;
-        }
-      }
-      if (this.level % 3 === 0) {
-        for (let i = 0; i < state.EnemySpawner.length; i++) {
-          spawner[i].defaultDamage += 5;
-        }
-      }
-      if (this.level % 4 === 0) {
-        for (let i = 0; i < state.EnemySpawner.length; i++) {
-          spawner[i].defaultSpeed += 0.1;
-        }
-      }
-      if (this.level % 5 === 0) {
-        for (let i = 0; i < state.EnemySpawner.length; i++) {
-          spawner[i].spawnTimer -= 0.3;
-        }
-      }
-    }.bind(this);
-  }
-};
-__publicField(LevelTracker, "TypeName", "level-tracker");
-/* Properties that are configurable in the editor */
-__publicField(LevelTracker, "Properties", {
-  level: { type: Type.Int, default: 1 },
-  timer: { type: Type.Int, default: state.timer },
-  day: { type: Type.Bool, default: true }
-});
-
-// js/ship.js
-var Ship = class extends Component {
-  init() {
-    state.ship = this;
-    state.needsUpdate = true;
-    state.shipHit = function(damage) {
-      this.hull -= damage;
-      state.health = this.getHealth();
-    }.bind(this);
-    state.purchase = function(selector, amount) {
-      switch (selector) {
-        case 0:
-          state.currency -= amount;
-          this.hull += amount;
-          break;
-        case 1:
-          state.currency -= amount;
-          this.shields += amount;
-          break;
-        case 2:
-          state.currency -= amount;
-          this.scanners += amount;
-          break;
-        case 3:
-          state.currency -= amount;
-          this.autofactories += amount;
-          break;
-        case 4:
-          state.currency -= amount;
-          this.targettingSystems += amount;
-          break;
-        case 5:
-          state.currency -= amount;
-          this.harvestingDroids += amount;
-          break;
-        case 6:
-          state.currency -= amount;
-          this.fuelGenerators += amount;
-          break;
-      }
-    }.bind(this);
-  }
-  setHealth() {
-    let health = 0;
-    return health;
-  }
-};
-__publicField(Ship, "TypeName", "ship");
-/// Currency earned from defeating monsters can be invested in the ship
-/// these properties define critical and non critical systems needed to 
-/// repair the ship and escape the planet. when reaching certain values
-/// they also upgrade the users turrets/ personal stats 
-__publicField(Ship, "Properties", {
-  // default health value 
-  // Other values can only be upgraded once hull threshholds are reached
-  /// IE Hull must be level 2 before shields can become level 2 
-  hull: { type: Type.Int, default: 200 },
-  // reduces the amount of damage done by enemies 
-  shields: { type: Type.Int, default: 0 },
-  // increases the attack range of turrets
-  scanners: { type: Type.Int, default: 0 },
-  /// allows for more ( or maybe different ) turrets
-  autofactories: { type: Type.Int, default: 0 },
-  /// Increases attack speed 
-  targettingSystems: { type: Type.Int, default: 0 },
-  /// increases the amount of money earned from killing enemies
-  harvestingDroids: { type: Type.Int, default: 0 },
-  /// Provides more material/ currency 
-  fuelGenerators: { type: Type.Int, default: 0 }
-});
-
-// js/turret-aimer.js
-var turretAimer = class extends Component {
-  start() {
-    console.log("start() with param", this.param);
-  }
-  init() {
-    this.timer = 0;
-    this.hits = 0;
-  }
-  /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
-  seek() {
-      let g = new Float32Array(3);
-      this.object.getForwardWorld(g);
-      let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 1, 1 << 2);
-      let hits = ray.hitCount;
-      this.loc = ray.locations;
-      this.dis = ray.distances;
-      let obs = ray.objects;
-      if (hits > 0) {
-          this.object.target = obs[0];
-          this.object.lookAt(this.object.target.getPositionWorld())
-      }
-      else {
-          this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
-      }
-  }*/
-  seek() {
-    const collision = this.object.getComponent("collision");
-    const overlaps = collision.queryOverlaps();
-    for (const coll of overlaps) {
-      if (coll.object.name === "dave") {
-        if (this.object.target === null || this.object.target.walked < coll.object.walked) {
-          this.object.target = coll.object;
-        } else {
-          this.object.target = null;
-        }
-      }
-    }
-  }
-  update(dt) {
-    this.timer += dt;
-    let g = new Float32Array(3);
-    if (this.object.target == null || this.object.target.objectId < 0) {
-      this.seek();
-    }
-    if (this.object.target && this.object.target.isDestroyed == false) {
-      let g2 = new Float32Array(3);
-      const collision = this.object.getComponent("collision");
-      const overlaps = collision.queryOverlaps();
-      let fired = false;
-      for (const coll of overlaps) {
-        if (fired == false && coll.object === this.object.target) {
-          this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
-          if (this.timer > this.object.cd) {
-            this.object.shoot(this.object.getForwardWorld(g2));
-            this.object.target.health -= this.object.damage;
-            this.timer = 0;
-            if (this.object.target.health <= 0) {
-              state.currency += this.object.target.value;
-              this.object.target.destroy();
-              state.needsUpdate = true;
-              state.enemiesDestroyed++;
-            }
-          }
-          fired = true;
-        }
-      }
-      if (!fired) {
-        this.object.target = null;
-      }
-      ;
-    }
-  }
-};
-__publicField(turretAimer, "TypeName", "turret-aimer");
-/* Properties that are configurable in the editor */
-__publicField(turretAimer, "Properties", {});
-
-// js/projectile-physics.js
-var newDir2 = new Float32Array(3);
-var ProjectilePhysics = class extends Component {
-  init() {
-    this.dir = new Float32Array(3);
-    this.position = [0, 0, 0];
-    this.object.getPositionWorld(this.position);
-    this.object.setScalingWorld([0.1, 0.1, 0.1]);
-    this.correctedSpeed = this.speed * 5;
-    this.collision = this.object.getComponent("collision", 0);
-    if (!this.collision) {
-      console.warn(
-        "bullet-physics' component on object",
-        this.object.name,
-        "requires a collision component"
-      );
-    }
-  }
-  update(dt) {
-    if (isNaN(dt)) {
-      console.log("dt is NaN");
-      return;
-    }
-    this.object.getPositionWorld(this.position);
-    if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
-      this.destroyBullet(0);
-      return;
-    }
-    if (vec3_exports.length(this.position) > 175) {
-      this.destroyBullet(0);
-      return;
-    }
-    newDir2.set(this.dir);
-    vec3_exports.scale(newDir2, newDir2, this.correctedSpeed);
-    vec3_exports.add(this.position, this.position, newDir2);
-    this.object.setPositionLocal(this.position);
-    let overlaps = this.collision.queryOverlaps();
-    for (let i = 0; i < overlaps.length; ++i) {
-      this.destroyBullet(0);
-      return;
-    }
-  }
-  destroyBullet(time) {
-    if (time == 0) {
-      this.object.destroy();
-    } else {
-      setTimeout(() => {
-        this.object.destroy();
-      }, time);
-    }
-  }
-};
-__publicField(ProjectilePhysics, "TypeName", "projectile-physics");
-__publicField(ProjectilePhysics, "Properties", {
-  speed: { type: Type.Float, default: 9 }
-});
-
-// js/projectile-spawner.js
-var tempquat2 = new Float32Array(8);
-var ProjectileSpawner = class extends Component {
-  static onRegister(engine2) {
-    engine2.registerComponent(ProjectilePhysics);
-  }
-  init() {
-    console.log("Projectile spawner new+!");
-    this.timer = 0;
-    this.object.shoot = function(dir) {
-      let projectile = this.spawn();
-      projectile.physics.dir.set(dir);
-      projectile.object.setDirty();
-      projectile.physics.active = true;
-    }.bind(this);
-  }
-  start() {
-    console.log("projectile-spawner");
-  }
-  spawn() {
-    const obj = this.engine.scene.addObject();
-    let mesh = obj.addComponent("mesh", this.object.bulletMesh);
-    mesh.active = true;
-    obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
-    obj.name = "steven";
-    obj.setPositionLocal(this.object.getPositionWorld());
-    const physics = obj.addComponent(ProjectilePhysics, { speed: 0.2 });
-    physics.active = true;
-    return { object: obj, physics };
-  }
-};
-__publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
-
-// js/turret-spawner.js
-var tempQuat24 = new Float32Array(8);
-var TurretSpawner = class extends Component {
-  /// drone turret?
-  init() {
-    this.timer = 0;
-    this.name = "dave";
-    state.turretSpawner = this;
-    state.buildT = function() {
-      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
-        let turret = this.makeTurret();
-        state.spawnedTurrets += 1;
-        state.turrets.push(turret);
-        state.currency -= this.turretCost;
-        state.needsUpdate = true;
-      }
-    }.bind(this);
-  }
-  static onRegister(engine2) {
-    engine2.registerComponent(turretAimer);
-    engine2.registerComponent(ProjectileSpawner);
-  }
-  start() {
-    console.log("start turret spawner");
-  }
-  update(dt) {
-  }
-  makeTurret() {
-    const obj = this.engine.scene.addObject();
-    obj.target = null;
-    obj.shoot = null;
-    obj.cd = this.shootingCD;
-    obj.name = "sam";
-    obj.damage = this.damage;
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = this.defaultMesh;
-    mesh.material = this.defaultMaterial;
-    obj.bulletMesh = {
-      mesh: this.bulletMesh,
-      material: this.bulletMaterial
-    };
-    obj.addComponent("collision", {
-      collider: WL.Collider.Sphere,
-      extents: [5, 0, 0],
-      group: 1 << 5,
-      // this code is a test to see how to trigger Collision Onhit and onleave that has
-      // some documentation on wonderland, but I cant figre out how to use
-      // IF we can get it working it would make aiming and shooting signifficantly
-      //   more efficient
-      CollisionEventType: 1,
-      active: true
-    });
-    mesh.active = true;
-    const aimer = obj.addComponent(turretAimer);
-    obj.addComponent(ProjectileSpawner);
-    obj.setTransformLocal(this.object.getTransformWorld(tempQuat24));
-    const x = new Float32Array(3);
-    obj.setScalingLocal([0.2, 0.4, 0.2]);
-    obj.setRotationLocal([0, 0, 0, 1]);
-    obj.active = true;
-    state.turrets.push(obj);
-    obj.setDirty();
-  }
-};
-__publicField(TurretSpawner, "TypeName", "turret-spawner");
-__publicField(TurretSpawner, "Properties", {
-  defaultMesh: { type: Type.Mesh },
-  defaultMaterial: { type: Type.Material },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material },
-  shootingCD: { type: Type.Int, default: 1 },
-  damage: { type: Type.Int, default: 20 },
-  turretCost: { type: Type.Int, default: 25 }
-});
-
 // js/CanvasUI.js
 var CanvasKeyboard = class {
   constructor(width, canvasui, lang = "EN") {
@@ -17322,6 +16516,1042 @@ var CanvasUI = class {
   }
 };
 
+// js/CanvasUI2.js
+var UIHandler2 = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+  }
+  init() {
+  }
+  start() {
+    this.target = this.object.getComponent("cursor-target");
+    this.target.addHoverFunction(this.onHover.bind(this));
+    this.target.addUnHoverFunction(this.onUnHover.bind(this));
+    this.target.addMoveFunction(this.onMove.bind(this));
+    this.target.addDownFunction(this.onDown.bind(this));
+    this.target.addUpFunction(this.onUp.bind(this));
+    this.soundClick = this.object.addComponent(HowlerAudioSource, { src: "sfx/click.wav", spatial: true });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, { src: "sfx/unclick.wav", spatial: true });
+    switch (this.panel) {
+      case 0:
+        this.simplePanel();
+        break;
+      case 1:
+        this.buttonsPanel();
+        break;
+      case 2:
+        this.scrollPanel();
+        break;
+      case 3:
+        this.imagePanel();
+        break;
+      case 4:
+        this.inputTextPanel();
+        break;
+    }
+  }
+  simplePanel() {
+    const config2 = {
+      header: {
+        type: "text",
+        position: { top: 0 },
+        paddingTop: 30,
+        height: 70
+      },
+      main: {
+        type: "text",
+        position: { top: 70 },
+        height: 372,
+        // default height is 512 so this is 512 - header height (70) - footer height (70)
+        backgroundColor: "#bbb",
+        fontColor: "#000"
+      },
+      footer: {
+        type: "text",
+        position: { bottom: 0 },
+        paddingTop: 30,
+        height: 70
+      }
+    };
+    const content = {
+      header: "Header",
+      main: "This is the main text",
+      footer: "Footer"
+    };
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    this.ui.update();
+    let ui2 = this.ui;
+  }
+  buttonsPanel() {
+    function onPrev() {
+      const msg = "Prev pressed";
+      console.log(msg);
+      ui2.updateElement("info", msg);
+    }
+    function onStop() {
+      const msg = "Stop pressed";
+      console.log(msg);
+      ui2.updateElement("info", msg);
+    }
+    function onNext() {
+      const msg = "Next pressed";
+      console.log(msg);
+      ui2.updateElement("info", msg);
+    }
+    function onContinue() {
+      const msg = "Continue pressed";
+      console.log(msg);
+      ui2.updateElement("info", msg);
+    }
+    const config2 = {
+      panelSize: {
+        width: 1,
+        height: 0.25
+      },
+      height: 128,
+      info: {
+        type: "text",
+        position: { left: 6, top: 6 },
+        width: 500,
+        height: 58,
+        backgroundColor: "#aaa",
+        fontColor: "#000"
+      },
+      prev: {
+        type: "button",
+        position: { top: 64, left: 0 },
+        width: 64,
+        fontColor: "#bb0",
+        hover: "#ff0",
+        onSelect: onPrev
+      },
+      stop: {
+        type: "button",
+        position: { top: 64, left: 64 },
+        width: 64,
+        fontColor: "#bb0",
+        hover: "#ff0",
+        onSelect: onStop
+      },
+      next: {
+        type: "button",
+        position: { top: 64, left: 128 },
+        width: 64,
+        fontColor: "#bb0",
+        hover: "#ff0",
+        onSelect: onNext
+      },
+      continue: {
+        type: "button",
+        position: { top: 70, right: 10 },
+        width: 200,
+        height: 52,
+        fontColor: "#fff",
+        backgroundColor: "#1bf",
+        hover: "#3df",
+        onSelect: onContinue
+      }
+    };
+    const content = {
+      info: "",
+      prev: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
+      stop: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
+      next: "<path>M 54 32 L 10 10 L 10 54 Z</path>",
+      continue: "Continue"
+    };
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    this.ui.update();
+    let ui2 = this.ui;
+  }
+  scrollPanel() {
+    const config2 = {
+      body: {
+        backgroundColor: "#666"
+      },
+      txt: {
+        type: "text",
+        overflow: "scroll",
+        position: { left: 20, top: 20 },
+        width: 460,
+        height: 400,
+        backgroundColor: "#fff",
+        fontColor: "#000"
+      }
+    };
+    const content = {
+      txt: "This is an example of a scrolling panel. Select it with a controller and move the controller while keeping the select button pressed. In an AR app just press and drag. If a panel is set to scroll and the overflow setting is 'scroll', then a scroll bar will appear when the panel is active. But to scroll you can just drag anywhere on the panel. This is an example of a scrolling panel. Select it with a controller and move the controller while keeping the select button pressed. In an AR app just press and drag. If a panel is set to scroll and the overflow setting is 'scroll', then a scroll bar will appear when the panel is active. But to scroll you can just drag anywhere on the panel."
+    };
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    this.ui.update();
+    let ui2 = this.ui;
+  }
+  imagePanel() {
+    const config2 = {
+      image: {
+        type: "img",
+        position: { left: 20, top: 20 },
+        width: 472
+      },
+      info: {
+        type: "text",
+        position: { top: 300 }
+      }
+    };
+    const content = {
+      image: "images/promo.png",
+      info: "The promo image from the course: Learn to create WebXR, VR and AR, experiences using Wonderland Engine"
+    };
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    this.ui.update();
+    let ui2 = this.ui;
+  }
+  inputTextPanel() {
+    function onChanged(txt) {
+      console.log(`message changed: ${txt}`);
+    }
+    function onEnter(txt) {
+      console.log(`message enter: ${txt}`);
+    }
+    const config2 = {
+      panelSize: { width: 1, height: 0.25 },
+      height: 128,
+      message: {
+        type: "input-text",
+        position: { left: 10, top: 8 },
+        height: 56,
+        width: 492,
+        backgroundColor: "#ccc",
+        fontColor: "#000",
+        onChanged,
+        onEnter
+      },
+      label: {
+        type: "text",
+        position: { top: 64 }
+      }
+    };
+    const content = {
+      message: "",
+      label: "Select the panel above."
+    };
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    const target = this.ui.keyboard.object.getComponent("cursor-target");
+    target.addHoverFunction(this.onHoverKeyboard.bind(this));
+    target.addUnHoverFunction(this.onUnHoverKeyboard.bind(this));
+    target.addMoveFunction(this.onMoveKeyboard.bind(this));
+    target.addDownFunction(this.onDown.bind(this));
+    target.addUpFunction(this.onUpKeyboard.bind(this));
+    this.ui.update();
+    let ui2 = this.ui;
+  }
+  onHover(_, cursor) {
+    if (this.ui) {
+      const xy = this.ui.worldToCanvas(cursor.cursorPos);
+      this.ui.hover(0, xy);
+    }
+    if (cursor.type == "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    this.hapticFeedback(cursor.object, 0.5, 50);
+  }
+  onMove(_, cursor) {
+    if (this.ui) {
+      const xy = this.ui.worldToCanvas(cursor.cursorPos);
+      this.ui.hover(0, xy);
+    }
+    this.hapticFeedback(cursor.object, 0.5, 50);
+  }
+  onDown(_, cursor) {
+    console.log("onDown");
+    this.soundClick.play();
+    this.hapticFeedback(cursor.object, 1, 20);
+  }
+  onUp(_, cursor) {
+    console.log("onUp");
+    this.soundUnClick.play();
+    if (this.ui)
+      this.ui.select(0, true);
+    this.hapticFeedback(cursor.object, 0.7, 20);
+  }
+  onUnHover(_, cursor) {
+    console.log("onUnHover");
+    if (this.ui)
+      this.ui.hover(0);
+    this.hapticFeedback(cursor.object, 0.3, 50);
+  }
+  onHoverKeyboard(_, cursor) {
+    if (!this.ui || !this.ui.keyboard || !this.ui.keyboard.keyboard)
+      return;
+    const ui2 = this.ui.keyboard.keyboard;
+    const xy = ui2.worldToCanvas(cursor.cursorPos);
+    ui2.hover(0, xy);
+    if (cursor.type == "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    this.hapticFeedback(cursor.object, 0.5, 50);
+  }
+  onMoveKeyboard(_, cursor) {
+    if (!this.ui || !this.ui.keyboard || !this.ui.keyboard.keyboard)
+      return;
+    const ui2 = this.ui.keyboard.keyboard;
+    const xy = ui2.worldToCanvas(cursor.cursorPos);
+    ui2.hover(0, xy);
+    this.hapticFeedback(cursor.object, 0.5, 50);
+  }
+  onUpKeyboard(_, cursor) {
+    console.log("onUpKeyboard");
+    this.soundUnClick.play();
+    if (this.ui && this.ui.keyboard && this.ui.keyboard.keyboard)
+      this.ui.keyboard.keyboard.select(0);
+    this.hapticFeedback(cursor.object, 0.7, 20);
+  }
+  onUnHoverKeyboard(_, cursor) {
+    console.log("onUnHoverKeyboard");
+    if (this.ui && this.ui.keyboard && this.ui.keyboard.keyboard)
+      this.ui.keyboard.keyboard.hover(0);
+    this.hapticFeedback(cursor.object, 0.3, 50);
+  }
+  hapticFeedback(object, strength, duration) {
+    const input = object.getComponent("input");
+    if (input && input.xrInputSource) {
+      const gamepad = input.xrInputSource.gamepad;
+      if (gamepad && gamepad.hapticActuators)
+        gamepad.hapticActuators[0].pulse(strength, duration);
+    }
+  }
+  update(dt) {
+    if (this.ui)
+      this.ui.update();
+  }
+};
+__publicField(UIHandler2, "TypeName", "uiHandler2");
+__publicField(UIHandler2, "Properties", {
+  panel: Property.enum(["simple", "buttons", "scrolling", "images", "input-text"], "simple")
+});
+
+// js/DayNight.js
+var DayNight = class extends Component {
+  start() {
+    console.log("start() with param", this.param);
+  }
+  init() {
+    this.timer1 = 0;
+    this.timer2 = 0;
+    this.temp = 1;
+    this.r = 1;
+    this.g = 1;
+    this.b = 1;
+  }
+  update(dt) {
+    this.timer1 += dt;
+    let x = new Float32Array(3);
+    if (this.timer1 > this.dayTimer) {
+      if (this.temp > 0.2) {
+        this.r -= 1e-3;
+        this.g -= 1e-3;
+        this.b -= 1e-3;
+        this.temp -= 1e-3;
+        state.day = true;
+        state.pauseBuilding = false;
+        state.pauseEnemies = true;
+      } else {
+        this.timer2 += dt;
+        if (this.timer2 > this.nightTimer) {
+          this.r += 1e-3;
+          this.g += 1e-3;
+          this.b += 1e-3;
+          state.day = false;
+          state.pauseEnemies = false;
+          state.pauseBuilding = true;
+        }
+        if (this.r == 1) {
+          console.log("levelup!");
+          state.levelUp();
+          this.temp = 1;
+          this.timer1 = 0;
+          this.timer2 = 0;
+        }
+      }
+      x = [this.r, this.g, this.b];
+      this.object.getComponent("light").setColor(x);
+    }
+  }
+};
+__publicField(DayNight, "TypeName", "DayNight");
+/* Properties that are configurable in the editor */
+__publicField(DayNight, "Properties", {
+  dayTimer: { type: Type.Int, default: 3 },
+  nightTimer: { type: Type.Int, default: 3 }
+});
+
+// js/waypoint-movement.js
+var WaypointMovement = class extends Component {
+  init() {
+    this.children = this.pathObject.children.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+    this.positions = new Array(this.children.length);
+    for (let i = 0; i < this.children.length; i++) {
+      this.positions[i] = new Float32Array(3);
+      this.children[i].getTranslationWorld(this.positions[i]);
+    }
+    this.currentPositionIndex = 0;
+    this.currentPosition = new Float32Array(3);
+    this.lookPosition = new Float32Array(3);
+    this.fromPosition = this.positions[0];
+    this.toPosition = this.positions[1];
+    vec3_exports.sub(this.currentPosition, this.toPosition, this.fromPosition);
+    this.fromToLength = vec3_exports.length(this.currentPosition);
+    this.currentLength = 0;
+    this.up = [0, 1, 0];
+    this.quat = new Float32Array(4);
+    lookAt2(this.quat, this.fromPosition, this.toPosition, this.up);
+    this.object.resetTranslationRotation();
+    this.object.rotate(this.quat);
+    this.object.setTranslationWorld(this.fromPosition);
+    this.p0 = new Float32Array(3);
+    this.p1 = new Float32Array(3);
+    this.p2 = new Float32Array(3);
+    this.currentCurveIndex = 0;
+    this.curveDistance = Math.max(0, Math.min(0.49999, this.curveDistance));
+    this.bezFactorMultiplicator = 1 / (2 * this.curveDistance);
+    this.onFinalWaypointReachedCallbacks = [];
+  }
+  /**
+   * Adds a function to a callback array which, then calls the function after the final waypoint has been reached.
+   * @param  {function} f Function to be added.
+   */
+  addOnFinalWaypointReachedCallback(f) {
+    this.onFinalWaypointReachedCallbacks.push(f);
+  }
+  /**
+   * Removes a function from the callback array for reaching the final waypoint..
+   * @param  {function} f Function to be removed.
+   */
+  removeOnFinalWaypointReachedCallback(f) {
+    const index = array.indexOf(f);
+    if (index > -1) {
+      this.onFinalWaypointReachedCallbacks.splice(index, 1);
+    }
+  }
+  /**
+   * Sets the points needed for the next curve
+   */
+  _setCurvePoints() {
+    vec3_exports.sub(
+      this.currentPosition,
+      this.positions[this.currentCurveIndex],
+      this.positions[this.currentCurveIndex + 1]
+    );
+    vec3_exports.scale(this.currentPosition, this.currentPosition, this.curveDistance);
+    vec3_exports.add(this.p0, this.positions[this.currentCurveIndex + 1], this.currentPosition);
+    this.p1 = this.positions[this.currentCurveIndex + 1];
+    vec3_exports.sub(
+      this.currentPosition,
+      this.positions[this.currentCurveIndex + 2],
+      this.positions[this.currentCurveIndex + 1]
+    );
+    vec3_exports.scale(this.currentPosition, this.currentPosition, this.curveDistance);
+    vec3_exports.add(this.p2, this.positions[this.currentCurveIndex + 1], this.currentPosition);
+  }
+  /**
+   * Sets the object's path object and configures it.
+   * @param  {WL.Object} pathObject [Object containing alphebetically named children]
+   */
+  setPathObject(pathObject) {
+    this.pathObject = pathObject;
+    this.children = this.pathObject.children.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+    this.positions = new Array(this.children.length);
+    for (let i = 0; i < this.children.length; i++) {
+      this.positions[i] = new Float32Array(3);
+      this.children[i].getTranslationWorld(this.positions[i]);
+    }
+    this.currentPositionIndex = 0;
+    this.currentCurveIndex = 0;
+    this.currentLength = 0;
+    this._setCurvePoints();
+    this.fromPosition = this.positions[0];
+    this.toPosition = this.positions[1];
+    vec3_exports.sub(this.currentPosition, this.toPosition, this.fromPosition);
+    this.fromToLength = vec3_exports.length(this.currentPosition);
+  }
+  update(dt) {
+    this.currentLength += dt * this.speed;
+    this.object.walked += 1;
+    let factor = this.currentLength / this.fromToLength;
+    if (factor > 0.5 && this.currentPositionIndex != this.positions.length - 1) {
+      this.incrementCurveIndex = true;
+    }
+    if (Math.abs(factor - Math.round(factor)) < this.curveDistance && !(this.currentPositionIndex == this.children.length - 2 && factor > 0.5) && !(this.currentPositionIndex == 0 && factor < 0.5)) {
+      let bezFactor = (factor - Math.round(factor) + this.curveDistance) * this.bezFactorMultiplicator;
+      vec3_exports.bezier(
+        this.currentPosition,
+        this.p0,
+        this.p1,
+        this.p1,
+        this.p2,
+        bezFactor
+      );
+      vec3_exports.bezier(
+        this.lookPosition,
+        this.p0,
+        this.p1,
+        this.p1,
+        this.p2,
+        bezFactor + 0.01
+      );
+    } else {
+      if (this.incrementCurveIndex && factor < 0.5 && factor > this.curveDistance && this.currentCurveIndex != this.positions.length - 3) {
+        this.currentCurveIndex++;
+        this.incrementCurveIndex = false;
+      }
+      vec3_exports.lerp(this.currentPosition, this.fromPosition, this.toPosition, factor);
+      vec3_exports.lerp(this.lookPosition, this.fromPosition, this.toPosition, factor + 0.01);
+    }
+    this.object.resetTranslationRotation();
+    lookAt2(this.quat, this.currentPosition, this.lookPosition, this.up);
+    this.object.rotate(this.quat);
+    this.object.setTranslationWorld(this.currentPosition);
+    if (this.currentLength > this.fromToLength) {
+      this.start = false;
+      this.currentPositionIndex++;
+      if (this.currentPositionIndex == this.children.length - 1) {
+        this.object.f();
+        this.currentPositionIndex = 0;
+        this.currentCurveIndex = 0;
+        this.incrementCurveIndex = false;
+        this.onFinalWaypointReachedCallbacks.forEach((f) => f());
+      }
+      this.fromPosition = this.positions[this.currentPositionIndex];
+      this.toPosition = this.positions[this.currentPositionIndex + 1];
+      vec3_exports.sub(this.currentPosition, this.toPosition, this.fromPosition);
+      this.fromToLength = vec3_exports.length(this.currentPosition);
+      this.currentLength = 0;
+    }
+  }
+};
+__publicField(WaypointMovement, "TypeName", "waypoint-movement");
+__publicField(WaypointMovement, "Properties", {
+  /** This object is the container of the waypoints. It should contain children
+  with an alphebetically ascending naming (e.g. A, B, C, D, E, F) */
+  pathObject: { type: Type.Object },
+  /** Movement speed of the object */
+  speed: { type: Type.Float, default: 1 },
+  /** Distance in normal space [0, 0.5) after which the objects starts moving on a curve */
+  curveDistance: { type: Type.Float, default: 0.1 }
+});
+var lookAt2 = function() {
+  let forwardTemp = new Float32Array(3);
+  let temp = new Float32Array(3);
+  let dotTemp = 0;
+  let vector = new Float32Array(3);
+  let vector2 = new Float32Array(3);
+  let vector3 = new Float32Array(3);
+  return function(quaternion, sourcePoint, destPoint, up) {
+    if (!up) {
+      up = [0, 1, 0];
+    }
+    vec3_exports.sub(forwardTemp, destPoint, sourcePoint);
+    vec3_exports.normalize(forwardTemp, forwardTemp);
+    dotTemp = vec3_exports.dot(up, forwardTemp);
+    vec3_exports.scale(temp, forwardTemp, dotTemp);
+    vec3_exports.sub(up, up, temp);
+    vec3_exports.normalize(up, up);
+    vec3_exports.normalize(vector, forwardTemp);
+    vec3_exports.cross(vector2, up, vector);
+    vec3_exports.cross(vector3, vector, vector2);
+    let m00 = vector2[0];
+    let m01 = vector2[1];
+    let m02 = vector2[2];
+    let m10 = vector3[0];
+    let m11 = vector3[1];
+    let m12 = vector3[2];
+    let m20 = vector[0];
+    let m21 = vector[1];
+    let m22 = vector[2];
+    let num8 = m00 + m11 + m22;
+    if (num8 > 0) {
+      let num = Math.sqrt(num8 + 1);
+      quaternion[3] = num * 0.5;
+      num = 0.5 / num;
+      quaternion[0] = (m12 - m21) * num;
+      quaternion[1] = (m20 - m02) * num;
+      quaternion[2] = (m01 - m10) * num;
+      return quaternion;
+    }
+    if (m00 >= m11 && m00 >= m22) {
+      let num7 = Math.sqrt(1 + m00 - m11 - m22);
+      let num4 = 0.5 / num7;
+      quaternion[0] = 0.5 * num7;
+      quaternion[1] = (m01 + m10) * num4;
+      quaternion[2] = (m02 + m20) * num4;
+      quaternion[3] = (m12 - m21) * num4;
+      return quaternion;
+    }
+    if (m11 > m22) {
+      let num6 = Math.sqrt(1 + m11 - m00 - m22);
+      let num3 = 0.5 / num6;
+      quaternion[0] = (m10 + m01) * num3;
+      quaternion[1] = 0.5 * num6;
+      quaternion[2] = (m21 + m12) * num3;
+      quaternion[3] = (m20 - m02) * num3;
+      return quaternion;
+    }
+    let num5 = Math.sqrt(1 + m22 - m00 - m11);
+    let num2 = 0.5 / num5;
+    quaternion[0] = (m20 + m02) * num2;
+    quaternion[1] = (m21 + m12) * num2;
+    quaternion[2] = 0.5 * num5;
+    quaternion[3] = (m01 - m10) * num2;
+    return quaternion;
+  };
+}();
+
+// js/enemy-spawner.js
+var tempQuat22 = new Float32Array(8);
+var EnemySpawner = class extends Component {
+  // The game file contains the state object, the init function adds a function
+  // called spawn to the state file, assigns the calling object as the spawnpoint,
+  // and instatniates the timer for spawn delay
+  init() {
+    this.timer = 0;
+    this.drone = false;
+    state.EnemySpawner.push(this);
+    this.name = "paul";
+    state.spawn = function(object) {
+      let enemy = object.spawnEnemy();
+      state.currentEnemies.push(enemy);
+    }.bind(this);
+  }
+  start() {
+    console.log("start");
+    console.log(this.name);
+  }
+  // Not exactly sure why we need this but we do
+  static onRegister(engine2) {
+    engine2.registerComponent(WaypointMovement);
+  }
+  // spawns a new enemy every 5 seconds 
+  // TODO add a spawntimer function and use that instead of hardcoding the time
+  update(dt) {
+    this.timer += dt;
+    if (this.timer > this.spawnTimer && state.pauseEnemies === false) {
+      this.timer = 0;
+      state.spawn(this);
+    }
+  }
+  // TODO add a onHIt function to the object that is spawned 
+  spawnEnemy() {
+    const obj = this.engine.scene.addObject();
+    obj.setTransformLocal(this.object.getTransformWorld(tempQuat22));
+    const mesh = obj.addComponent("mesh");
+    mesh.mesh = this.defaultMesh;
+    mesh.material = this.defaultMaterial;
+    mesh.active = true;
+    obj.addComponent("collision", {
+      shape: WL.Collider.Sphere,
+      extents: [5, 0, 0],
+      group: 1 << 5,
+      active: true
+    });
+    if (obj.drone) {
+      Float32Array();
+      obj.addComponent(WaypointMovement);
+    }
+    obj.walked = 0;
+    obj.health = this.defaultHealth;
+    obj.damage = this.defaultDamage;
+    obj.value = this.defaultReward;
+    let o = this.object.getComponent(WaypointMovement);
+    o.speed = this.defaultSpeed;
+    obj.f = function() {
+      state.health -= obj.damage;
+      const index = state.currentEnemies.indexOf(obj);
+      const x = state.currentEnemies.splice(index, 1);
+      state.needsUpdate = true;
+      obj.destroy();
+    };
+    obj.addComponent(WaypointMovement, o);
+    obj.setScalingLocal([0.2, 0.2, 0.2]);
+    obj.active = true;
+    obj.name = "dave";
+    obj.setDirty();
+  }
+};
+__publicField(EnemySpawner, "TypeName", "enemy-spawner");
+/* Properties that are configurable in the editor */
+__publicField(EnemySpawner, "Properties", {
+  defaultMesh: { type: Type.Mesh },
+  defaultMaterial: { type: Type.Material },
+  spawnTimer: { type: Type.Int, default: 5 },
+  defaultHealth: { type: Type.Int, default: 50 },
+  defaultReward: { type: Type.Int, default: 10 },
+  specialRewardChance: { type: Type.Int, default: 1 },
+  defaultSpeed: { type: Type.Float, default: 3 },
+  defaultDamage: { type: Type.Int, default: 5 }
+});
+
+// js/level-tracker.js
+var LevelTracker = class extends Component {
+  init() {
+  }
+  start() {
+    this.timer = 0;
+    state.levelUp = function() {
+      console.log("levelup!");
+      this.level += 1;
+      this.maxEnemies += 10;
+      let spawner = state.EnemySpawner;
+      for (let i = 0; i < state.EnemySpawner.length; i++) {
+        spawner[i].defaultReward += 1;
+      }
+      if (this.level % 2 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultHeath += 25;
+        }
+      }
+      if (this.level % 3 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultDamage += 5;
+        }
+      }
+      if (this.level % 4 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultSpeed += 0.1;
+        }
+      }
+      if (this.level % 5 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].spawnTimer -= 0.3;
+        }
+      }
+    }.bind(this);
+  }
+};
+__publicField(LevelTracker, "TypeName", "level-tracker");
+/* Properties that are configurable in the editor */
+__publicField(LevelTracker, "Properties", {
+  level: { type: Type.Int, default: 1 },
+  timer: { type: Type.Int, default: state.timer },
+  day: { type: Type.Bool, default: true }
+});
+
+// js/ship.js
+var Ship = class extends Component {
+  init() {
+    state.ship = this;
+    state.needsUpdate = true;
+    state.shipHit = function(damage) {
+      this.hull -= damage;
+      state.health = this.getHealth();
+    }.bind(this);
+    state.purchase = function(selector, amount) {
+      switch (selector) {
+        case 0:
+          state.currency -= amount;
+          this.hull += amount;
+          break;
+        case 1:
+          state.currency -= amount;
+          this.shields += amount;
+          break;
+        case 2:
+          state.currency -= amount;
+          this.scanners += amount;
+          break;
+        case 3:
+          state.currency -= amount;
+          this.autofactories += amount;
+          break;
+        case 4:
+          state.currency -= amount;
+          this.targettingSystems += amount;
+          break;
+        case 5:
+          state.currency -= amount;
+          this.harvestingDroids += amount;
+          break;
+        case 6:
+          state.currency -= amount;
+          this.fuelGenerators += amount;
+          break;
+      }
+    }.bind(this);
+  }
+  setHealth() {
+    let health = 0;
+    return health;
+  }
+};
+__publicField(Ship, "TypeName", "ship");
+/// Currency earned from defeating monsters can be invested in the ship
+/// these properties define critical and non critical systems needed to 
+/// repair the ship and escape the planet. when reaching certain values
+/// they also upgrade the users turrets/ personal stats 
+__publicField(Ship, "Properties", {
+  // default health value 
+  // Other values can only be upgraded once hull threshholds are reached
+  /// IE Hull must be level 2 before shields can become level 2 
+  hull: { type: Type.Int, default: 200 },
+  // reduces the amount of damage done by enemies 
+  shields: { type: Type.Int, default: 0 },
+  // increases the attack range of turrets
+  scanners: { type: Type.Int, default: 0 },
+  /// allows for more ( or maybe different ) turrets
+  autofactories: { type: Type.Int, default: 0 },
+  /// Increases attack speed 
+  targettingSystems: { type: Type.Int, default: 0 },
+  /// increases the amount of money earned from killing enemies
+  harvestingDroids: { type: Type.Int, default: 0 },
+  /// Provides more material/ currency 
+  fuelGenerators: { type: Type.Int, default: 0 }
+});
+
+// js/turret-aimer.js
+var turretAimer = class extends Component {
+  start() {
+    console.log("start() with param", this.param);
+  }
+  init() {
+    this.timer = 0;
+    this.hits = 0;
+  }
+  /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
+  seek() {
+      let g = new Float32Array(3);
+      this.object.getForwardWorld(g);
+      let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 1, 1 << 2);
+      let hits = ray.hitCount;
+      this.loc = ray.locations;
+      this.dis = ray.distances;
+      let obs = ray.objects;
+      if (hits > 0) {
+          this.object.target = obs[0];
+          this.object.lookAt(this.object.target.getPositionWorld())
+      }
+      else {
+          this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
+      }
+  }*/
+  seek() {
+    const collision = this.object.getComponent("collision");
+    const overlaps = collision.queryOverlaps();
+    for (const coll of overlaps) {
+      if (coll.object.name === "dave") {
+        if (this.object.target === null || this.object.target.walked < coll.object.walked) {
+          this.object.target = coll.object;
+        } else {
+          this.object.target = null;
+        }
+      }
+    }
+  }
+  update(dt) {
+    this.timer += dt;
+    let g = new Float32Array(3);
+    if (this.object.target == null || this.object.target.objectId < 0) {
+      this.seek();
+    }
+    if (this.object.target && this.object.target.isDestroyed == false) {
+      let g2 = new Float32Array(3);
+      const collision = this.object.getComponent("collision");
+      const overlaps = collision.queryOverlaps();
+      let fired = false;
+      for (const coll of overlaps) {
+        if (fired == false && coll.object === this.object.target) {
+          this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+          if (this.timer > this.object.cd) {
+            this.object.shoot(this.object.getForwardWorld(g2));
+            this.object.target.health -= this.object.damage;
+            this.timer = 0;
+            if (this.object.target.health <= 0) {
+              state.currency += this.object.target.value;
+              this.object.target.destroy();
+              state.needsUpdate = true;
+              state.enemiesDestroyed++;
+            }
+          }
+          fired = true;
+        }
+      }
+      if (!fired) {
+        this.object.target = null;
+      }
+      ;
+    }
+  }
+};
+__publicField(turretAimer, "TypeName", "turret-aimer");
+/* Properties that are configurable in the editor */
+__publicField(turretAimer, "Properties", {});
+
+// js/projectile-physics.js
+var newDir = new Float32Array(3);
+var ProjectilePhysics = class extends Component {
+  init() {
+    this.dir = new Float32Array(3);
+    this.position = [0, 0, 0];
+    this.object.getPositionWorld(this.position);
+    this.object.setScalingWorld([0.1, 0.1, 0.1]);
+    this.correctedSpeed = this.speed * 5;
+    this.collision = this.object.getComponent("collision", 0);
+    if (!this.collision) {
+      console.warn(
+        "bullet-physics' component on object",
+        this.object.name,
+        "requires a collision component"
+      );
+    }
+  }
+  update(dt) {
+    if (isNaN(dt)) {
+      console.log("dt is NaN");
+      return;
+    }
+    this.object.getPositionWorld(this.position);
+    if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
+      this.destroyBullet(0);
+      return;
+    }
+    if (vec3_exports.length(this.position) > 175) {
+      this.destroyBullet(0);
+      return;
+    }
+    newDir.set(this.dir);
+    vec3_exports.scale(newDir, newDir, this.correctedSpeed);
+    vec3_exports.add(this.position, this.position, newDir);
+    this.object.setPositionLocal(this.position);
+    let overlaps = this.collision.queryOverlaps();
+    for (let i = 0; i < overlaps.length; ++i) {
+      this.destroyBullet(0);
+      return;
+    }
+  }
+  destroyBullet(time) {
+    if (time == 0) {
+      this.object.destroy();
+    } else {
+      setTimeout(() => {
+        this.object.destroy();
+      }, time);
+    }
+  }
+};
+__publicField(ProjectilePhysics, "TypeName", "projectile-physics");
+__publicField(ProjectilePhysics, "Properties", {
+  speed: { type: Type.Float, default: 9 }
+});
+
+// js/projectile-spawner.js
+var tempquat2 = new Float32Array(8);
+var ProjectileSpawner = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(ProjectilePhysics);
+  }
+  init() {
+    console.log("Projectile spawner new+!");
+    this.timer = 0;
+    this.object.shoot = function(dir) {
+      let projectile = this.spawn();
+      projectile.physics.dir.set(dir);
+      projectile.object.setDirty();
+      projectile.physics.active = true;
+    }.bind(this);
+  }
+  start() {
+    console.log("projectile-spawner");
+  }
+  spawn() {
+    const obj = this.engine.scene.addObject();
+    let mesh = obj.addComponent("mesh", this.object.bulletMesh);
+    mesh.active = true;
+    obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
+    obj.name = "steven";
+    obj.setPositionLocal(this.object.getPositionWorld());
+    const physics = obj.addComponent(ProjectilePhysics, { speed: 0.2 });
+    physics.active = true;
+    return { object: obj, physics };
+  }
+};
+__publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
+
+// js/turret-spawner.js
+var tempQuat23 = new Float32Array(8);
+var TurretSpawner = class extends Component {
+  /// drone turret?
+  init() {
+    this.timer = 0;
+    this.name = "dave";
+    state.turretSpawner = this;
+    state.buildT = function() {
+      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
+        let turret = this.makeTurret();
+        state.spawnedTurrets += 1;
+        state.turrets.push(turret);
+        state.currency -= this.turretCost;
+        state.needsUpdate = true;
+      }
+    }.bind(this);
+  }
+  static onRegister(engine2) {
+    engine2.registerComponent(turretAimer);
+    engine2.registerComponent(ProjectileSpawner);
+  }
+  start() {
+    console.log("start turret spawner");
+  }
+  update(dt) {
+  }
+  makeTurret() {
+    const obj = this.engine.scene.addObject();
+    obj.target = null;
+    obj.shoot = null;
+    obj.cd = this.shootingCD;
+    obj.name = "sam";
+    obj.damage = this.damage;
+    const mesh = obj.addComponent("mesh");
+    mesh.mesh = this.defaultMesh;
+    mesh.material = this.defaultMaterial;
+    obj.bulletMesh = {
+      mesh: this.bulletMesh,
+      material: this.bulletMaterial
+    };
+    obj.addComponent("collision", {
+      collider: WL.Collider.Sphere,
+      extents: [5, 0, 0],
+      group: 1 << 5,
+      // this code is a test to see how to trigger Collision Onhit and onleave that has
+      // some documentation on wonderland, but I cant figre out how to use
+      // IF we can get it working it would make aiming and shooting signifficantly
+      //   more efficient
+      CollisionEventType: 1,
+      active: true
+    });
+    mesh.active = true;
+    const aimer = obj.addComponent(turretAimer);
+    obj.addComponent(ProjectileSpawner);
+    obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
+    const x = new Float32Array(3);
+    obj.setScalingLocal([0.2, 0.4, 0.2]);
+    obj.setRotationLocal([0, 0, 0, 1]);
+    obj.active = true;
+    state.turrets.push(obj);
+    obj.setDirty();
+  }
+};
+__publicField(TurretSpawner, "TypeName", "turret-spawner");
+__publicField(TurretSpawner, "Properties", {
+  defaultMesh: { type: Type.Mesh },
+  defaultMaterial: { type: Type.Material },
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material },
+  shootingCD: { type: Type.Int, default: 1 },
+  damage: { type: Type.Int, default: 20 },
+  turretCost: { type: Type.Int, default: 25 }
+});
+
 // js/uiHandler.js
 var UIHandler = class extends Component {
   static onRegister(engine2) {
@@ -17635,7 +17865,8 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
-engine.registerComponent(BulletSpawner);
+engine.registerComponent(UIHandler2);
+engine.registerComponent(DayNight);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(Ship);
