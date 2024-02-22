@@ -35,48 +35,86 @@ export class Ship extends Component {
     init() {
         state.ship = this;
         state.needsUpdate = true;
-        state.shipHit = function(damage)
-        {
+        state.shipHit = function (damage) {
             this.hull -= damage;
             state.health = this.getHealth();
         }.bind(this);
-        state.purchase = function(selector, amount)
-    {
-        switch (selector)
-        {
-            case 0:
-                state.currency -= amount;
-                this.hull += amount;
-                break;
-            case 1:
-                state.currency -= amount;
-                this.shields += amount;
-                break;
-            case 2:
-                state.currency -= amount;
-                this.scanners += amount;
-                break;
-            case 3:
-                state.currency -= amount;
-                this.autofactories += amount;
-                break;
-            case 4:
-                state.currency -= amount;
-                this.targettingSystems += amount;
-                break;
-            case 5:
-                state.currency -= amount;
-                this.harvestingDroids += amount;
-                break;
-            case 6:
-                state.currency -= amount;
-                this.fuelGenerators += amount;
-                break;
-        }
-    }.bind(this);
-}
-    setHealth() 
-    {
+        state.purchase = function (selector, amount) {
+            switch (selector) {
+                case 0:
+                    this.hull += amount;
+                    state.currency -= amount;
+                    state.turretSpawner.damage += 20;
+                    console.log(state.turretSpawner);
+                    for (let i = 0; i < state.turrets.length; i++) {
+                        console.log(" test", state.turrets[i].damage);
+                        state.turrets[i].damage += 20;
+                    }
+                    state.turretSpawner.damage += 20;
+                    break;
+                case 1:
+                    state.currency -= amount;
+                    state.turretSpawner.damage += 20;
+                    console.log(state.turretSpawner);
+                    for (let i = 0; i < state.turrets.length; i++) {
+                        console.log(" test", state.turrets[i].damage);
+                        state.turrets[i].damage += 20;
+                    }
+                    state.turretSpawner.damage += 20;
+                    this.shields += amount;
+                    break;
+                case 2:
+                    state.currency -= amount;
+                    state.turretSpawner.damage += 20;
+                    console.log(state.turretSpawner);
+                    for (let i = 0; i < state.turrets.length; i++) {
+                        console.log(" test", state.turrets[i].damage);
+                        state.turrets[i].damage += 20;
+                    }
+                    state.turretSpawner.damage += 20;
+                    this.scanners += amount;
+                    break;
+                case 3:
+                    state.currency -= amount;
+                    state.turretSpawner.damage += 20;
+                    console.log(state.turretSpawner);
+                    for (let i = 0; i < state.turrets.length; i++) {
+                        console.log(" test", state.turrets[i].damage);
+                        state.turrets[i].damage += 20;
+                    }
+                    state.turretSpawner.damage += 20;
+                    this.autofactories += amount;
+                    break;
+                case 4:
+                    state.currency -= amount;
+                    state.turretSpawner.damage += 20;
+                    console.log(state.turretSpawner);
+                    for (let i = 0; i < state.turrets.length; i++) {
+                        console.log(" test", state.turrets[i].damage);
+                        state.turrets[i].damage += 20;
+                    }
+                    state.turretSpawner.damage += 20;
+                    this.targettingSystems += amount;
+                    break;
+                case 5:
+                    state.currency -= amount;
+                    state.turretSpawner.damage += 20;
+                    console.log(state.turretSpawner);
+                    for (let i = 0; i < state.turrets.length; i++) {
+                        console.log(" test", state.turrets[i].damage);
+                        state.turrets[i].damage += 20;
+                    }
+                    state.turretSpawner.damage += 20;
+                    this.harvestingDroids += amount;
+                    break;
+                case 6:
+                    state.currency -= amount;
+                    this.fuelGenerators += amount;
+                    break;
+            }
+        }.bind(this);
+    }
+    setHealth() {
         let health = 0;
         return health;
     }

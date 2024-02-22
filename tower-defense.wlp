@@ -2473,31 +2473,55 @@
             },
             "parent": "428"
         },
-        "443": {
-            "name": "Mesh2",
+        "444": {
+            "name": "Mesh.000",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "7",
-                        "material": "283"
-                    },
-                    "active": true
+                        "mesh": "195",
+                        "material": "390"
+                    }
+                },
+                {
+                    "type": "button",
+                    "button": {
+                        "buttonMeshObject": "445",
+                        "hoverMaterial": "203"
+                    }
                 },
                 {
                     "type": "cursor-target"
-                },
-                {
-                    "type": "uiHandler2",
-                    "uiHandler2": {
-                        "panel": "buttons"
-                    }
                 }
             ],
             "translation": [
-                18.7064056,
-                10.7168483,
-                -28.3554725
+                27.8994255,
+                -0.4086523,
+                -13.7275953
+            ],
+            "rotation": [
+                -0.2006887,
+                0.734717,
+                0.3026044,
+                0.5730143
+            ],
+            "scaling": [
+                2.536338,
+                0.9999991,
+                0.9999952
+            ]
+        },
+        "445": {
+            "name": "Button1",
+            "parent": "451",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
             ],
             "rotation": [
                 0.0,
@@ -2506,11 +2530,1993 @@
                 1.0
             ],
             "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "451": {
+            "name": "Button11",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                },
+                {
+                    "type": "damage-up",
+                    "damage-up": {
+                        "buttonMeshObject": "445",
+                        "hoverMaterial": "203"
+                    }
+                }
+            ],
+            "translation": [
+                0.7788156,
+                0.0670797,
+                -0.0548466
+            ],
+            "rotation": [
+                1.7881370695249643e-7,
+                0.0000034,
+                -0.0,
+                1.0
+            ],
+            "scaling": [
                 1.0,
                 1.0,
                 1.0
+            ]
+        },
+        "453": {
+            "name": "Button12",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                },
+                {
+                    "type": "attack-speed-up",
+                    "attack-speed-up": {
+                        "buttonMeshObject": "454",
+                        "hoverMaterial": "22"
+                    }
+                }
             ],
-            "parent": "17"
+            "translation": [
+                0.43244,
+                0.0670797,
+                -0.0547098
+            ],
+            "rotation": [
+                2.980232238769531e-7,
+                0.0000044,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "454": {
+            "name": "Button2",
+            "parent": "453",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "457": {
+            "name": "Button13",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                },
+                {
+                    "type": "attack-range-up",
+                    "attack-range-up": {
+                        "buttonMeshObject": "458",
+                        "hoverMaterial": "25"
+                    }
+                }
+            ],
+            "translation": [
+                0.0159219,
+                0.0670797,
+                -0.0547668
+            ],
+            "rotation": [
+                3.129243850708008e-7,
+                0.0000039,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "458": {
+            "name": "Button3",
+            "parent": "457",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "459": {
+            "name": "Button11",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": "button",
+                    "active": true,
+                    "button": {
+                        "buttonMeshObject": "445",
+                        "hoverMaterial": "203"
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                -0.3238708,
+                0.0670797,
+                -0.0547434
+            ],
+            "rotation": [
+                3.8743019104003906e-7,
+                0.000004,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "460": {
+            "name": "Button1",
+            "parent": "459",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "461": {
+            "name": "Button11",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": "button",
+                    "active": true,
+                    "button": {
+                        "buttonMeshObject": "445",
+                        "hoverMaterial": "203"
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                -0.6723198,
+                0.0670797,
+                -0.054745
+            ],
+            "rotation": [
+                3.8743019104003906e-7,
+                0.000004,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "462": {
+            "name": "Button1",
+            "parent": "461",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     },
     "meshes": {
