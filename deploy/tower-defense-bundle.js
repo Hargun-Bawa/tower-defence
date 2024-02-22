@@ -9840,7 +9840,7 @@ var ARCamera8thwall = class extends Component {
       XR8.XrController.pipelineModule(),
       this
     ]);
-    const config = {
+    const config2 = {
       cameraConfig: {
         direction: XR8.XrConfig.camera().BACK
       },
@@ -9848,7 +9848,7 @@ var ARCamera8thwall = class extends Component {
       allowedDevices: XR8.XrConfig.device().ANY,
       ownRunLoop: false
     };
-    XR8.run(config);
+    XR8.run(config2);
   }
   /**
    * @private
@@ -15388,8 +15388,12 @@ __publicField(Vrm, "Properties", {
 // js/game.js
 var state = {
   EnemySpawner: [],
+  //this is the function that spawns enemeies
   spawn: null,
+  spawnedEnemies: 0,
   currentEnemies: [],
+  maxEnemies: 15,
+  enemiesDestroyed: 0,
   health: 100,
   getHealth: function() {
     return this.health.toString();
@@ -15397,13 +15401,22 @@ var state = {
   getCurrency: function() {
     return this.currency.toString();
   },
-  currUI: null,
   turretSpawner: [],
   turrets: [],
   buildT: null,
-  spawned: 0,
+  spawnedTurrets: 0,
+  maxTurrets: 10,
   currency: 50,
-  needsUpdate: false
+  needsUpdate: false,
+  gameOver: false,
+  selectedTurret: "drone",
+  ship: null,
+  shipHit: null,
+  buildTime: 15,
+  levelUp: null,
+  day: true,
+  pauseEnemies: true,
+  pauseBuilding: false
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15475,6 +15488,144 @@ __publicField(WasdControlsComponent, "Properties", {
   lockY: { type: Type.Bool, default: false },
   /** Object of which the orientation is used to determine forward direction */
   headObject: { type: Type.Object }
+});
+
+// js/bullet-physics.js
+var newDir = new Float32Array(3);
+var BulletPhysics = class extends Component {
+  init() {
+    this.dir = new Float32Array(3);
+    this.position = [0, 0, 0];
+    this.object.getPositionWorld(this.position);
+    this.correctedSpeed = this.speed / 6;
+    this.collision = this.object.getComponent("collision", 0);
+    if (!this.collision) {
+      console.warn(
+        "'bullet-physics' component on object",
+        this.object.name,
+        "requires a collision component"
+      );
+    }
+  }
+  update(dt) {
+    this.object.getPositionWorld(this.position);
+    if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
+      this.destroyBullet(0);
+      return;
+    }
+    if (vec3_exports.length(this.position) > 175) {
+      this.destroyBullet(0);
+      return;
+    }
+    newDir.set(this.dir);
+    vec3_exports.scale(newDir, newDir, this.correctedSpeed);
+    vec3_exports.add(this.position, this.position, newDir);
+    this.object.setPositionLocal(this.position);
+    let overlaps = this.collision.queryOverlaps();
+    for (let i = 0; i < overlaps.length; ++i) {
+      let t = overlaps[i].object.getComponent("score-trigger");
+      if (t && !this.scored) {
+        t.onHit();
+        this.destroyBullet(0);
+        return;
+      }
+    }
+  }
+  destroyBullet(time) {
+    if (time == 0) {
+      this.object.destroy();
+    } else {
+      setTimeout(() => {
+        this.object.destroy();
+      }, time);
+    }
+  }
+};
+__publicField(BulletPhysics, "TypeName", "bullet-physics");
+__publicField(BulletPhysics, "Properties", {
+  speed: { type: Type.Float, default: 1 }
+});
+
+// js/bullet-spawner.js
+var tempQuat22 = new Float32Array(8);
+var BulletSpawner = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(BulletPhysics);
+  }
+  init() {
+    state.launch = function(dir) {
+      let bullet = this.spawnBullet();
+      bullet.object.setTransformLocal(this.object.getTransformWorld(tempQuat22));
+      bullet.object.setDirty();
+      bullet.physics.dir.set(dir);
+      bullet.physics.scored = false;
+      bullet.physics.active = true;
+    }.bind(this);
+  }
+  start() {
+    this.engine.onXRSessionStart.add(this.xrSessionStart.bind(this));
+    this.start = new Float32Array(2);
+    this.bullets = [];
+    this.nextIndex = 0;
+    this.lastShotTime = 0;
+    state.bulletSpawner = this.object;
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      volume: 0.5
+    });
+  }
+  onTouchDown(e) {
+    if (e.inputSource.handedness == "right") {
+      let currentTime = Date.now();
+      let lastShotTimeGap = Math.abs(currentTime - this.lastShotTime);
+      if (lastShotTimeGap > 500) {
+        const dir = [0, 0, 0];
+        this.object.getComponent("cursor").cursorRayObject.getForward(dir);
+        state.launch(dir);
+        this.lastShotTime = currentTime;
+      }
+    }
+  }
+  spawnBullet() {
+    const obj = this.engine.scene.addObject();
+    obj.scaleLocal([0.05, 0.05, 0.05]);
+    obj.addComponent("mesh", {
+      mesh: this.bulletMesh.mesh,
+      material: this.bulletMaterial.material
+    });
+    obj.addComponent("collision", {
+      shape: WL.Collider.Sphere,
+      extents: [0.05, 0, 0],
+      group: 1 << 0
+    });
+    const physics = obj.addComponent(BulletPhysics, {
+      speed: this.bulletSpeed
+    });
+    physics.active = true;
+    return {
+      object: obj,
+      physics
+    };
+  }
+  //vibrates controller for haptic feedback
+  onActivate() {
+    if (!this.engine.xr)
+      return;
+    this.engine.xr.session.addEventListener(
+      "selectstart",
+      this.onTouchDown.bind(this)
+    );
+  }
+  xrSessionStart(session) {
+    if (!this.active)
+      return;
+    session.addEventListener("selectstart", this.onTouchDown.bind(this));
+  }
+};
+__publicField(BulletSpawner, "TypeName", "bullet-spawner");
+__publicField(BulletSpawner, "Properties", {
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material },
+  bulletSpeed: { type: Type.Float, default: 1 }
 });
 
 // js/waypoint-movement.js
@@ -15703,17 +15854,19 @@ var lookAt2 = function() {
 }();
 
 // js/enemy-spawner.js
-var tempQuat22 = new Float32Array(8);
+var tempQuat23 = new Float32Array(8);
 var EnemySpawner = class extends Component {
   // The game file contains the state object, the init function adds a function
   // called spawn to the state file, assigns the calling object as the spawnpoint,
   // and instatniates the timer for spawn delay
   init() {
     this.timer = 0;
+    this.drone = false;
     state.EnemySpawner.push(this);
     this.name = "paul";
     state.spawn = function(object) {
       let enemy = object.spawnEnemy();
+      state.currentEnemies.push(enemy);
     }.bind(this);
   }
   start() {
@@ -15728,7 +15881,7 @@ var EnemySpawner = class extends Component {
   // TODO add a spawntimer function and use that instead of hardcoding the time
   update(dt) {
     this.timer += dt;
-    if (this.timer > 5) {
+    if (this.timer > this.spawnTimer && state.pauseEnemies === false) {
       this.timer = 0;
       state.spawn(this);
     }
@@ -15736,8 +15889,7 @@ var EnemySpawner = class extends Component {
   // TODO add a onHIt function to the object that is spawned 
   spawnEnemy() {
     const obj = this.engine.scene.addObject();
-    state.currentEnemies.push(obj);
-    obj.setTransformLocal(this.object.getTransformWorld(tempQuat22));
+    obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.defaultMesh;
     mesh.material = this.defaultMaterial;
@@ -15748,11 +15900,18 @@ var EnemySpawner = class extends Component {
       group: 1 << 5,
       active: true
     });
+    if (obj.drone) {
+      Float32Array();
+      obj.addComponent(WaypointMovement);
+    }
     obj.walked = 0;
-    obj.health = 50;
+    obj.health = this.defaultHealth;
+    obj.damage = this.defaultDamage;
+    obj.value = this.defaultReward;
     let o = this.object.getComponent(WaypointMovement);
+    o.speed = this.defaultSpeed;
     obj.f = function() {
-      state.health -= 5;
+      state.health -= obj.damage;
       const index = state.currentEnemies.indexOf(obj);
       const x = state.currentEnemies.splice(index, 1);
       state.needsUpdate = true;
@@ -15770,7 +15929,128 @@ __publicField(EnemySpawner, "TypeName", "enemy-spawner");
 __publicField(EnemySpawner, "Properties", {
   defaultMesh: { type: Type.Mesh },
   defaultMaterial: { type: Type.Material },
-  spawnTimer: { type: Type.Int, default: 15 }
+  spawnTimer: { type: Type.Int, default: 5 },
+  defaultHealth: { type: Type.Int, default: 50 },
+  defaultReward: { type: Type.Int, default: 10 },
+  specialRewardChance: { type: Type.Int, default: 1 },
+  defaultSpeed: { type: Type.Float, default: 3 },
+  defaultDamage: { type: Type.Int, default: 5 }
+});
+
+// js/level-tracker.js
+var LevelTracker = class extends Component {
+  init() {
+  }
+  start() {
+    this.timer = 0;
+    state.levelUp = function() {
+      console.log("levelup!");
+      this.level += 1;
+      this.maxEnemies += 10;
+      let spawner = state.EnemySpawner;
+      for (let i = 0; i < state.EnemySpawner.length; i++) {
+        spawner[i].defaultReward += 1;
+      }
+      if (this.level % 2 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultHeath += 25;
+        }
+      }
+      if (this.level % 3 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultDamage += 5;
+        }
+      }
+      if (this.level % 4 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultSpeed += 0.1;
+        }
+      }
+      if (this.level % 5 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].spawnTimer -= 0.3;
+        }
+      }
+    }.bind(this);
+  }
+};
+__publicField(LevelTracker, "TypeName", "level-tracker");
+/* Properties that are configurable in the editor */
+__publicField(LevelTracker, "Properties", {
+  level: { type: Type.Int, default: 1 },
+  timer: { type: Type.Int, default: state.timer },
+  day: { type: Type.Bool, default: true }
+});
+
+// js/ship.js
+var Ship = class extends Component {
+  init() {
+    state.ship = this;
+    state.needsUpdate = true;
+    state.shipHit = function(damage) {
+      this.hull -= damage;
+      state.health = this.getHealth();
+    }.bind(this);
+    state.purchase = function(selector, amount) {
+      switch (selector) {
+        case 0:
+          state.currency -= amount;
+          this.hull += amount;
+          break;
+        case 1:
+          state.currency -= amount;
+          this.shields += amount;
+          break;
+        case 2:
+          state.currency -= amount;
+          this.scanners += amount;
+          break;
+        case 3:
+          state.currency -= amount;
+          this.autofactories += amount;
+          break;
+        case 4:
+          state.currency -= amount;
+          this.targettingSystems += amount;
+          break;
+        case 5:
+          state.currency -= amount;
+          this.harvestingDroids += amount;
+          break;
+        case 6:
+          state.currency -= amount;
+          this.fuelGenerators += amount;
+          break;
+      }
+    }.bind(this);
+  }
+  setHealth() {
+    let health = 0;
+    return health;
+  }
+};
+__publicField(Ship, "TypeName", "ship");
+/// Currency earned from defeating monsters can be invested in the ship
+/// these properties define critical and non critical systems needed to 
+/// repair the ship and escape the planet. when reaching certain values
+/// they also upgrade the users turrets/ personal stats 
+__publicField(Ship, "Properties", {
+  // default health value 
+  // Other values can only be upgraded once hull threshholds are reached
+  /// IE Hull must be level 2 before shields can become level 2 
+  hull: { type: Type.Int, default: 200 },
+  // reduces the amount of damage done by enemies 
+  shields: { type: Type.Int, default: 0 },
+  // increases the attack range of turrets
+  scanners: { type: Type.Int, default: 0 },
+  /// allows for more ( or maybe different ) turrets
+  autofactories: { type: Type.Int, default: 0 },
+  /// Increases attack speed 
+  targettingSystems: { type: Type.Int, default: 0 },
+  /// increases the amount of money earned from killing enemies
+  harvestingDroids: { type: Type.Int, default: 0 },
+  /// Provides more material/ currency 
+  fuelGenerators: { type: Type.Int, default: 0 }
 });
 
 // js/turret-aimer.js
@@ -15781,9 +16061,8 @@ var turretAimer = class extends Component {
   init() {
     this.timer = 0;
     this.hits = 0;
-    console.log(this.object.getComponents());
   }
-  /*
+  /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
   seek() {
       let g = new Float32Array(3);
       this.object.getForwardWorld(g);
@@ -15805,7 +16084,6 @@ var turretAimer = class extends Component {
     const overlaps = collision.queryOverlaps();
     for (const coll of overlaps) {
       if (coll.object.name === "dave") {
-        console.log(coll.object.name);
         if (this.object.target === null || this.object.target.walked < coll.object.walked) {
           this.object.target = coll.object;
         } else {
@@ -15830,12 +16108,13 @@ var turretAimer = class extends Component {
           this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
           if (this.timer > this.object.cd) {
             this.object.shoot(this.object.getForwardWorld(g2));
-            this.object.target.health -= 25;
+            this.object.target.health -= this.object.damage;
             this.timer = 0;
             if (this.object.target.health <= 0) {
+              state.currency += this.object.target.value;
               this.object.target.destroy();
-              state.currency += 10;
               state.needsUpdate = true;
+              state.enemiesDestroyed++;
             }
           }
           fired = true;
@@ -15853,19 +16132,18 @@ __publicField(turretAimer, "TypeName", "turret-aimer");
 __publicField(turretAimer, "Properties", {});
 
 // js/projectile-physics.js
-var newDir = new Float32Array(3);
+var newDir2 = new Float32Array(3);
 var ProjectilePhysics = class extends Component {
   init() {
     this.dir = new Float32Array(3);
     this.position = [0, 0, 0];
-    console.log(this.object);
     this.object.getPositionWorld(this.position);
     this.object.setScalingWorld([0.1, 0.1, 0.1]);
     this.correctedSpeed = this.speed * 5;
     this.collision = this.object.getComponent("collision", 0);
     if (!this.collision) {
       console.warn(
-        "'bullet-physics' component on object",
+        "bullet-physics' component on object",
         this.object.name,
         "requires a collision component"
       );
@@ -15885,20 +16163,18 @@ var ProjectilePhysics = class extends Component {
       this.destroyBullet(0);
       return;
     }
-    newDir.set(this.dir);
-    vec3_exports.scale(newDir, newDir, this.correctedSpeed);
-    vec3_exports.add(this.position, this.position, newDir);
+    newDir2.set(this.dir);
+    vec3_exports.scale(newDir2, newDir2, this.correctedSpeed);
+    vec3_exports.add(this.position, this.position, newDir2);
     this.object.setPositionLocal(this.position);
     let overlaps = this.collision.queryOverlaps();
     for (let i = 0; i < overlaps.length; ++i) {
       this.destroyBullet(0);
-      console.log("HIT");
       return;
     }
   }
   destroyBullet(time) {
     if (time == 0) {
-      console.log("oh");
       this.object.destroy();
     } else {
       setTimeout(() => {
@@ -15933,7 +16209,7 @@ var ProjectileSpawner = class extends Component {
   }
   spawn() {
     const obj = this.engine.scene.addObject();
-    let mesh = obj.addComponent("mesh", this.object.getComponent("mesh"));
+    let mesh = obj.addComponent("mesh", this.object.bulletMesh);
     mesh.active = true;
     obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
     obj.name = "steven";
@@ -15946,16 +16222,19 @@ var ProjectileSpawner = class extends Component {
 __publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
 
 // js/turret-spawner.js
-var tempQuat23 = new Float32Array(8);
+var tempQuat24 = new Float32Array(8);
 var TurretSpawner = class extends Component {
+  /// drone turret?
   init() {
     this.timer = 0;
     this.name = "dave";
     state.turretSpawner = this;
     state.buildT = function() {
-      if (state.currency >= 25) {
+      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
         let turret = this.makeTurret();
-        state.currency -= 25;
+        state.spawnedTurrets += 1;
+        state.turrets.push(turret);
+        state.currency -= this.turretCost;
         state.needsUpdate = true;
       }
     }.bind(this);
@@ -15965,34 +16244,42 @@ var TurretSpawner = class extends Component {
     engine2.registerComponent(ProjectileSpawner);
   }
   start() {
-    console.log("start() turret spawner");
+    console.log("start turret spawner");
   }
   update(dt) {
   }
   makeTurret() {
     const obj = this.engine.scene.addObject();
     obj.target = null;
-    obj.targets = /* @__PURE__ */ new Set();
     obj.shoot = null;
     obj.cd = this.shootingCD;
     obj.name = "sam";
-    obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
-    const x = new Float32Array(3);
-    obj.setScalingLocal([0.2, 0.4, 0.2]);
-    obj.setRotationLocal([0, 0, 0, 1]);
+    obj.damage = this.damage;
     const mesh = obj.addComponent("mesh");
     mesh.mesh = this.defaultMesh;
     mesh.material = this.defaultMaterial;
+    obj.bulletMesh = {
+      mesh: this.bulletMesh,
+      material: this.bulletMaterial
+    };
     obj.addComponent("collision", {
       collider: WL.Collider.Sphere,
       extents: [5, 0, 0],
       group: 1 << 5,
+      // this code is a test to see how to trigger Collision Onhit and onleave that has
+      // some documentation on wonderland, but I cant figre out how to use
+      // IF we can get it working it would make aiming and shooting signifficantly
+      //   more efficient
       CollisionEventType: 1,
       active: true
     });
     mesh.active = true;
     const aimer = obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
+    obj.setTransformLocal(this.object.getTransformWorld(tempQuat24));
+    const x = new Float32Array(3);
+    obj.setScalingLocal([0.2, 0.4, 0.2]);
+    obj.setRotationLocal([0, 0, 0, 1]);
     obj.active = true;
     state.turrets.push(obj);
     obj.setDirty();
@@ -16004,16 +16291,18 @@ __publicField(TurretSpawner, "Properties", {
   defaultMaterial: { type: Type.Material },
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material },
-  shootingCD: { type: Type.Int, default: 2 }
+  shootingCD: { type: Type.Int, default: 1 },
+  damage: { type: Type.Int, default: 20 },
+  turretCost: { type: Type.Int, default: 25 }
 });
 
 // js/CanvasUI.js
 var CanvasKeyboard = class {
   constructor(width, canvasui, lang = "EN") {
-    const config = this.getConfig(lang);
-    config.panelSize = { width, height: width * 0.5 };
-    config.height = 256;
-    config.body = { backgroundColor: "#555" };
+    const config2 = this.getConfig(lang);
+    config2.panelSize = { width, height: width * 0.5 };
+    config2.height = 256;
+    config2.body = { backgroundColor: "#555" };
     const object = WL.scene.addObject();
     object.name = "keyboard";
     const mesh = object.addComponent("mesh");
@@ -16022,7 +16311,7 @@ var CanvasKeyboard = class {
     mesh.material = uimesh.material.clone();
     object.addComponent("cursor-target");
     const content = this.getContent(lang);
-    this.keyboard = new CanvasUI(content, config, object, canvasui.engine);
+    this.keyboard = new CanvasUI(content, config2, object, canvasui.engine);
     this.tmpVec = new Float32Array(3);
     this.hp = state.test();
   }
@@ -16030,7 +16319,7 @@ var CanvasKeyboard = class {
     return this.keyboard.object;
   }
   getConfig(lang) {
-    const config = {};
+    const config2 = {};
     let padding = 10;
     const paddingTop = 20;
     const width = (512 - 2 * padding) / 10 - padding;
@@ -16041,14 +16330,14 @@ var CanvasKeyboard = class {
     let x = padding;
     for (let i = 0; i < 10; i++) {
       const btn = { type: "button", position: { x, y }, width, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i) };
-      config[`btn${i}`] = btn;
+      config2[`btn${i}`] = btn;
       x += width + padding;
     }
     y += height + padding;
     x = padding;
     for (let i = 0; i < 10; i++) {
       const btn = { type: "button", position: { x, y }, width, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 10) };
-      config[`btn${i + 10}`] = btn;
+      config2[`btn${i + 10}`] = btn;
       x += width + padding;
     }
     y += height + padding;
@@ -16056,7 +16345,7 @@ var CanvasKeyboard = class {
     for (let i = 0; i < 9; i++) {
       const w = i == 0 || i == 8 ? width * 1.5 + padding * 0.5 : width;
       const btn = { type: "button", position: { x, y }, width: w, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 20) };
-      config[`btn${i + 20}`] = btn;
+      config2[`btn${i + 20}`] = btn;
       x += w + padding;
     }
     y += height + padding;
@@ -16066,10 +16355,10 @@ var CanvasKeyboard = class {
       const btn = { type: "button", position: { x, y }, width: w, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 30) };
       if (i == 0)
         btn.fontSize = 20;
-      config[`btn${i + 30}`] = btn;
+      config2[`btn${i + 30}`] = btn;
       x += w + padding;
     }
-    return config;
+    return config2;
   }
   getContent(lang, layoutIndex = 0) {
     let content = {};
@@ -16335,7 +16624,7 @@ var CanvasKeyboard = class {
   }
 };
 var CanvasUI = class {
-  constructor(content, config, object, engine2) {
+  constructor(content, config2, object, engine2) {
     const defaultconfig = {
       width: 512,
       height: 512,
@@ -16349,7 +16638,7 @@ var CanvasUI = class {
         borderRadius: 6
       }
     };
-    this.config = config === void 0 ? defaultconfig : config;
+    this.config = config2 === void 0 ? defaultconfig : config2;
     if (this.config.width === void 0)
       this.config.width = 512;
     if (this.config.height === void 0)
@@ -16404,11 +16693,11 @@ var CanvasUI = class {
     this.material = mesh.material;
     this.canvasTexture = new Texture(engine2, this.canvas);
     this.material.flatTexture = this.canvasTexture;
-    if (config.panelSize) {
+    if (config2.panelSize) {
       object.resetScaling();
-      const scale6 = [config.panelSize.width, config.panelSize.height, 0.01];
+      const scale6 = [config2.panelSize.width, config2.panelSize.height, 0.01];
       object.scale(scale6);
-      this.panelSize = config.panelSize;
+      this.panelSize = config2.panelSize;
     } else {
       this.panelSize = { width: 1, height: 1 };
     }
@@ -16421,8 +16710,8 @@ var CanvasUI = class {
       return value.type === "input-text";
     });
     if (inputs.length > 0) {
-      const width = config.panelSize ? config.panelSize.width : 1;
-      const height = config.panelSize ? config.panelSize.height : 1;
+      const width = config2.panelSize ? config2.panelSize.width : 1;
+      const height = config2.panelSize ? config2.panelSize.height : 1;
       let halfheight = height / 2;
       this.keyboard = new CanvasKeyboard(width, this);
       this.getEuler(this.tmpVec, this.object.rotationWorld);
@@ -16456,7 +16745,7 @@ var CanvasUI = class {
       this.config.body.type = "text";
     } else {
       this.content = content;
-      const btns = Object.values(config).filter((value) => {
+      const btns = Object.values(config2).filter((value) => {
         return value.type === "button" || value.overflow === "scroll" || value.type === "input-text";
       });
       if (btns.length > 0) {
@@ -16791,40 +17080,40 @@ var CanvasUI = class {
     context.fillStyle = bgColor;
     context.fillRect(0, 0, this.config.width, this.config.height);
     Object.entries(this.content).forEach(([name, content]) => {
-      const config = this.config[name] !== void 0 ? this.config[name] : this.config.body;
-      const display = config.display !== void 0 ? config.display : "block";
+      const config2 = this.config[name] !== void 0 ? this.config[name] : this.config.body;
+      const display = config2.display !== void 0 ? config2.display : "block";
       if (display !== "none") {
-        const pos = config.position !== void 0 ? config.position : { x: 0, y: 0 };
-        const width = config.width !== void 0 ? config.width : this.config.width;
-        const height = config.height !== void 0 ? config.height : this.config.height;
-        if (config.type == "button" && !content.toLowerCase().startsWith("<path>")) {
-          if (config.borderRadius === void 0)
-            config.borderRadius = 6;
-          if (config.textAlign === void 0)
-            config.textAlign = "center";
+        const pos = config2.position !== void 0 ? config2.position : { x: 0, y: 0 };
+        const width = config2.width !== void 0 ? config2.width : this.config.width;
+        const height = config2.height !== void 0 ? config2.height : this.config.height;
+        if (config2.type == "button" && !content.toLowerCase().startsWith("<path>")) {
+          if (config2.borderRadius === void 0)
+            config2.borderRadius = 6;
+          if (config2.textAlign === void 0)
+            config2.textAlign = "center";
         }
-        this.setClip(config);
+        this.setClip(config2);
         const svgPath = content.toLowerCase().startsWith("<path>");
-        const hover = this.selectedElements[0] !== void 0 && this.selectedElements[0] === config || this.selectedElements[1] !== void 0 && this.selectedElements[1] === config;
-        if (config.backgroundColor !== void 0) {
-          if (hover && config.type == "button" && config.hover !== void 0) {
-            context.fillStyle = config.hover;
+        const hover = this.selectedElements[0] !== void 0 && this.selectedElements[0] === config2 || this.selectedElements[1] !== void 0 && this.selectedElements[1] === config2;
+        if (config2.backgroundColor !== void 0) {
+          if (hover && config2.type == "button" && config2.hover !== void 0) {
+            context.fillStyle = config2.hover;
           } else {
-            context.fillStyle = config.backgroundColor;
+            context.fillStyle = config2.backgroundColor;
           }
           context.fillRect(pos.x, pos.y, width, height);
         }
-        if (config.type == "text" || config.type == "button" || config.type == "input-text") {
+        if (config2.type == "text" || config2.type == "button" || config2.type == "input-text") {
           let stroke = false;
           if (hover) {
-            if (!svgPath && config.type == "button") {
-              context.fillStyle = config.fontColor !== void 0 ? config.fontColor : fontColor;
+            if (!svgPath && config2.type == "button") {
+              context.fillStyle = config2.fontColor !== void 0 ? config2.fontColor : fontColor;
             } else {
-              context.fillStyle = config.hover !== void 0 ? config.hover : config.fontColor !== void 0 ? config.fontColor : fontColor;
+              context.fillStyle = config2.hover !== void 0 ? config2.hover : config2.fontColor !== void 0 ? config2.fontColor : fontColor;
             }
-            stroke = config.hover === void 0;
+            stroke = config2.hover === void 0;
           } else {
-            context.fillStyle = config.fontColor !== void 0 ? config.fontColor : fontColor;
+            context.fillStyle = config2.fontColor !== void 0 ? config2.fontColor : fontColor;
           }
           if (svgPath) {
             const code = content.toUpperCase().substring(6, content.length - 7);
@@ -16843,18 +17132,18 @@ var CanvasUI = class {
             context.rect(pos.x, pos.y, width, height);
             context.stroke();
           }
-        } else if (config.type == "img") {
-          if (config.img === void 0) {
+        } else if (config2.type == "img") {
+          if (config2.img === void 0) {
             this.loadImage(content).then((img) => {
               console.log(`w: ${img.width} | h: ${img.height}`);
-              config.img = img;
+              config2.img = img;
               this.needsUpdate = true;
               this.update();
             }).catch((err) => console.error(err));
           } else {
-            const aspect = config.img.width / config.img.height;
+            const aspect = config2.img.width / config2.img.height;
             const h = width / aspect;
-            context.drawImage(config.img, pos.x, pos.y, width, h);
+            context.drawImage(config2.img, pos.x, pos.y, width, h);
           }
         }
       }
@@ -16945,20 +17234,20 @@ var CanvasUI = class {
     const words = txt.split(" ");
     let line = "";
     const lines = [];
-    const config = this.config[name] !== void 0 ? this.config[name] : this.config.body;
-    const width = config.width !== void 0 ? config.width : this.config.width;
-    const height = config.height !== void 0 ? config.height : this.config.height;
-    const pos = config.position !== void 0 ? config.position : { x: 0, y: 0 };
-    const padding = config.padding !== void 0 ? config.padding : this.config.body.padding !== void 0 ? this.config.body.padding : 10;
-    const paddingTop = config.paddingTop !== void 0 ? config.paddingTop : padding;
-    const paddingLeft = config.paddingLeft !== void 0 ? config.paddingLeft : padding;
-    const paddingBottom = config.paddingBottom !== void 0 ? config.paddingBottom : padding;
-    const paddingRight = config.paddingRight !== void 0 ? config.paddingRight : padding;
+    const config2 = this.config[name] !== void 0 ? this.config[name] : this.config.body;
+    const width = config2.width !== void 0 ? config2.width : this.config.width;
+    const height = config2.height !== void 0 ? config2.height : this.config.height;
+    const pos = config2.position !== void 0 ? config2.position : { x: 0, y: 0 };
+    const padding = config2.padding !== void 0 ? config2.padding : this.config.body.padding !== void 0 ? this.config.body.padding : 10;
+    const paddingTop = config2.paddingTop !== void 0 ? config2.paddingTop : padding;
+    const paddingLeft = config2.paddingLeft !== void 0 ? config2.paddingLeft : padding;
+    const paddingBottom = config2.paddingBottom !== void 0 ? config2.paddingBottom : padding;
+    const paddingRight = config2.paddingRight !== void 0 ? config2.paddingRight : padding;
     const rect = { x: pos.x + paddingLeft, y: pos.y + paddingTop, width: width - paddingLeft - paddingRight, height: height - paddingTop - paddingBottom };
-    const textAlign = config.textAlign !== void 0 ? config.textAlign : this.config.body.textAlign !== void 0 ? this.config.body.textAlign : "left";
-    const fontSize = config.fontSize !== void 0 ? config.fontSize : this.config.body.fontSize !== void 0 ? this.config.body.fontSize : 30;
-    const fontFamily = config.fontFamily !== void 0 ? config.fontFamily : this.config.body.fontFamily !== void 0 ? this.config.body.fontFamily : "Arial";
-    const leading = config.leading !== void 0 ? config.leading : this.config.body.leading !== void 0 ? this.config.body.leading : 8;
+    const textAlign = config2.textAlign !== void 0 ? config2.textAlign : this.config.body.textAlign !== void 0 ? this.config.body.textAlign : "left";
+    const fontSize = config2.fontSize !== void 0 ? config2.fontSize : this.config.body.fontSize !== void 0 ? this.config.body.fontSize : 30;
+    const fontFamily = config2.fontFamily !== void 0 ? config2.fontFamily : this.config.body.fontFamily !== void 0 ? this.config.body.fontFamily : "Arial";
+    const leading = config2.leading !== void 0 ? config2.leading : this.config.body.leading !== void 0 ? this.config.body.leading : 8;
     const lineHeight = fontSize + leading;
     const context = this.context;
     context.textAlign = textAlign;
@@ -16997,20 +17286,20 @@ var CanvasUI = class {
       lines.push(line);
     const textHeight = lines.length * lineHeight;
     let scrollY = 0;
-    if (textHeight > rect.height && config.overflow === "scroll") {
-      if (config.scrollY === void 0)
-        config.scrollY = 0;
-      const fontColor = config.fontColor !== void 0 ? config.fontColor : this.config.body.fontColor;
+    if (textHeight > rect.height && config2.overflow === "scroll") {
+      if (config2.scrollY === void 0)
+        config2.scrollY = 0;
+      const fontColor = config2.fontColor !== void 0 ? config2.fontColor : this.config.body.fontColor;
       context.fillStyle = "#aaa";
       this.fillRoundedRect(pos.x + width - 12, pos.y, 12, height, 6);
       context.fillStyle = "#666";
       const scale6 = rect.height / textHeight;
       const thumbHeight = scale6 * height;
-      const thumbY = -config.scrollY * scale6;
+      const thumbY = -config2.scrollY * scale6;
       this.fillRoundedRect(pos.x + width - 12, pos.y + thumbY, 12, thumbHeight, 6);
       context.fillStyle = fontColor;
-      scrollY = config.scrollY;
-      config.minScrollY = rect.height - textHeight;
+      scrollY = config2.scrollY;
+      config2.minScrollY = rect.height - textHeight;
     }
     let y = scrollY + rect.y + fontSize / 2;
     let x;
@@ -17069,8 +17358,9 @@ var UIHandler = class extends Component {
         break;
     }
   }
+  // this is the code for the Health and currency HUD 
   simplePanel() {
-    const config = {
+    const config2 = {
       body: {
         fontSize: 50,
         type: "text",
@@ -17080,93 +17370,41 @@ var UIHandler = class extends Component {
       }
     };
     const content = { body: "Health: " + state.getHealth() + "\rMoney: " + state.getCurrency() };
-    this.ui = new CanvasUI(content, config, this.object, this.engine);
-    this.ui.updateConfig(this, config.height, 100);
-    let ui = this.ui;
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    this.ui.updateConfig(this, config2.height, 100);
+    let ui2 = this.ui;
   }
   buttonsPanel() {
-    function onPrev() {
-      const msg = "Prev pressed";
+    function defaultTurret() {
+      const msg = "default";
       console.log(msg);
       ui.updateElement("info", msg);
+      state.selectedTurret = "default";
     }
-    function onStop() {
-      const msg = "Stop pressed";
+    function droneTurret() {
+      const msg = "drone";
       console.log(msg);
       ui.updateElement("info", msg);
+      state.selectedTurret = "drone";
     }
-    function onNext() {
-      const msg = "Next pressed";
+    function laser() {
+      const msg = "laser";
       console.log(msg);
       ui.updateElement("info", msg);
+      state.selectedTurret = "laser";
     }
-    function onContinue() {
-      const msg = "Continue pressed";
-      console.log(msg);
-      ui.updateElement("info", msg);
-    }
-    const config = {
-      panelSize: {
-        width: 1,
-        height: 0.25
-      },
-      height: 128,
-      info: {
-        type: "text",
-        position: { left: 6, top: 6 },
-        width: 500,
-        height: 58,
-        backgroundColor: "#aaa",
-        fontColor: "#000"
-      },
-      prev: {
-        type: "button",
-        position: { top: 64, left: 0 },
-        width: 64,
-        fontColor: "#bb0",
-        hover: "#ff0",
-        onSelect: onPrev
-      },
-      stop: {
-        type: "button",
-        position: { top: 64, left: 64 },
-        width: 64,
-        fontColor: "#bb0",
-        hover: "#ff0",
-        onSelect: onStop
-      },
-      next: {
-        type: "button",
-        position: { top: 64, left: 128 },
-        width: 64,
-        fontColor: "#bb0",
-        hover: "#ff0",
-        onSelect: onNext
-      },
-      continue: {
-        type: "button",
-        position: { top: 70, right: 10 },
-        width: 200,
-        height: 52,
-        fontColor: "#fff",
-        backgroundColor: "#1bf",
-        hover: "#3df",
-        onSelect: onContinue
-      }
-    };
     const content = {
       info: "",
-      prev: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
-      stop: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
-      next: "<path>M 54 32 L 10 10 L 10 54 Z</path>",
-      continue: "Continue"
+      defaultTurret: "<path>M 10 32 L 54 10 L 54 54 Z</path>",
+      droneTurret: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
+      laser: "<path>M 54 32 L 10 10 L 10 54 Z</path>"
     };
-    this.ui = new CanvasUI(content, config, this.object, this.engine);
-    this.ui.update();
-    let ui = this.ui;
+    this.ui2 = new CanvasUI(content, config, this.object, this.engine);
+    this.ui2.update();
+    let ui2 = this.ui2;
   }
   scrollPanel() {
-    const config = {
+    const config2 = {
       body: {
         backgroundColor: "#666"
       },
@@ -17183,12 +17421,12 @@ var UIHandler = class extends Component {
     const content = {
       txt: "This is an example of a scrolling panel. Select it with a controller and move the controller while keeping the select button pressed. In an AR app just press and drag. If a panel is set to scroll and the overflow setting is 'scroll', then a scroll bar will appear when the panel is active. But to scroll you can just drag anywhere on the panel. This is an example of a scrolling panel. Select it with a controller and move the controller while keeping the select button pressed. In an AR app just press and drag. If a panel is set to scroll and the overflow setting is 'scroll', then a scroll bar will appear when the panel is active. But to scroll you can just drag anywhere on the panel."
     };
-    this.ui = new CanvasUI(content, config, this.object, this.engine);
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.update();
-    let ui = this.ui;
+    let ui2 = this.ui;
   }
   imagePanel() {
-    const config = {
+    const config2 = {
       image: {
         type: "img",
         position: { left: 20, top: 20 },
@@ -17203,9 +17441,9 @@ var UIHandler = class extends Component {
       image: "images/promo.png",
       info: "The promo image from the course: Learn to create WebXR, VR and AR, experiences using Wonderland Engine"
     };
-    this.ui = new CanvasUI(content, config, this.object, this.engine);
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.update();
-    let ui = this.ui;
+    let ui2 = this.ui;
   }
   inputTextPanel() {
     function onChanged(txt) {
@@ -17214,7 +17452,7 @@ var UIHandler = class extends Component {
     function onEnter(txt) {
       console.log(`message enter: ${txt}`);
     }
-    const config = {
+    const config2 = {
       panelSize: { width: 1, height: 0.25 },
       height: 128,
       message: {
@@ -17236,7 +17474,7 @@ var UIHandler = class extends Component {
       message: "",
       label: "Select the panel above."
     };
-    this.ui = new CanvasUI(content, config, this.object, this.engine);
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
     const target = this.ui.keyboard.object.getComponent("cursor-target");
     target.addHoverFunction(this.onHoverKeyboard.bind(this));
     target.addUnHoverFunction(this.onUnHoverKeyboard.bind(this));
@@ -17244,7 +17482,7 @@ var UIHandler = class extends Component {
     target.addDownFunction(this.onDown.bind(this));
     target.addUpFunction(this.onUpKeyboard.bind(this));
     this.ui.update();
-    let ui = this.ui;
+    let ui2 = this.ui;
   }
   onHover(_, cursor) {
     if (this.ui) {
@@ -17284,9 +17522,9 @@ var UIHandler = class extends Component {
   onHoverKeyboard(_, cursor) {
     if (!this.ui || !this.ui.keyboard || !this.ui.keyboard.keyboard)
       return;
-    const ui = this.ui.keyboard.keyboard;
-    const xy = ui.worldToCanvas(cursor.cursorPos);
-    ui.hover(0, xy);
+    const ui2 = this.ui.keyboard.keyboard;
+    const xy = ui2.worldToCanvas(cursor.cursorPos);
+    ui2.hover(0, xy);
     if (cursor.type == "finger-cursor") {
       this.onDown(_, cursor);
     }
@@ -17295,9 +17533,9 @@ var UIHandler = class extends Component {
   onMoveKeyboard(_, cursor) {
     if (!this.ui || !this.ui.keyboard || !this.ui.keyboard.keyboard)
       return;
-    const ui = this.ui.keyboard.keyboard;
-    const xy = ui.worldToCanvas(cursor.cursorPos);
-    ui.hover(0, xy);
+    const ui2 = this.ui.keyboard.keyboard;
+    const xy = ui2.worldToCanvas(cursor.cursorPos);
+    ui2.hover(0, xy);
     this.hapticFeedback(cursor.object, 0.5, 50);
   }
   onUpKeyboard(_, cursor) {
@@ -17321,14 +17559,19 @@ var UIHandler = class extends Component {
         gamepad.hapticActuators[0].pulse(strength, duration);
     }
   }
+  // if needsUpdate is called will nilly to update the health and currency, then 
+  // eventually the hud breaks so now any changes to the hud only update when 
+  // changed. 
   update(dt) {
     if (state.needsUpdate === true) {
-      this.ui.content = { body: "Health: " + state.getHealth() + "\r\nMoney: " + state.getCurrency() };
+      this.ui.content = { body: "Health: " + state.getHealth() + "\r\\nMoney: " + state.getCurrency() };
       this.ui.needsUpdate = true;
       state.needsUpdate = false;
     }
     if (this.ui)
       this.ui.update();
+    if (this.ui2)
+      this.ui2.update();
   }
 };
 __publicField(UIHandler, "TypeName", "uiHandler");
@@ -17392,7 +17635,10 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(BulletSpawner);
 engine.registerComponent(EnemySpawner);
+engine.registerComponent(LevelTracker);
+engine.registerComponent(Ship);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);

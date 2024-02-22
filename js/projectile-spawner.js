@@ -23,14 +23,13 @@ export class ProjectileSpawner extends Component {
             projectile.object.setDirty();
             projectile.physics.active = true;
         }.bind(this);
-
     };
     start() {
         console.log("projectile-spawner");
     }
     spawn() {
         const obj = this.engine.scene.addObject();
-        let mesh = obj.addComponent('mesh', this.object.getComponent('mesh'));
+        let mesh = obj.addComponent('mesh', this.object.bulletMesh);
         mesh.active = true;
         obj.addComponent('collision', { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 })
         obj.name = "steven";
@@ -39,8 +38,4 @@ export class ProjectileSpawner extends Component {
         physics.active = true;
         return { object: obj, physics: physics };
     }
-
-
-
-
 }

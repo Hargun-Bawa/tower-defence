@@ -3,9 +3,9 @@
         "14": {
             "name": "Player",
             "translation": [
-                -11.9165182,
-                0.0,
-                -11.0148983
+                27.5282173,
+                -0.7703294,
+                -7.5311474
             ],
             "rotation": [
                 0.0,
@@ -63,16 +63,6 @@
                     "vr-mode-active-switch": {
                         "activateComponents": "in non-VR"
                     }
-                },
-                {
-                    "type": "turret-spawner",
-                    "turret-spawner": {
-                        "defaultMesh": "8",
-                        "defaultMaterial": "25",
-                        "bulletMesh": "9",
-                        "bulletMaterial": "26"
-                    },
-                    "active": false
                 }
             ],
             "translation": [
@@ -98,7 +88,7 @@
             "components": [
                 {
                     "type": "view",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "input",
@@ -131,7 +121,7 @@
             "components": [
                 {
                     "type": "view",
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "input",
@@ -168,12 +158,13 @@
                         "type": "spot",
                         "shadows": false,
                         "color": [
-                            0.3607842,
-                            0.2108112,
-                            0.2108112
+                            1.0,
+                            1.0,
+                            1.0
                         ],
                         "outerAngle": 130.0
-                    }
+                    },
+                    "active": false
                 },
                 {
                     "type": "mesh",
@@ -186,10 +177,10 @@
                     "type": "waypoint-movement",
                     "waypoint-movement": {
                         "pathObject": "304",
-                        "speed": 2.0,
+                        "speed": 5.0,
                         "curveDistance": 0.0
                     },
-                    "active": true
+                    "active": false
                 }
             ],
             "translation": [
@@ -537,6 +528,9 @@
             "components": [
                 {
                     "active": true
+                },
+                {
+                    "type": "bullet-spawner"
                 }
             ]
         },
@@ -1493,15 +1487,6 @@
                 },
                 {
                     "type": "vr-mode-active-switch"
-                },
-                {
-                    "type": "turret-spawner",
-                    "turret-spawner": {
-                        "defaultMesh": "10",
-                        "defaultMaterial": "22",
-                        "bulletMesh": "9",
-                        "bulletMaterial": "26"
-                    }
                 }
             ],
             "translation": [
@@ -1655,7 +1640,7 @@
                 1.0
             ],
             "translation": [
-                1.4901161193847656e-8,
+                0.3157835,
                 -2.1988363,
                 0.0
             ]
@@ -1770,44 +1755,6 @@
                 -0.9255599,
                 5.1605701
             ]
-        },
-        "281": {
-            "name": "Mesh",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "7",
-                        "material": "283"
-                    }
-                },
-                {
-                    "type": "uiHandler",
-                    "uiHandler": {
-                        "panel": "simple"
-                    }
-                },
-                {
-                    "type": "cursor-target"
-                }
-            ],
-            "translation": [
-                9.353197,
-                5.3584237,
-                -14.1777362
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "parent": "17"
         },
         "284": {
             "name": "C",
@@ -2178,19 +2125,6 @@
                 1.0
             ]
         },
-        "303": {
-            "name": "Light.000",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "shadows": false
-                    },
-                    "active": false
-                }
-            ]
-        },
         "304": {
             "name": "Waypoints D",
             "parent": null,
@@ -2236,17 +2170,26 @@
             ]
         },
         "307": {
-            "name": "Light.001",
+            "name": "Sun",
             "parent": null,
             "components": [
                 {
                     "type": "light",
                     "light": {
-                        "type": "spot",
+                        "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 200.0
-                    }
+                        "intensity": 0.8999999,
+                        "color": [
+                            0.9607843,
+                            0.4935794,
+                            0.4935794
+                        ]
+                    },
+                    "active": true
+                },
+                {
+                    "type": "DayNight"
                 }
             ],
             "translation": [
@@ -2305,6 +2248,269 @@
                 1.0,
                 1.0
             ]
+        },
+        "311": {
+            "name": "TurretSpawner",
+            "parent": "205",
+            "components": [
+                {
+                    "type": "turret-spawner",
+                    "turret-spawner": {
+                        "defaultMesh": "11",
+                        "defaultMaterial": "25",
+                        "bulletMesh": "10",
+                        "bulletMaterial": "22",
+                        "shootingCD": 1
+                    }
+                }
+            ],
+            "translation": [
+                0.0,
+                1.727433,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "281": {
+            "name": "Mesh",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "283"
+                    },
+                    "active": true
+                },
+                {
+                    "type": "uiHandler",
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "active": true
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                9.353197,
+                5.3584237,
+                -14.1777362
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "17"
+        },
+        "316": {
+            "name": "Empty.000",
+            "parent": "129",
+            "components": [
+                {
+                    "type": "bullet-spawner",
+                    "bullet-spawner": {
+                        "bulletMesh": "10",
+                        "bulletMaterial": "22"
+                    }
+                }
+            ]
+        },
+        "330": {
+            "name": "Collision.000",
+            "parent": "14",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "sphere": {
+                            "radius": 2.0
+                        }
+                    }
+                }
+            ]
+        },
+        "428": {
+            "link": {
+                "name": "Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "scaling": [
+                0.0199999,
+                0.0199996,
+                0.0199996
+            ],
+            "translation": [
+                29.4239273,
+                1.395123,
+                -15.1753826
+            ],
+            "rotation": [
+                0.6994082,
+                0.1040636,
+                -0.1040637,
+                0.6994065
+            ],
+            "components": [
+                null,
+                null,
+                null,
+                null,
+                {
+                    "type": "ship"
+                },
+                {
+                    "type": "level-tracker"
+                }
+            ]
+        },
+        "429": {
+            "link": {
+                "name": "Mothership tx.001<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "430": {
+            "link": {
+                "name": "Mothership tx.002<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "431": {
+            "link": {
+                "name": "Mothership tx.003<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "432": {
+            "link": {
+                "name": "Mothership tx.004<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "433": {
+            "link": {
+                "name": "Mothership tx.006<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "434": {
+            "link": {
+                "name": "Mothership tx.007<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "435": {
+            "link": {
+                "name": "Mothership tx.010<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "436": {
+            "link": {
+                "name": "Mothership tx.011<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "437": {
+            "link": {
+                "name": "Mothership tx.013<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "438": {
+            "link": {
+                "name": "Mothership tx.015<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "439": {
+            "link": {
+                "name": "Mothership tx.017<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "440": {
+            "link": {
+                "name": "Mothership tx.019<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "441": {
+            "link": {
+                "name": "Mothership tx.023<Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            },
+            "parent": "428"
+        },
+        "443": {
+            "name": "Mesh2",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "283"
+                    },
+                    "active": true
+                },
+                {
+                    "type": "cursor-target"
+                },
+                {
+                    "type": "uiHandler2",
+                    "uiHandler2": {
+                        "panel": "buttons"
+                    }
+                }
+            ],
+            "translation": [
+                18.7064056,
+                10.7168483,
+                -28.3554725
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "17"
         }
     },
     "meshes": {
@@ -2454,6 +2660,210 @@
                 "name": "Cube",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
             }
+        },
+        "394": {
+            "link": {
+                "name": "Mothership tx.001",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "395": {
+            "link": {
+                "name": "Mothership tx.002",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "396": {
+            "link": {
+                "name": "Mothership tx.003",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "397": {
+            "link": {
+                "name": "Mothership tx.003.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "398": {
+            "link": {
+                "name": "Mothership tx.003.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "399": {
+            "link": {
+                "name": "Mothership tx.004",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "400": {
+            "link": {
+                "name": "Mothership tx.004.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "401": {
+            "link": {
+                "name": "Mothership tx.006",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "402": {
+            "link": {
+                "name": "Mothership tx.006.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "403": {
+            "link": {
+                "name": "Mothership tx.007",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "404": {
+            "link": {
+                "name": "Mothership tx.007.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "405": {
+            "link": {
+                "name": "Mothership tx.007.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "406": {
+            "link": {
+                "name": "Mothership tx.007.2",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "407": {
+            "link": {
+                "name": "Mothership tx.010",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "408": {
+            "link": {
+                "name": "Mothership tx.011",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "409": {
+            "link": {
+                "name": "Mothership tx.013",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "410": {
+            "link": {
+                "name": "Mothership tx.013.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "411": {
+            "link": {
+                "name": "Mothership tx.013.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "412": {
+            "link": {
+                "name": "Mothership tx.015",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "413": {
+            "link": {
+                "name": "Mothership tx.015.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "414": {
+            "link": {
+                "name": "Mothership tx.015.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "415": {
+            "link": {
+                "name": "Mothership tx.017",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "416": {
+            "link": {
+                "name": "Mothership tx.017.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "417": {
+            "link": {
+                "name": "Mothership tx.017.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "418": {
+            "link": {
+                "name": "Mothership tx.019",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "419": {
+            "link": {
+                "name": "Mothership tx.019.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "420": {
+            "link": {
+                "name": "Mothership tx.019.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "421": {
+            "link": {
+                "name": "Mothership tx.023",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "422": {
+            "link": {
+                "name": "Mothership tx.023.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "423": {
+            "link": {
+                "name": "Mothership tx.023.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "424": {
+            "link": {
+                "name": "Mothership tx",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "425": {
+            "link": {
+                "name": "Mothership tx.0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "426": {
+            "link": {
+                "name": "Mothership tx.1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "427": {
+            "link": {
+                "name": "Mothership tx.2",
+                "file": "models\\Mothership VF.glb"
+            }
         }
     },
     "textures": {
@@ -2497,6 +2907,174 @@
             "link": {
                 "name": "texture_2",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
+            }
+        },
+        "359": {
+            "link": {
+                "name": "texture_0",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "360": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "361": {
+            "link": {
+                "name": "texture_2",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "362": {
+            "link": {
+                "name": "texture_3",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "363": {
+            "link": {
+                "name": "texture_4",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "364": {
+            "link": {
+                "name": "texture_5",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "365": {
+            "link": {
+                "name": "texture_6",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "366": {
+            "link": {
+                "name": "texture_7",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "367": {
+            "link": {
+                "name": "texture_8",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "368": {
+            "link": {
+                "name": "texture_9",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "369": {
+            "link": {
+                "name": "texture_10",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "370": {
+            "link": {
+                "name": "texture_11",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "371": {
+            "link": {
+                "name": "texture_12",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "372": {
+            "link": {
+                "name": "texture_13",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "373": {
+            "link": {
+                "name": "texture_14",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "374": {
+            "link": {
+                "name": "texture_15",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "375": {
+            "link": {
+                "name": "texture_16",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "376": {
+            "link": {
+                "name": "texture_17",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "377": {
+            "link": {
+                "name": "texture_18",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "378": {
+            "link": {
+                "name": "texture_19",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "379": {
+            "link": {
+                "name": "texture_20",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "380": {
+            "link": {
+                "name": "texture_21",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "381": {
+            "link": {
+                "name": "texture_22",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "382": {
+            "link": {
+                "name": "texture_23",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "383": {
+            "link": {
+                "name": "texture_24",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "384": {
+            "link": {
+                "name": "texture_25",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "385": {
+            "link": {
+                "name": "texture_26",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "386": {
+            "link": {
+                "name": "texture_27",
+                "file": "models\\Mothership VF.glb"
             }
         }
     },
@@ -2557,6 +3135,174 @@
             "link": {
                 "name": "Floor tx.0",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
+            }
+        },
+        "331": {
+            "link": {
+                "name": "White chasis_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "332": {
+            "link": {
+                "name": "White chasis_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "333": {
+            "link": {
+                "name": "White chasis_BaseColor-White chasis_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "334": {
+            "link": {
+                "name": "White chasis_Metallic-White chasis_Roughness",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "335": {
+            "link": {
+                "name": "Ship floor_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "336": {
+            "link": {
+                "name": "Ship floor_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "337": {
+            "link": {
+                "name": "Ship floor_BaseColor-Ship floor_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "338": {
+            "link": {
+                "name": "Ship floor_Metallic-Ship floor_Roughness",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "339": {
+            "link": {
+                "name": "Chasis joint_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "340": {
+            "link": {
+                "name": "Chasis joint_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "341": {
+            "link": {
+                "name": "Chasis joint_BaseColor-Chasis joint_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "342": {
+            "link": {
+                "name": "Chasis joint_Metallic-Chasis joint_Roughness",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "343": {
+            "link": {
+                "name": "Black metallic_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "344": {
+            "link": {
+                "name": "Black metallic_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "345": {
+            "link": {
+                "name": "Black metallic_BaseColor-Black metallic_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "346": {
+            "link": {
+                "name": "Black metallic_Metallic-Black metallic_Roughness",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "347": {
+            "link": {
+                "name": "Orange window_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "348": {
+            "link": {
+                "name": "Orange window_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "349": {
+            "link": {
+                "name": "Orange window_BaseColor-Orange window_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "350": {
+            "link": {
+                "name": "Orange window_Metallic-Orange window_Roughness",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "351": {
+            "link": {
+                "name": "Red metallic_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "352": {
+            "link": {
+                "name": "Red metallic_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "353": {
+            "link": {
+                "name": "Red metallic_BaseColor-Red metallic_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "354": {
+            "link": {
+                "name": "Red metallic_Metallic-Red metallic_Roughness",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "355": {
+            "link": {
+                "name": "Blue mate_Emission",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "356": {
+            "link": {
+                "name": "Blue mate_Normal",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "357": {
+            "link": {
+                "name": "Blue mate_BaseColor-Blue mate_Alpha",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "358": {
+            "link": {
+                "name": "Blue mate_Metallic-Blue mate_Roughness",
+                "file": "models\\Mothership VF.glb"
             }
         }
     },
@@ -2803,6 +3549,48 @@
         "283": {
             "name": "CanvasUI",
             "pipeline": "282"
+        },
+        "387": {
+            "link": {
+                "name": "White chasis",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "388": {
+            "link": {
+                "name": "Ship floor",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "389": {
+            "link": {
+                "name": "Chasis joint",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "390": {
+            "link": {
+                "name": "Black metallic",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "391": {
+            "link": {
+                "name": "Orange window",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "392": {
+            "link": {
+                "name": "Red metallic",
+                "file": "models\\Mothership VF.glb"
+            }
+        },
+        "393": {
+            "link": {
+                "name": "Blue mate",
+                "file": "models\\Mothership VF.glb"
+            }
         }
     },
     "shaders": {
@@ -3271,6 +4059,10 @@
         },
         "270": {
             "fileName": "models/Map_TerrainVF(1) (1).glb",
+            "importerName": ""
+        },
+        "442": {
+            "fileName": "models/Mothership VF.glb",
             "importerName": ""
         }
     },
