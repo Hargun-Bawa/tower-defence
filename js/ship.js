@@ -40,9 +40,7 @@ export class Ship extends Component {
             this.hull -= damage;
             state.health = this.getHealth();
         }.bind(this);
-    }
-
-    purchase(selector, amount) 
+        state.purchase = function(selector, amount)
     {
         switch (selector)
         {
@@ -75,7 +73,8 @@ export class Ship extends Component {
                 this.fuelGenerators += amount;
                 break;
         }
-    }
+    }.bind(this);
+}
     setHealth() 
     {
         let health = 0;

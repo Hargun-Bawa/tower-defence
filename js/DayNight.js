@@ -76,6 +76,8 @@ export class DayNight extends Component {
                 }
 
                 if (this.r == 1) { // light out again
+                    console.log("levelup!");
+                    state.levelUp();
                     this.temp = 1;
                     this.timer1 = 0;
                     this.timer2 = 0;

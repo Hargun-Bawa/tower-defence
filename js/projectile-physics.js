@@ -33,7 +33,6 @@ export class ProjectilePhysics extends Component {
         // Sets position, scale, speed, and gets the collision box of the object
         this.dir = new Float32Array(3);
         this.position = [0, 0, 0];
-        console.log(this.object);
         this.object.getPositionWorld(this.position);
         this.object.setScalingWorld([.1, .1, .1]);
         this.correctedSpeed = this.speed * 5;
@@ -71,7 +70,6 @@ export class ProjectilePhysics extends Component {
         let overlaps = this.collision.queryOverlaps();
         for (let i = 0; i < overlaps.length; ++i) {
             this.destroyBullet(0);
-            console.log("HIT");
             return;
         }
     }

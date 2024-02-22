@@ -15526,6 +15526,8 @@ var DayNight = class extends Component {
           state.pauseBuilding = true;
         }
         if (this.r == 1) {
+          console.log("levelup!");
+          state.levelUp();
           this.temp = 1;
           this.timer1 = 0;
           this.timer2 = 0;
@@ -15623,7 +15625,6 @@ var BulletSpawner = class extends Component {
     this.lastShotTime = 0;
     state.bulletSpawner = this.object;
     this.soundClick = this.object.addComponent(HowlerAudioSource, {
-      src: "sfx/9mm-pistol-shoot-short-reverb-7152.mp3",
       volume: 0.5
     });
   }
@@ -15995,52 +15996,37 @@ __publicField(EnemySpawner, "Properties", {
 var LevelTracker = class extends Component {
   init() {
   }
-  update(dt) {
-    if (this.day) {
-      this.timer += dt;
-      if (this.timer > state.buildTime) {
-        this.timer = 0;
-        state.pauseEnemies = false;
-        state.pauseBuilding = true;
-      }
-    }
-    if (state.enemiesDestroyed >= 2) {
-      this.levelUp();
-      state.currency += this.level * 5;
-      state.enemiesDestroyed = 0;
-      state.maxEnemies += 5;
-      state.pauseEnemies = true;
-      state.pauseBuilding = false;
-    }
-  }
-  levelUp() {
-    console.log("levelup!");
-    this.level += 1;
-    this.maxEnemies += 10;
-    let spawner = state.EnemySpawner;
-    for (let i = 0; i < state.EnemySpawner.length; i++) {
-      spawner[i].defaultReward += 1;
-    }
-    if (this.level % 2 === 0) {
+  start() {
+    this.timer = 0;
+    state.levelUp = function() {
+      console.log("levelup!");
+      this.level += 1;
+      this.maxEnemies += 10;
+      let spawner = state.EnemySpawner;
       for (let i = 0; i < state.EnemySpawner.length; i++) {
-        spawner[i].defaultHeath += 25;
+        spawner[i].defaultReward += 1;
       }
-    }
-    if (this.level % 3 === 0) {
-      for (let i = 0; i < state.EnemySpawner.length; i++) {
-        spawner[i].defaultDamage += 5;
+      if (this.level % 2 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultHeath += 25;
+        }
       }
-    }
-    if (this.level % 4 === 0) {
-      for (let i = 0; i < state.EnemySpawner.length; i++) {
-        spawner[i].defaultSpeed += 0.1;
+      if (this.level % 3 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultDamage += 5;
+        }
       }
-    }
-    if (this.level % 5 === 0) {
-      for (let i = 0; i < state.EnemySpawner.length; i++) {
-        spawner[i].spawnTimer -= 0.3;
+      if (this.level % 4 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].defaultSpeed += 0.1;
+        }
       }
-    }
+      if (this.level % 5 === 0) {
+        for (let i = 0; i < state.EnemySpawner.length; i++) {
+          spawner[i].spawnTimer -= 0.3;
+        }
+      }
+    }.bind(this);
   }
 };
 __publicField(LevelTracker, "TypeName", "level-tracker");
@@ -16060,38 +16046,38 @@ var Ship = class extends Component {
       this.hull -= damage;
       state.health = this.getHealth();
     }.bind(this);
-  }
-  purchase(selector, amount) {
-    switch (selector) {
-      case 0:
-        state.currency -= amount;
-        this.hull += amount;
-        break;
-      case 1:
-        state.currency -= amount;
-        this.shields += amount;
-        break;
-      case 2:
-        state.currency -= amount;
-        this.scanners += amount;
-        break;
-      case 3:
-        state.currency -= amount;
-        this.autofactories += amount;
-        break;
-      case 4:
-        state.currency -= amount;
-        this.targettingSystems += amount;
-        break;
-      case 5:
-        state.currency -= amount;
-        this.harvestingDroids += amount;
-        break;
-      case 6:
-        state.currency -= amount;
-        this.fuelGenerators += amount;
-        break;
-    }
+    state.purchase = function(selector, amount) {
+      switch (selector) {
+        case 0:
+          state.currency -= amount;
+          this.hull += amount;
+          break;
+        case 1:
+          state.currency -= amount;
+          this.shields += amount;
+          break;
+        case 2:
+          state.currency -= amount;
+          this.scanners += amount;
+          break;
+        case 3:
+          state.currency -= amount;
+          this.autofactories += amount;
+          break;
+        case 4:
+          state.currency -= amount;
+          this.targettingSystems += amount;
+          break;
+        case 5:
+          state.currency -= amount;
+          this.harvestingDroids += amount;
+          break;
+        case 6:
+          state.currency -= amount;
+          this.fuelGenerators += amount;
+          break;
+      }
+    }.bind(this);
   }
   setHealth() {
     let health = 0;
@@ -16206,7 +16192,6 @@ var ProjectilePhysics = class extends Component {
   init() {
     this.dir = new Float32Array(3);
     this.position = [0, 0, 0];
-    console.log(this.object);
     this.object.getPositionWorld(this.position);
     this.object.setScalingWorld([0.1, 0.1, 0.1]);
     this.correctedSpeed = this.speed * 5;
@@ -16240,7 +16225,6 @@ var ProjectilePhysics = class extends Component {
     let overlaps = this.collision.queryOverlaps();
     for (let i = 0; i < overlaps.length; ++i) {
       this.destroyBullet(0);
-      console.log("HIT");
       return;
     }
   }

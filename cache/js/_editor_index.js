@@ -2,6 +2,8 @@ import * as __wonderlandengine_components from '@wonderlandengine/components';
 _registerEditor(__wonderlandengine_components);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_CanvasUI_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/CanvasUI.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_CanvasUI_js);
+import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_CanvasUI2_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/CanvasUI2.js';
+_registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_CanvasUI2_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_DayNight_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/DayNight.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_DayNight_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_bullet_physics_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/bullet-physics.js';
@@ -30,5 +32,7 @@ import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_turret_spawner_js 
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_turret_spawner_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_uiHandler_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/uiHandler.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_uiHandler_js);
+import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_uiHandler2_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/uiHandler2.js';
+_registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_uiHandler2_js);
 import * as _C__Users_hgnba_Documents_GitHub_tower_defence_js_waypoint_movement_js from 'C:/Users/hgnba/Documents/GitHub/tower-defence/js/waypoint-movement.js';
 _registerEditor(_C__Users_hgnba_Documents_GitHub_tower_defence_js_waypoint_movement_js);

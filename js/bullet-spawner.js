@@ -36,14 +36,11 @@ export class BulletSpawner extends Component {
     init() {
         state.launch = function (dir) {
             let bullet = this.spawnBullet();
-
             bullet.object.setTransformLocal(this.object.getTransformWorld(tempQuat2));
             bullet.object.setDirty();
             bullet.physics.dir.set(dir);
-
             bullet.physics.scored = false;
             bullet.physics.active = true;
-
         }.bind(this);
     }
 
@@ -57,7 +54,6 @@ export class BulletSpawner extends Component {
 
         state.bulletSpawner = this.object;
         this.soundClick = this.object.addComponent(HowlerAudioSource, {
-            src: "sfx/9mm-pistol-shoot-short-reverb-7152.mp3",
             volume: 0.5,
         });
     }
