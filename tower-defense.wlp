@@ -1,57 +1,5 @@
 {
     "objects": {
-        "21": {
-            "name": "Light",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "intensity": 1111.0,
-                        "type": "spot",
-                        "shadows": false,
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "outerAngle": 130.0
-                    },
-                    "active": false
-                },
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "9",
-                        "material": "25"
-                    }
-                },
-                {
-                    "type": "waypoint-movement",
-                    "waypoint-movement": {
-                        "pathObject": "304",
-                        "speed": 5.0,
-                        "curveDistance": 0.0
-                    },
-                    "active": false
-                }
-            ],
-            "translation": [
-                0.8867278,
-                27.6359672,
-                2.0
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
         "208": {
             "link": {
                 "name": "TeleportIndicator",
@@ -69,9 +17,9 @@
                 1.0
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.2,
+                0.2,
+                0.2
             ],
             "components": [
                 {
@@ -106,51 +54,6 @@
                 39.9962882,
                 31.8563499,
                 28.2387142
-            ]
-        },
-        "272": {
-            "link": {
-                "name": "Ground",
-                "file": "models\\Map_TerrainVF(1) (1).glb"
-            },
-            "components": [
-                {
-                    "active": true
-                },
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                40.0,
-                                1.0,
-                                28.0
-                            ]
-                        },
-                        "groups": 129
-                    },
-                    "active": true
-                },
-                {
-                    "type": "cursor-target"
-                }
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "translation": [
-                0.3157835,
-                -2.1988363,
-                0.0
             ]
         },
         "273": {
@@ -896,9 +799,17 @@
                 1.0
             ],
             "scaling": [
-                0.9999998,
-                1.0,
-                0.9999998
+                0.2,
+                0.2,
+                0.2
+            ],
+            "components": [
+                {
+                    "type": "wasd-controls",
+                    "wasd-controls": {
+                        "headObject": "17"
+                    }
+                }
             ]
         },
         "205": {
@@ -2279,9 +2190,9 @@
                 1.0
             ],
             "scaling": [
-                0.2,
-                0.2,
-                0.2
+                1.0,
+                1.0,
+                1.0
             ]
         },
         "281": {
@@ -2511,6 +2422,48 @@
                 0.0099999,
                 0.0099999,
                 0.0099999
+            ]
+        },
+        "446": {
+            "name": "Mesh.000",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "264"
+                    }
+                },
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "groups": 0,
+                        "aabb": {
+                            "extents": [
+                                38.6329994,
+                                0.05,
+                                28.5039997
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                -0.751621,
+                -0.8036255,
+                -0.1267206
+            ],
+            "rotation": [
+                0.0037693,
+                0.6992899,
+                0.7148178,
+                -0.0038512
+            ],
+            "scaling": [
+                38.6332206,
+                28.504322,
+                10.0000085
             ]
         }
     },
