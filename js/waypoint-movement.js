@@ -148,6 +148,24 @@ export class WaypointMovement extends Component {
     }
 
     update(dt) {
+        this.object.timer+= dt;
+        if(this.object.timer > 1 && this.object.poisoned === true ) 
+        {
+            this.object.health -= this.object.poisonStack;
+            this.object.poisonStack -=1;
+            if(this.object.health < 0 )
+            {
+                this.object.destroy();
+                state.currency += this.object.value;
+                state.needsUpdate = true;
+            }
+            console.log(this.object.health);
+            this.object.timer = 0;
+            if(this.object.poisonStack < 1)
+            {
+                this.object.poisoned = false;
+            }
+        }
         this.currentLength += dt * this.speed;
         this.object.walked += 1;
         // factor indicates the percentage of how much of a given distance between two points has already been traversed

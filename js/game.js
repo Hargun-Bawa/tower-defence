@@ -7,8 +7,6 @@
 // Music/sound - Ron
 // Levels/increasing difficulty . Maybe a day night cycle to signify increased difficulty? - Hargun
 // Extra types of towers - Hieu
-// Turret UPgrades
-// Hud for turret selection
 // Enemy types - Saul
 // Flying enemy 
 // Boss monster/ seige weapon
@@ -43,7 +41,7 @@ export const state = {
 
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "drone",
+    selectedTurret : "poison",
     ship: null,
     shipHit:null,
     buildTime : 15,
@@ -52,6 +50,9 @@ export const state = {
     day: true,
     pauseEnemies: true,
     pauseBuilding: false,
+
+    poisonMesh: null,
+    defaultMesh: null,
 
 }
  

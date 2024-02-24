@@ -1,6 +1,6 @@
 import { Component, InputComponent, MeshComponent, Object3D, Property } from '@wonderlandengine/api';
 import { CursorTarget, HowlerAudioSource } from '@wonderlandengine/components';
-import {state } from "./game.js";
+import {state } from "../game.js";
 
 /**
  * Helper function to trigger haptic feedback pulse.
@@ -30,8 +30,8 @@ export function hapticFeedback(object, strength, duration) {
  *
  * Supports interaction with `finger-cursor` component for hand tracking.
  */
-export class DamageUp extends Component {
-    static TypeName = 'damage-up';
+export class ButtonComponent extends Component {
+    static TypeName = 'button';
     static Properties = {
         /** Object that has the button's mesh attached */
         buttonMeshObject: Property.object(),
@@ -99,8 +99,9 @@ export class DamageUp extends Component {
         state.currency -= 50;
         state.needsUpdate = true;
         for(let i = 0; i < state.turrets.length; i++){
+            console.log(" test", state.turrets[i].damage);
 
-            state.purchase(0, 50);
+            state.turrets[i].damage *= 2 ;
         }
     }
 

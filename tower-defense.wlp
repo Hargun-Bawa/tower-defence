@@ -1607,7 +1607,10 @@
             },
             "components": [
                 {
-                    "active": true
+                    "active": true,
+                    "mesh": {
+                        "mesh": "7"
+                    }
                 },
                 {
                     "type": "collision",
@@ -1629,20 +1632,20 @@
                 }
             ],
             "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
+                0.4999994,
+                0.5000005,
+                0.5000005,
+                -0.4999995
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                42.9296531,
+                44.2256431,
+                0.9999995
             ],
             "translation": [
-                0.3157835,
-                -2.1988363,
-                0.0
+                -2.2826962,
+                -0.8187477,
+                13.4163818
             ]
         },
         "273": {
@@ -1674,7 +1677,7 @@
                         "defaultMesh": "10",
                         "defaultMaterial": "26",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 20
                     },
                     "active": true
                 },
@@ -1827,7 +1830,7 @@
                         "movement": "275",
                         "spawnTimer": 3
                     },
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "waypoint-movement",
@@ -1979,7 +1982,7 @@
                         "movement": "275",
                         "spawnTimer": 3
                     },
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "waypoint-movement",
@@ -2260,7 +2263,11 @@
                         "defaultMaterial": "25",
                         "bulletMesh": "10",
                         "bulletMaterial": "22",
-                        "shootingCD": 1
+                        "shootingCD": 1,
+                        "droneMesh": "9",
+                        "droneMaterial": "26",
+                        "poisonMesh": "9",
+                        "poisonMaterial": "26"
                     }
                 }
             ],
@@ -2901,7 +2908,7 @@
                 -0.0548466
             ],
             "rotation": [
-                1.7881370695249643e-7,
+                1.7881370695249648e-7,
                 0.0000034,
                 -0.0,
                 1.0
@@ -3715,7 +3722,7 @@
             ]
         },
         "459": {
-            "name": "Button11",
+            "name": "Button14",
             "parent": "444",
             "components": [
                 {
@@ -3736,7 +3743,7 @@
                     "active": true,
                     "button": {
                         "buttonMeshObject": "445",
-                        "hoverMaterial": "203"
+                        "hoverMaterial": "20"
                     }
                 },
                 {
@@ -4088,7 +4095,7 @@
             ]
         },
         "460": {
-            "name": "Button1",
+            "name": "Button4",
             "parent": "459",
             "components": [
                 {
@@ -4117,7 +4124,7 @@
             ]
         },
         "461": {
-            "name": "Button11",
+            "name": "Button15",
             "parent": "444",
             "components": [
                 {
@@ -4138,7 +4145,7 @@
                     "active": true,
                     "button": {
                         "buttonMeshObject": "445",
-                        "hoverMaterial": "203"
+                        "hoverMaterial": "88"
                     }
                 },
                 {
@@ -4490,7 +4497,7 @@
             ]
         },
         "462": {
-            "name": "Button1",
+            "name": "Button5",
             "parent": "461",
             "components": [
                 {

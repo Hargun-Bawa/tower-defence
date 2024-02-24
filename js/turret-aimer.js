@@ -17,24 +17,6 @@ export class turretAimer extends Component {
         this.timer = 0;
         this.hits = 0;
     }
-    /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
-    seek() {
-        let g = new Float32Array(3);
-        this.object.getForwardWorld(g);
-        let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 1, 1 << 2);
-        let hits = ray.hitCount;
-        this.loc = ray.locations;
-        this.dis = ray.distances;
-        let obs = ray.objects;
-        if (hits > 0) {
-            this.object.target = obs[0];
-            this.object.lookAt(this.object.target.getPositionWorld())
-        }
-        else {
-            this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
-        }
-    }*/
-    
     seek() {
         const collision = this.object.getComponent('collision');
         const overlaps = collision.queryOverlaps();
@@ -70,6 +52,12 @@ export class turretAimer extends Component {
                     if (this.timer > this.object.cd) {
                         this.object.shoot(this.object.getForwardWorld(g));
                         this.object.target.health -= this.object.damage;
+                        if(this.object.status != null )
+                        {
+                            this.object.target.poisoned = true;
+                            this.object.target.poisonStack += 1;
+                            console.log(this.object.target.poisonStack);
+                        }
                         this.timer = 0;
                         if (this.object.target.health <= 0) { state.currency += this.object.target.value; this.object.target.destroy();  state.needsUpdate = true; state.enemiesDestroyed++;}
                     }

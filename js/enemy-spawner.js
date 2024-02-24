@@ -19,7 +19,8 @@ export class EnemySpawner extends Component {
         defaultReward: { type: Type.Int, default: 10},
         specialRewardChance: { type: Type.Int, default : 1},
         defaultSpeed: {type: Type.Float, default: 3.0},
-        defaultDamage : {type :Type.Int, default : 5}
+        defaultDamage : {type :Type.Int, default : 5},
+        poisoned: { type:Type.Bool, default: false},
     };
 
     // The game file contains the state object, the init function adds a function
@@ -65,6 +66,7 @@ export class EnemySpawner extends Component {
         mesh.mesh = this.defaultMesh;
         mesh.material = this.defaultMaterial;
         mesh.active = true;
+        obj.poisoned = false;
         // grants the new enemy object a collision box
 
         obj.addComponent("collision", {
@@ -80,9 +82,12 @@ export class EnemySpawner extends Component {
         }
         // potential distance traveled for enemy selection
         obj.walked = 0;
+        obj.timer = 0;
+        obj.poisonStack = 0;
         obj.health = this.defaultHealth;
         obj.damage = this.defaultDamage;
         obj.value = this.defaultReward;
+    
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
         let o = this.object.getComponent(WaypointMovement);
