@@ -2491,13 +2491,6 @@
                     }
                 },
                 {
-                    "type": "button",
-                    "button": {
-                        "buttonMeshObject": "445",
-                        "hoverMaterial": "203"
-                    }
-                },
-                {
                     "type": "cursor-target"
                 }
             ],
@@ -3742,7 +3735,7 @@
                     "type": "button",
                     "active": true,
                     "button": {
-                        "buttonMeshObject": "445",
+                        "buttonMeshObject": "460",
                         "hoverMaterial": "20"
                     }
                 },
@@ -4144,7 +4137,7 @@
                     "type": "button",
                     "active": true,
                     "button": {
-                        "buttonMeshObject": "445",
+                        "buttonMeshObject": "462",
                         "hoverMaterial": "88"
                     }
                 },

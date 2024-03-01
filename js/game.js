@@ -41,7 +41,7 @@ export const state = {
 
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "poison",
+    selectedTurret : "default",
     ship: null,
     shipHit:null,
     buildTime : 15,
@@ -53,6 +53,27 @@ export const state = {
 
     poisonMesh: null,
     defaultMesh: null,
+
+    attackDamagecost: 50,
+    attackRangeCost: 50,
+    attackSpeedCost: 50,
+    profitUpCost: 50,
+    healthUpCost: 50,
+
+    attackDamage: 10,
+    attackRange: 10,
+    attackSpeed: 10,
+    profitUp: 10,
+    healthUp: 10,
+
+    getAttackDamageCost: function () { return this.attackDamagecost.toString() },
+    getAttackRangeCost: function () { return this.attackRangeCost.toString() },
+    getAttackSpeedCost: function () { return this.attackSpeedCost.toString() },
+    getProfitUpCost: function () { return this.profitUpCost.toString() },
+    getHealthUpCost: function () { return this.healthUpCost.toString() },
+
+
+
 
 }
  

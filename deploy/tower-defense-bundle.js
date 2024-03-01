@@ -15409,7 +15409,7 @@ var state = {
   currency: 50,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "poison",
+  selectedTurret: "default",
   ship: null,
   shipHit: null,
   buildTime: 15,
@@ -15418,7 +15418,32 @@ var state = {
   pauseEnemies: true,
   pauseBuilding: false,
   poisonMesh: null,
-  defaultMesh: null
+  defaultMesh: null,
+  attackDamagecost: 50,
+  attackRangeCost: 50,
+  attackSpeedCost: 50,
+  profitUpCost: 50,
+  healthUpCost: 50,
+  attackDamage: 10,
+  attackRange: 10,
+  attackSpeed: 10,
+  profitUp: 10,
+  healthUp: 10,
+  getAttackDamageCost: function() {
+    return this.attackDamagecost.toString();
+  },
+  getAttackRangeCost: function() {
+    return this.attackRangeCost.toString();
+  },
+  getAttackSpeedCost: function() {
+    return this.attackSpeedCost.toString();
+  },
+  getProfitUpCost: function() {
+    return this.profitUpCost.toString();
+  },
+  getHealthUpCost: function() {
+    return this.healthUpCost.toString();
+  }
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15492,6 +15517,264 @@ __publicField(WasdControlsComponent, "Properties", {
   headObject: { type: Type.Object }
 });
 
+// js/Attack_Range_up.js
+function hapticFeedback(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var ButtonComponent = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback(cursor.object, 1, 20);
+    state.currency -= 50;
+    state.needsUpdate = true;
+    for (let i = 0; i < state.turrets.length; i++) {
+      console.log(" test", state.turrets[i].damage);
+      state.turrets[i].damage *= 2;
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback(cursor.object, 0.3, 50);
+  };
+};
+__publicField(ButtonComponent, "TypeName", "attack-range-up");
+__publicField(ButtonComponent, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material()
+});
+
+// js/Attack_speed_up.js
+function hapticFeedback2(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var ButtonComponent2 = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback2(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback2(cursor.object, 1, 20);
+    state.currency -= 50;
+    state.needsUpdate = true;
+    for (let i = 0; i < state.turrets.length; i++) {
+      console.log(" test", state.turrets[i].damage);
+      state.turrets[i].damage *= 2;
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback2(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback2(cursor.object, 0.3, 50);
+  };
+};
+__publicField(ButtonComponent2, "TypeName", "attack-speed-up");
+__publicField(ButtonComponent2, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material()
+});
+
+// js/DamageUp.js
+function hapticFeedback3(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var DamageUp = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback3(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback3(cursor.object, 1, 20);
+    if (state.currency >= state.attackDamagecost) {
+      state.currency -= state.attackDamageCost;
+      state.attackDamage += 50;
+      state.needsUpdate = true;
+      for (let i = 0; i < state.turrets.length; i++) {
+        state.purchase(0, 50);
+      }
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback3(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback3(cursor.object, 0.3, 50);
+  };
+};
+__publicField(DamageUp, "TypeName", "damage-up");
+__publicField(DamageUp, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material(),
+  cost: { type: Type.Int, default: state.attackDamagecost }
+});
+
 // js/DayNight.js
 var DayNight = class extends Component {
   start() {
@@ -15545,6 +15828,91 @@ __publicField(DayNight, "TypeName", "DayNight");
 __publicField(DayNight, "Properties", {
   dayTimer: { type: Type.Int, default: 3 },
   nightTimer: { type: Type.Int, default: 3 }
+});
+
+// js/button copy 4.js
+function hapticFeedback4(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var ButtonComponent3 = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback4(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback4(cursor.object, 1, 20);
+    state.currency -= 50;
+    state.needsUpdate = true;
+    for (let i = 0; i < state.turrets.length; i++) {
+      console.log(" test", state.turrets[i].damage);
+      state.turrets[i].damage *= 2;
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback4(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback4(cursor.object, 0.3, 50);
+  };
+};
+__publicField(ButtonComponent3, "TypeName", "button");
+__publicField(ButtonComponent3, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material()
 });
 
 // js/bullet-physics.js
@@ -17833,7 +18201,11 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(ButtonComponent);
+engine.registerComponent(ButtonComponent2);
+engine.registerComponent(DamageUp);
 engine.registerComponent(DayNight);
+engine.registerComponent(ButtonComponent3);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);

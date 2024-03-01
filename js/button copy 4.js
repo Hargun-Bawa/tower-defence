@@ -1,6 +1,6 @@
 import { Component, InputComponent, MeshComponent, Object3D, Property } from '@wonderlandengine/api';
 import { CursorTarget, HowlerAudioSource } from '@wonderlandengine/components';
-import {state } from "../game.js";
+import {state } from "./game.js";
 
 /**
  * Helper function to trigger haptic feedback pulse.
