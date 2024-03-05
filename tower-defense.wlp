@@ -53,7 +53,7 @@
                         "cursorRayObject": "212",
                         "cursorObject": "210"
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "howler-audio-listener"
@@ -95,7 +95,7 @@
                     "input": {
                         "type": "eye left"
                     },
-                    "active": false
+                    "active": true
                 }
             ],
             "translation": [
@@ -128,7 +128,7 @@
                     "input": {
                         "type": "eye right"
                     },
-                    "active": false
+                    "active": true
                 }
             ],
             "translation": [
@@ -530,7 +530,11 @@
                     "active": true
                 },
                 {
-                    "type": "bullet-spawner"
+                    "type": "bullet-spawner",
+                    "bullet-spawner": {
+                        "bulletMesh": "9",
+                        "bulletMaterial": "22"
+                    }
                 }
             ]
         },
@@ -688,7 +692,7 @@
                 {
                     "type": "cursor",
                     "cursor": {
-                        "cursorObject": "127",
+                        "cursorObject": "512",
                         "collisionGroup": 0,
                         "cursorRayObject": "209",
                         "cursorRayScalingAxis": "y"
@@ -1461,7 +1465,7 @@
                 {
                     "type": "cursor",
                     "cursor": {
-                        "cursorObject": "215",
+                        "cursorObject": "511",
                         "collisionGroup": 0,
                         "cursorRayObject": "213",
                         "cursorRayScalingAxis": "y"
@@ -1677,7 +1681,7 @@
                         "defaultMesh": "10",
                         "defaultMaterial": "26",
                         "movement": "275",
-                        "spawnTimer": 20
+                        "spawnTimer": 3
                     },
                     "active": true
                 },
@@ -1830,7 +1834,7 @@
                         "movement": "275",
                         "spawnTimer": 3
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "waypoint-movement",
@@ -1982,7 +1986,7 @@
                         "movement": "275",
                         "spawnTimer": 3
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "waypoint-movement",
@@ -2182,12 +2186,13 @@
                         "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 0.8999999,
+                        "intensity": 2.0,
                         "color": [
-                            0.9607843,
-                            0.4935794,
-                            0.4935794
-                        ]
+                            0.9764705,
+                            0.9611533,
+                            0.9611533
+                        ],
+                        "shadows": false
                     },
                     "active": true
                 },
@@ -2259,15 +2264,17 @@
                 {
                     "type": "turret-spawner",
                     "turret-spawner": {
-                        "defaultMesh": "11",
-                        "defaultMaterial": "25",
+                        "defaultMesh": "499",
+                        "defaultMaterial": "489",
                         "bulletMesh": "10",
                         "bulletMaterial": "22",
                         "shootingCD": 1,
                         "droneMesh": "9",
                         "droneMaterial": "26",
                         "poisonMesh": "9",
-                        "poisonMaterial": "26"
+                        "poisonMaterial": "26",
+                        "defaultTurret": "510",
+                        "defaultTurrets": "510"
                     }
                 }
             ],
@@ -2379,7 +2386,9 @@
             "components": [
                 null,
                 null,
-                null,
+                {
+                    "active": true
+                },
                 null,
                 {
                     "type": "ship"
@@ -4517,6 +4526,125 @@
                 0.0,
                 0.0
             ]
+        },
+        "504": {
+            "link": {
+                "name": "Base",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "510",
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.7197146,
+                0.7197146,
+                0.7197146
+            ]
+        },
+        "505": {
+            "link": {
+                "name": "Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "510",
+            "translation": [
+                0.0,
+                -0.2014607,
+                0.0127592
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "TurretBody"
+        },
+        "506": {
+            "link": {
+                "name": "cannon<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "505"
+        },
+        "507": {
+            "link": {
+                "name": "propulser<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "505"
+        },
+        "508": {
+            "link": {
+                "name": "radar<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "505"
+        },
+        "510": {
+            "name": "Turret",
+            "translation": [
+                0.0,
+                -0.8313989,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "components": [
+                {
+                    "type": "default_turret_3D"
+                }
+            ]
+        },
+        "511": {
+            "name": "3DCursorRIght",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "128"
+                    },
+                    "active": false
+                }
+            ]
+        },
+        "512": {
+            "name": "3DCursorLeft",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "128"
+                    },
+                    "active": false
+                }
+            ],
+            "parent": null
         }
     },
     "meshes": {
@@ -4870,6 +4998,78 @@
                 "name": "Mothership tx.2",
                 "file": "models\\Mothership VF.glb"
             }
+        },
+        "492": {
+            "link": {
+                "name": "Base",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "493": {
+            "link": {
+                "name": "Base.0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "494": {
+            "link": {
+                "name": "Base.1",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "495": {
+            "link": {
+                "name": "Base.2",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "496": {
+            "link": {
+                "name": "cannon",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "497": {
+            "link": {
+                "name": "cannon.0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "498": {
+            "link": {
+                "name": "propulser",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "499": {
+            "link": {
+                "name": "radar",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "500": {
+            "link": {
+                "name": "Turret",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "501": {
+            "link": {
+                "name": "Turret.0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "502": {
+            "link": {
+                "name": "Turret.1",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "503": {
+            "link": {
+                "name": "Turret.2",
+                "file": "models\\Turret_1.glb"
+            }
         }
     },
     "textures": {
@@ -5081,6 +5281,78 @@
             "link": {
                 "name": "texture_27",
                 "file": "models\\Mothership VF.glb"
+            }
+        },
+        "475": {
+            "link": {
+                "name": "texture_0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "476": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "477": {
+            "link": {
+                "name": "texture_2",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "478": {
+            "link": {
+                "name": "texture_3",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "479": {
+            "link": {
+                "name": "texture_4",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "480": {
+            "link": {
+                "name": "texture_5",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "481": {
+            "link": {
+                "name": "texture_6",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "482": {
+            "link": {
+                "name": "texture_7",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "483": {
+            "link": {
+                "name": "texture_8",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "484": {
+            "link": {
+                "name": "texture_9",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "485": {
+            "link": {
+                "name": "texture_10",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "486": {
+            "link": {
+                "name": "texture_11",
+                "file": "models\\Turret_1.glb"
             }
         }
     },
@@ -5309,6 +5581,78 @@
             "link": {
                 "name": "Blue mate_Metallic-Blue mate_Roughness",
                 "file": "models\\Mothership VF.glb"
+            }
+        },
+        "463": {
+            "link": {
+                "name": "White case_BaseColor",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "464": {
+            "link": {
+                "name": "Metal_BaseColor",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "465": {
+            "link": {
+                "name": "Metal_Roughness",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "466": {
+            "link": {
+                "name": "circuits_Emission",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "467": {
+            "link": {
+                "name": "circuits_Normal",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "468": {
+            "link": {
+                "name": "circuits_BaseColor-circuits_Alpha",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "469": {
+            "link": {
+                "name": "circuits_Metallic-circuits_Roughness",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "470": {
+            "link": {
+                "name": "red mat_BaseColor",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "471": {
+            "link": {
+                "name": "red mat_Metallic-red mat_Roughness",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "472": {
+            "link": {
+                "name": "fiber_Emission",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "473": {
+            "link": {
+                "name": "fiber_Normal",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "474": {
+            "link": {
+                "name": "fiber_BaseColor-fiber_Alpha",
+                "file": "models\\Turret_1.glb"
             }
         }
     },
@@ -5596,6 +5940,36 @@
             "link": {
                 "name": "Blue mate",
                 "file": "models\\Mothership VF.glb"
+            }
+        },
+        "487": {
+            "link": {
+                "name": "White case",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "488": {
+            "link": {
+                "name": "Metal",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "489": {
+            "link": {
+                "name": "circuits",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "490": {
+            "link": {
+                "name": "red mat",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "491": {
+            "link": {
+                "name": "fiber",
+                "file": "models\\Turret_1.glb"
             }
         }
     },
@@ -6069,6 +6443,10 @@
         },
         "442": {
             "fileName": "models/Mothership VF.glb",
+            "importerName": ""
+        },
+        "509": {
+            "fileName": "models/Turret_1.glb",
             "importerName": ""
         }
     },

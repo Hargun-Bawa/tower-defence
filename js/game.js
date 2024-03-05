@@ -66,6 +66,8 @@ export const state = {
     profitUp: 10,
     healthUp: 10,
 
+    defaultTurret3D: null,
+
     getAttackDamageCost: function () { return this.attackDamagecost.toString() },
     getAttackRangeCost: function () { return this.attackRangeCost.toString() },
     getAttackSpeedCost: function () { return this.attackSpeedCost.toString() },

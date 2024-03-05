@@ -48,7 +48,7 @@ export class turretAimer extends Component {
             let fired = false;
             for (const coll of overlaps) {
                 if (fired == false && coll.object === this.object.target) {
-                    this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+                    this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
                     if (this.timer > this.object.cd) {
                         this.object.shoot(this.object.getForwardWorld(g));
                         this.object.target.health -= this.object.damage;

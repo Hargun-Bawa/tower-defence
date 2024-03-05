@@ -4,6 +4,7 @@ import { state } from './game';
 import { ProjectileSpawner } from './projectile-spawner';
 import { Default } from './default';
 import { Poison } from './poison';
+import { DefaultTurret3D  } from './default_turret_3D';
 /**
  * turret-spawner
  * this code will allow the player to spawn turrets in the location
@@ -21,6 +22,9 @@ export class TurretSpawner extends Component {
         shootingCD: { type: Type.Int, default: 1 },
         damage: { type: Type.Int, default: 20 },
         turretCost: { type: Type.Int, default: 25 },
+        defaultTurret: { type: Type.Object},
+        defaultBase: {type: Type.Object},
+
     };
 
 
@@ -31,7 +35,7 @@ export class TurretSpawner extends Component {
         this.name = 'dave';
         this.makeTurret = null;
         state.turretSpawner = this;
-        state.defaultMesh = new Component("mesh", { mesh: this.defaultMesh, material: this.defaultMaterial });
+        state.defaultMesh = new Component("Object", { mesh: this.defaultMesh, material: this.defaultMaterial });
         state.poisonMesh = new Component("mesh", { mesh: this.poisonMesh, material: this.poisonMaterial });
         state.buildT = function () {
             if (state.currency >= this.turretCost && state.pauseBuilding === false) {
