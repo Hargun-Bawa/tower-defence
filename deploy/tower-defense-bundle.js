@@ -16372,7 +16372,7 @@ __publicField(EnemySpawner, "TypeName", "enemy-spawner");
 __publicField(EnemySpawner, "Properties", {
   defaultMesh: { type: Type.Mesh },
   defaultMaterial: { type: Type.Material },
-  spawnTimer: { type: Type.Int, default: 5 },
+  spawnTimer: { type: Type.Float, default: 3 },
   defaultHealth: { type: Type.Int, default: 50 },
   defaultReward: { type: Type.Int, default: 10 },
   specialRewardChance: { type: Type.Int, default: 1 },

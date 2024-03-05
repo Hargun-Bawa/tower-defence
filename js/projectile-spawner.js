@@ -4,7 +4,8 @@ import { state } from './game'
 /**
  * projectile-spawner
  */
-const tempquat2 = new Float32Array(8);
+// Removed the unused variable declaration
+// const tempquat2 = new Float32Array(8);
 export class ProjectileSpawner extends Component {
     static TypeName = 'projectile-spawner';
 

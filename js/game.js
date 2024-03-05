@@ -14,7 +14,7 @@
 // terrain collision
 // Turrets spawn at cursor instead of where player is standing 
 // Off limit building paths
-// See through/semi transparent hud 
+// See through/semi transparent hud
 
 // onHOver?  cursor hover for upgrade details for individual towers?
 // alternatively, 
