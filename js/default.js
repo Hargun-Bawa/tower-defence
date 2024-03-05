@@ -2,6 +2,7 @@ import {Component, Property, Type} from '@wonderlandengine/api';
 import { turretAimer  } from './turret-aimer';
 import { ProjectileSpawner } from './projectile-spawner';
 import {state } from "./game";
+import { DefaultTurret3D } from './default_turret_3D';
 
 /**
  * default
@@ -24,6 +25,7 @@ export class Default extends Component {
     static onRegister(engine) {
         engine.registerComponent(turretAimer);
         engine.registerComponent(ProjectileSpawner);
+        engine.registerComponent(DefaultTurret3D);
     }
 
 
@@ -41,12 +43,27 @@ makeTurret(x) {
         obj.target = null;
         obj.shoot = null;
         obj.cd = x.shootingCD;
+        obj.turret = null;
         obj.name = "sam";
         obj.status = null;
         obj.damage = x.damage;
-        const mesh = obj.addComponent('mesh');
-        mesh.mesh = x.defaultMesh;
-        mesh.material = x.defaultMaterial;
+        const newObj = state.defaultTurret3D.object.clone();
+        console.log(newObj);
+        
+        const tes = newObj.children[0].getComponents("mesh");
+        const tes2 = newObj.children[1].getComponents("mesh");
+        obj.turret = obj.addComponent('mesh',
+        {
+            mesh:tes[0].mesh,
+            material: tes[0].material
+        });
+        obj.addComponent("mesh",{ 
+            mesh: tes2[0].mesh,
+            material: tes2[0].material
+   
+        });
+// mesh.mesh = x.defaultMesh;
+        // mesh.material = x.defaultMaterial;
         obj.bulletMesh = {
             mesh: x.bulletMesh,
             material: x.bulletMaterial
@@ -63,11 +80,11 @@ makeTurret(x) {
             active: true,
         });
 
-        mesh.active = true;
+        obj.turret.active = true;
         // aimer is its own named object because of a previous version, it should just be added as
         // obj.addComponent(turretAimer) but that crrrently gives errors
         const aimer = obj.addComponent(turretAimer);
-        obj.addComponent(ProjectileSpawner);
+        obj.addComponent(ProjectileSpawner); 
 
         // Sets tower position, makes it float flat independent of spawn angle, and scale
         obj.setTransformLocal(x.object.getTransformWorld(tempQuat2));

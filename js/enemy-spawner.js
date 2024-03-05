@@ -1,6 +1,7 @@
-import { Component, Type, Property } from '@wonderlandengine/api';
+import { Component, Type, Property, Object3D } from '@wonderlandengine/api';
 import { state } from "./game";
 import { WaypointMovement } from "./waypoint-movement";
+import { DefaultTurret3D } from './default_turret_3D';
 
 
 /**
@@ -91,6 +92,8 @@ export class EnemySpawner extends Component {
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
         let o = this.object.getComponent(WaypointMovement);
+        let t = this.object.getComponents(DefaultTurret3D);
+        console.log(t);
         o.speed = this.defaultSpeed;
 
         //This code is meant to be how we track the health of the enemies, currently not doing anything

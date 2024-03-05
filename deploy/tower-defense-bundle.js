@@ -15429,6 +15429,7 @@ var state = {
   attackSpeed: 10,
   profitUp: 10,
   healthUp: 10,
+  defaultTurret3D: null,
   getAttackDamageCost: function() {
     return this.attackDamagecost.toString();
   },
@@ -15783,41 +15784,30 @@ var DayNight = class extends Component {
   init() {
     this.timer1 = 0;
     this.timer2 = 0;
-    this.temp = 1;
-    this.r = 1;
-    this.g = 1;
-    this.b = 1;
+    this.r = 0.5;
+    this.g = 0.5;
+    this.b = 0.5;
+    this.mod = 5e-3;
   }
   update(dt) {
     this.timer1 += dt;
     let x = new Float32Array(3);
-    if (this.timer1 > this.dayTimer) {
-      if (this.temp > 0.2) {
-        this.r -= 1e-3;
-        this.g -= 1e-3;
-        this.b -= 1e-3;
-        this.temp -= 1e-3;
-        state.day = true;
-        state.pauseBuilding = false;
-        state.pauseEnemies = true;
-      } else {
-        this.timer2 += dt;
-        if (this.timer2 > this.nightTimer) {
-          this.r += 1e-3;
-          this.g += 1e-3;
-          this.b += 1e-3;
-          state.day = false;
-          state.pauseEnemies = false;
-          state.pauseBuilding = true;
-        }
-        if (this.r == 1) {
-          console.log("levelup!");
-          state.levelUp();
-          this.temp = 1;
-          this.timer1 = 0;
-          this.timer2 = 0;
-        }
+    if (this.timer1 > 0.125) {
+      this.r += this.mod;
+      this.g += this.mod;
+      this.b += this.mod;
+      this.timer1 = 0;
+      if (this.r > 1 || this.r < 0.2) {
+        state.day = !state.day;
+        state.pauseEnemies = !state.pauseEnemies;
+        state.pauseBuilding = !state.pauseBuilding;
+        this.mod *= -1;
+        this.r += this.mod * 3;
+        this.g += this.mod * 3;
+        this.b += this.mod * 3;
+        state.levelUp();
       }
+      console.log(this.r);
       x = [this.r, this.g, this.b];
       this.object.getComponent("light").setColor(x);
     }
@@ -15826,8 +15816,7 @@ var DayNight = class extends Component {
 __publicField(DayNight, "TypeName", "DayNight");
 /* Properties that are configurable in the editor */
 __publicField(DayNight, "Properties", {
-  dayTimer: { type: Type.Int, default: 3 },
-  nightTimer: { type: Type.Int, default: 3 }
+  dayTimer: { type: Type.Int, default: 2 }
 });
 
 // js/button copy 4.js
@@ -16051,6 +16040,24 @@ __publicField(BulletSpawner, "Properties", {
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material },
   bulletSpeed: { type: Type.Float, default: 1 }
+});
+
+// js/default_turret_3D.js
+var DefaultTurret3D = class extends Component {
+  start() {
+    state.defaultTurret3D = this;
+  }
+  init() {
+    this.turret = this.object.children[0].getComponent("mesh");
+    this.base = this.object.children[1].getComponent("mesh");
+  }
+  update(dt) {
+  }
+};
+__publicField(DefaultTurret3D, "TypeName", "default_turret_3D");
+/* Properties that are configurable in the editor */
+__publicField(DefaultTurret3D, "Properties", {
+  param: Property.float(1)
 });
 
 // js/waypoint-movement.js
@@ -16352,6 +16359,8 @@ var EnemySpawner = class extends Component {
     obj.damage = this.defaultDamage;
     obj.value = this.defaultReward;
     let o = this.object.getComponent(WaypointMovement);
+    let t = this.object.getComponents(DefaultTurret3D);
+    console.log(t);
     o.speed = this.defaultSpeed;
     obj.f = function() {
       state.health -= obj.damage;
@@ -16574,7 +16583,7 @@ var turretAimer = class extends Component {
       let fired = false;
       for (const coll of overlaps) {
         if (fired == false && coll.object === this.object.target) {
-          this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+          this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
           if (this.timer > this.object.cd) {
             this.object.shoot(this.object.getForwardWorld(g2));
             this.object.target.health -= this.object.damage;
@@ -16706,6 +16715,7 @@ var Default = class extends Component {
   static onRegister(engine2) {
     engine2.registerComponent(turretAimer);
     engine2.registerComponent(ProjectileSpawner);
+    engine2.registerComponent(DefaultTurret3D);
   }
   makeTurret(x) {
     console.log(x);
@@ -16713,12 +16723,25 @@ var Default = class extends Component {
     obj.target = null;
     obj.shoot = null;
     obj.cd = x.shootingCD;
+    obj.turret = null;
     obj.name = "sam";
     obj.status = null;
     obj.damage = x.damage;
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = x.defaultMesh;
-    mesh.material = x.defaultMaterial;
+    const newObj = state.defaultTurret3D.object.clone();
+    console.log(newObj);
+    const tes = newObj.children[0].getComponents("mesh");
+    const tes2 = newObj.children[1].getComponents("mesh");
+    obj.turret = obj.addComponent(
+      "mesh",
+      {
+        mesh: tes[0].mesh,
+        material: tes[0].material
+      }
+    );
+    obj.addComponent("mesh", {
+      mesh: tes2[0].mesh,
+      material: tes2[0].material
+    });
     obj.bulletMesh = {
       mesh: x.bulletMesh,
       material: x.bulletMaterial
@@ -16734,7 +16757,7 @@ var Default = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    mesh.active = true;
+    obj.turret.active = true;
     const aimer = obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat24));
@@ -16817,7 +16840,7 @@ var TurretSpawner = class extends Component {
     this.name = "dave";
     this.makeTurret = null;
     state.turretSpawner = this;
-    state.defaultMesh = new Component("mesh", { mesh: this.defaultMesh, material: this.defaultMaterial });
+    state.defaultMesh = new Component("Object", { mesh: this.defaultMesh, material: this.defaultMaterial });
     state.poisonMesh = new Component("mesh", { mesh: this.poisonMesh, material: this.poisonMaterial });
     state.buildT = function() {
       if (state.currency >= this.turretCost && state.pauseBuilding === false) {
@@ -16859,7 +16882,9 @@ __publicField(TurretSpawner, "Properties", {
   bulletMaterial: { type: Type.Material },
   shootingCD: { type: Type.Int, default: 1 },
   damage: { type: Type.Int, default: 20 },
-  turretCost: { type: Type.Int, default: 25 }
+  turretCost: { type: Type.Int, default: 25 },
+  defaultTurret: { type: Type.Object },
+  defaultBase: { type: Type.Object }
 });
 
 // js/CanvasUI.js
@@ -18207,6 +18232,7 @@ engine.registerComponent(DamageUp);
 engine.registerComponent(DayNight);
 engine.registerComponent(ButtonComponent3);
 engine.registerComponent(BulletSpawner);
+engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(Ship);
