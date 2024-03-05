@@ -92,8 +92,6 @@ export class EnemySpawner extends Component {
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
         let o = this.object.getComponent(WaypointMovement);
-        let t = this.object.getComponents(DefaultTurret3D);
-        console.log(t);
         o.speed = this.defaultSpeed;
 
         //This code is meant to be how we track the health of the enemies, currently not doing anything

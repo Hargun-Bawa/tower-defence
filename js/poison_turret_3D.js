@@ -9,14 +9,9 @@ export class PoisonTurret3D extends Component {
     static Properties = {
         turret: {type: Type.Object},
         base:{type: Type.Object},
+        bulletMesh: {type: Type.Mesh},
+        bulletMaterial: {type: Type.Material}
     };
-
-    start() {
+   start() {
         state.poisonTurret3D = this; }
-    init(){
-        
-    }
-    update(dt) {
-        /* Called every frame. */
-    }
 }

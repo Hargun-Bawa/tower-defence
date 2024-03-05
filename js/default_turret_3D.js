@@ -9,14 +9,10 @@ export class DefaultTurret3D extends Component {
     static Properties = {
         turret: {type: Type.Object},
         base:{type: Type.Object},
+        bulletMesh: {type: Type.Mesh},
+        bulletMaterial: {type: Type.Material}
     };
 
     start() {
         state.defaultTurret3D = this; }
-    init(){
-        
-    }
-    update(dt) {
-        /* Called every frame. */
-    }
 }

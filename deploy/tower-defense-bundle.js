@@ -15409,16 +15409,13 @@ var state = {
   currency: 50,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "poison",
-  ship: null,
+  selectedTurret: "default",
   shipHit: null,
   buildTime: 15,
   levelUp: null,
   day: true,
   pauseEnemies: true,
   pauseBuilding: false,
-  poisonMesh: null,
-  defaultMesh: null,
   attackDamagecost: 50,
   attackRangeCost: 50,
   attackSpeedCost: 50,
@@ -15495,6 +15492,10 @@ var WasdControlsComponent = class extends Component {
       this.left = true;
     } else if (e.keyCode === 69) {
       state.buildT();
+    } else if (e.keyCode === 49) {
+      state.selectedTurret = "default";
+    } else if (e.keyCode === 50) {
+      state.selectedTurret = "posion";
     }
   }
   release(e) {
@@ -15784,7 +15785,6 @@ var DayNight = class extends Component {
   }
   init() {
     this.timer1 = 0;
-    this.timer2 = 0;
     this.r = 0.5;
     this.g = 0.5;
     this.b = 0.5;
@@ -16047,16 +16047,14 @@ var DefaultTurret3D = class extends Component {
   start() {
     state.defaultTurret3D = this;
   }
-  init() {
-  }
-  update(dt) {
-  }
 };
 __publicField(DefaultTurret3D, "TypeName", "default_turret_3D");
 /* Properties that are configurable in the editor */
 __publicField(DefaultTurret3D, "Properties", {
   turret: { type: Type.Object },
-  base: { type: Type.Object }
+  base: { type: Type.Object },
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material }
 });
 
 // js/waypoint-movement.js
@@ -16358,8 +16356,6 @@ var EnemySpawner = class extends Component {
     obj.damage = this.defaultDamage;
     obj.value = this.defaultReward;
     let o = this.object.getComponent(WaypointMovement);
-    let t = this.object.getComponents(DefaultTurret3D);
-    console.log(t);
     o.speed = this.defaultSpeed;
     obj.f = function() {
       state.health -= obj.damage;
@@ -16391,12 +16387,9 @@ __publicField(EnemySpawner, "Properties", {
 
 // js/level-tracker.js
 var LevelTracker = class extends Component {
-  init() {
-  }
   start() {
     this.timer = 0;
     state.levelUp = function() {
-      console.log("levelup!");
       this.level += 1;
       this.maxEnemies += 10;
       let spawner = state.EnemySpawner;
@@ -16439,129 +16432,14 @@ var PoisonTurret3D = class extends Component {
   start() {
     state.poisonTurret3D = this;
   }
-  init() {
-  }
-  update(dt) {
-  }
 };
 __publicField(PoisonTurret3D, "TypeName", "poison_turret_3D");
 /* Properties that are configurable in the editor */
 __publicField(PoisonTurret3D, "Properties", {
   turret: { type: Type.Object },
-  base: { type: Type.Object }
-});
-
-// js/ship.js
-var Ship = class extends Component {
-  init() {
-    state.ship = this;
-    state.needsUpdate = true;
-    state.shipHit = function(damage) {
-      this.hull -= damage;
-      state.health = this.getHealth();
-    }.bind(this);
-    state.purchase = function(selector, amount) {
-      switch (selector) {
-        case 0:
-          this.hull += amount;
-          state.currency -= amount;
-          state.turretSpawner.damage += 20;
-          console.log(state.turretSpawner);
-          for (let i = 0; i < state.turrets.length; i++) {
-            console.log(" test", state.turrets[i].damage);
-            state.turrets[i].damage += 20;
-          }
-          state.turretSpawner.damage += 20;
-          break;
-        case 1:
-          state.currency -= amount;
-          state.turretSpawner.damage += 20;
-          console.log(state.turretSpawner);
-          for (let i = 0; i < state.turrets.length; i++) {
-            console.log(" test", state.turrets[i].damage);
-            state.turrets[i].damage += 20;
-          }
-          state.turretSpawner.damage += 20;
-          this.shields += amount;
-          break;
-        case 2:
-          state.currency -= amount;
-          state.turretSpawner.damage += 20;
-          console.log(state.turretSpawner);
-          for (let i = 0; i < state.turrets.length; i++) {
-            console.log(" test", state.turrets[i].damage);
-            state.turrets[i].damage += 20;
-          }
-          state.turretSpawner.damage += 20;
-          this.scanners += amount;
-          break;
-        case 3:
-          state.currency -= amount;
-          state.turretSpawner.damage += 20;
-          console.log(state.turretSpawner);
-          for (let i = 0; i < state.turrets.length; i++) {
-            console.log(" test", state.turrets[i].damage);
-            state.turrets[i].damage += 20;
-          }
-          state.turretSpawner.damage += 20;
-          this.autofactories += amount;
-          break;
-        case 4:
-          state.currency -= amount;
-          state.turretSpawner.damage += 20;
-          console.log(state.turretSpawner);
-          for (let i = 0; i < state.turrets.length; i++) {
-            console.log(" test", state.turrets[i].damage);
-            state.turrets[i].damage += 20;
-          }
-          state.turretSpawner.damage += 20;
-          this.targettingSystems += amount;
-          break;
-        case 5:
-          state.currency -= amount;
-          state.turretSpawner.damage += 20;
-          console.log(state.turretSpawner);
-          for (let i = 0; i < state.turrets.length; i++) {
-            console.log(" test", state.turrets[i].damage);
-            state.turrets[i].damage += 20;
-          }
-          state.turretSpawner.damage += 20;
-          this.harvestingDroids += amount;
-          break;
-        case 6:
-          state.currency -= amount;
-          this.fuelGenerators += amount;
-          break;
-      }
-    }.bind(this);
-  }
-  setHealth() {
-    let health = 0;
-    return health;
-  }
-};
-__publicField(Ship, "TypeName", "ship");
-/// Currency earned from defeating monsters can be invested in the ship
-/// these properties define critical and non critical systems needed to 
-/// repair the ship and escape the planet. when reaching certain values
-/// they also upgrade the users turrets/ personal stats 
-__publicField(Ship, "Properties", {
-  // default health value 
-  // Other values can only be upgraded once hull threshholds are reached
-  /// IE Hull must be level 2 before shields can become level 2 
-  hull: { type: Type.Int, default: 200 },
-  // reduces the amount of damage done by enemies 
-  shields: { type: Type.Int, default: 0 },
-  // increases the attack range of turrets
-  scanners: { type: Type.Int, default: 0 },
-  /// allows for more ( or maybe different ) turrets
-  autofactories: { type: Type.Int, default: 0 },
-  /// Increases attack speed 
-  targettingSystems: { type: Type.Int, default: 0 },
-  /// increases the amount of money earned from killing enemies
-  harvestingDroids: { type: Type.Int, default: 0 },
-  /// Provides more material/ currency 
-  fuelGenerators: { type: Type.Int, default: 0 }
+  base: { type: Type.Object },
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material }
 });
 
 // js/turret-aimer.js
@@ -16578,7 +16456,6 @@ var turretAimer = class extends Component {
     const overlaps = collision.queryOverlaps();
     for (const coll of overlaps) {
       if (coll.object.name === "dave") {
-        console.log(this.object.target);
         if (this.object.target === null || this.object.target.walked < coll.object.walked) {
           this.object.target = coll.object;
         } else {
@@ -16587,44 +16464,50 @@ var turretAimer = class extends Component {
       }
     }
   }
+  checkStatus() {
+    if (this.object.status != null) {
+      this.object.target.poisoned = true;
+      this.object.target.poisonStack += 1;
+    }
+  }
+  checkDead() {
+    if (this.object.target.health <= 0) {
+      state.currency += this.object.target.value;
+      this.object.target.destroy();
+      state.needsUpdate = true;
+      state.enemiesDestroyed++;
+    }
+  }
+  fire() {
+    let g = new Float32Array(3);
+    const collision = this.object.getComponent("collision");
+    const overlaps = collision.queryOverlaps();
+    let fired = false;
+    for (const coll of overlaps) {
+      if (fired == false && coll.object === this.object.target) {
+        this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+        if (this.timer > this.object.cd) {
+          this.object.shoot(this.object.turret.getForwardWorld(g));
+          this.object.target.health -= this.object.damage;
+          this.checkStatus();
+          this.timer = 0;
+          this.checkDead();
+        }
+        fired = true;
+      }
+    }
+    if (!fired) {
+      this.object.target = null;
+    }
+    ;
+  }
   update(dt) {
     this.timer += dt;
-    let g = new Float32Array(3);
     if (this.object.target == null || this.object.target.objectId < 0) {
       this.seek();
     }
     if (this.object.target && this.object.target.isDestroyed == false) {
-      let g2 = new Float32Array(3);
-      const collision = this.object.getComponent("collision");
-      const overlaps = collision.queryOverlaps();
-      let fired = false;
-      for (const coll of overlaps) {
-        if (fired == false && coll.object === this.object.target) {
-          console.log(this.object.turret);
-          this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
-          if (this.timer > this.object.cd) {
-            this.object.shoot(this.object.turret.getForwardWorld(g2));
-            this.object.target.health -= this.object.damage;
-            if (this.object.status != null) {
-              this.object.target.poisoned = true;
-              this.object.target.poisonStack += 1;
-              console.log(this.object.target.poisonStack);
-            }
-            this.timer = 0;
-            if (this.object.target.health <= 0) {
-              state.currency += this.object.target.value;
-              this.object.target.destroy();
-              state.needsUpdate = true;
-              state.enemiesDestroyed++;
-            }
-          }
-          fired = true;
-        }
-      }
-      if (!fired) {
-        this.object.target = null;
-      }
-      ;
+      this.fire();
     }
   }
 };
@@ -16704,9 +16587,6 @@ var ProjectileSpawner = class extends Component {
       projectile.physics.active = true;
     }.bind(this);
   }
-  start() {
-    console.log("projectile-spawner");
-  }
   spawn() {
     const obj = this.engine.scene.addObject();
     let mesh = obj.addComponent("mesh", this.object.bulletMesh);
@@ -16725,11 +16605,6 @@ __publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
 // js/default.js
 var tempQuat24 = new Float32Array(8);
 var Default = class extends Component {
-  start() {
-    console.log("start() with param", this.param);
-  }
-  update(dt) {
-  }
   static onRegister(engine2) {
     engine2.registerComponent(turretAimer);
     engine2.registerComponent(ProjectileSpawner);
@@ -16739,7 +16614,6 @@ var Default = class extends Component {
     const obj = x.engine.scene.addObject();
     obj.turret = state.defaultTurret3D.turret.clone(obj);
     obj.base = state.defaultTurret3D.base.clone(obj);
-    console.log(obj);
     obj.target = null;
     obj.shoot = null;
     obj.cd = x.shootingCD;
@@ -16747,8 +16621,8 @@ var Default = class extends Component {
     obj.status = null;
     obj.damage = x.damage;
     obj.bulletMesh = {
-      mesh: x.bulletMesh,
-      material: x.bulletMaterial
+      mesh: state.defaultTurret3D.bulletMesh,
+      material: state.defaultTurret3D.bulletMaterial
     };
     obj.addComponent("collision", {
       collider: WL.Collider.Sphere,
@@ -16761,7 +16635,7 @@ var Default = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    const aimer = obj.addComponent(turretAimer);
+    obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat24));
     obj.setScalingLocal([0.2, 0.4, 0.2]);
@@ -16780,11 +16654,6 @@ __publicField(Default, "Properties", {
 // js/poison.js
 var tempQuat25 = new Float32Array(8);
 var Poison = class extends Component {
-  start() {
-    console.log("start() with param", this.param);
-  }
-  update(dt) {
-  }
   static onRegister(engine2) {
     engine2.registerComponent(turretAimer);
     engine2.registerComponent(ProjectileSpawner);
@@ -16816,7 +16685,7 @@ var Poison = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    const aimer = obj.addComponent(turretAimer);
+    obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat25));
     obj.resetRotation();
@@ -16824,7 +16693,6 @@ var Poison = class extends Component {
     obj.active = true;
     state.turrets.push(obj);
     obj.setDirty();
-    obj2.setDirty();
   }
 };
 __publicField(Poison, "TypeName", "poison");
@@ -16870,8 +16738,6 @@ var TurretSpawner = class extends Component {
   start() {
     console.log("start turret spawner");
   }
-  update(dt) {
-  }
 };
 __publicField(TurretSpawner, "TypeName", "turret-spawner");
 __publicField(TurretSpawner, "Properties", {
@@ -16879,8 +16745,6 @@ __publicField(TurretSpawner, "Properties", {
   defaultMaterial: { type: Type.Material },
   poisonMesh: { type: Type.Mesh },
   poisonMaterial: { type: Type.Material },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material },
   shootingCD: { type: Type.Int, default: 1 },
   damage: { type: Type.Int, default: 20 },
   turretCost: { type: Type.Int, default: 25 },
@@ -18237,7 +18101,6 @@ engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(PoisonTurret3D);
-engine.registerComponent(Ship);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);

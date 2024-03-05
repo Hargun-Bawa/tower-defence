@@ -2266,8 +2266,8 @@
                     "turret-spawner": {
                         "defaultMesh": "499",
                         "defaultMaterial": "489",
-                        "bulletMesh": "10",
-                        "bulletMaterial": "22",
+                        "bulletMesh": "9",
+                        "bulletMaterial": "489",
                         "shootingCD": 1,
                         "droneMesh": "9",
                         "droneMaterial": "26",

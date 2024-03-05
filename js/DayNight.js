@@ -16,15 +16,11 @@ export class DayNight extends Component {
 
     init() {
         this.timer1 = 0;
-        this.timer2 = 0;
         this.r = .5;
         this.g = .5;
         this.b = .5;
         this.mod = .005;
     }
-
-
-
     update(dt) {
         this.timer1 += dt;
         let x = new Float32Array(3);

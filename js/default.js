@@ -15,20 +15,11 @@ export class Default extends Component {
         param: Property.float(1.0)
     };
 
-    start() {
-        console.log('start() with param', this.param);
-    }
-
-    update(dt) {
-        /* Called every frame. */
-    }
     static onRegister(engine) {
         engine.registerComponent(turretAimer);
         engine.registerComponent(ProjectileSpawner);
         engine.registerComponent(DefaultTurret3D);
     }
-
-
     makeTurret(x) {
         // adds the object to the scene, and all of the components and meshes
         // and the properties of the turret. 
@@ -41,7 +32,6 @@ export class Default extends Component {
         const obj = x.engine.scene.addObject();
         obj.turret = state.defaultTurret3D.turret.clone(obj);
         obj.base = state.defaultTurret3D.base.clone(obj);
-        console.log(obj);
         // NULL objects for function/property allocation from children
         obj.target = null;
         obj.shoot = null;
@@ -49,29 +39,9 @@ export class Default extends Component {
         obj.name = "sam";
         obj.status = null;
         obj.damage = x.damage;
-
-
-        /*
-        for (const i in tes) {    
-            let tem =obj.addComponent('mesh',
-    tes[i]
-        );
-        tem.active = true;
-        }
-    
-        let tem =obj2.addComponent("mesh",{ 
-            mesh: tes2.mesh,
-            material: tes2.material
-   
-        }
-
-        );
-        */
-        // mesh.mesh = x.defaultMesh;
-        // mesh.material = x.defaultMaterial;
         obj.bulletMesh = {
-            mesh: x.bulletMesh,
-            material: x.bulletMaterial
+            mesh:state.defaultTurret3D.bulletMesh,
+            material: state.defaultTurret3D.bulletMaterial,
         }
         obj.addComponent("collision", {
             collider: WL.Collider.Sphere,
@@ -85,10 +55,9 @@ export class Default extends Component {
             active: true,
         });
 
-        //obj.turret.active = true;
         // aimer is its own named object because of a previous version, it should just be added as
         // obj.addComponent(turretAimer) but that crrrently gives errors
-        const aimer = obj.addComponent(turretAimer);
+        obj.addComponent(turretAimer);
         obj.addComponent(ProjectileSpawner);
 
         // Sets tower position, makes it float flat independent of spawn angle, and scale

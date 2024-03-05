@@ -13,7 +13,6 @@ export class ProjectileSpawner extends Component {
         engine.registerComponent(ProjectilePhysics);
     }
     init() {
-
         // grants the shoot function to the Object3D that projectileSpawner is attatcehd to
         // also sets the physics object that will be attatched to the projectiles, and the direction to be launched
         console.log("Projectile spawner new+!");
@@ -25,10 +24,8 @@ export class ProjectileSpawner extends Component {
             projectile.physics.active = true;
         }.bind(this);
     };
-    start() {
-        console.log("projectile-spawner");
-    }
-    spawn() {
+    spawn() 
+    {
         const obj = this.engine.scene.addObject();
         let mesh = obj.addComponent('mesh', this.object.bulletMesh);
         mesh.active = true;

@@ -41,8 +41,7 @@ export const state = {
 
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "poison",
-    ship: null,
+    selectedTurret : "default",
     shipHit:null,
     buildTime : 15,
 
@@ -50,9 +49,6 @@ export const state = {
     day: true,
     pauseEnemies: true,
     pauseBuilding: false,
-
-    poisonMesh: null,
-    defaultMesh: null,
 
     attackDamagecost: 50,
     attackRangeCost: 50,

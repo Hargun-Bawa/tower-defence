@@ -17,8 +17,6 @@ export class TurretSpawner extends Component {
         defaultMaterial: { type: Type.Material },
         poisonMesh: { type: Type.Mesh },
         poisonMaterial: { type: Type.Material },
-        bulletMesh: { type: Type.Mesh },
-        bulletMaterial: { type: Type.Material },
         shootingCD: { type: Type.Int, default: 1 },
         damage: { type: Type.Int, default: 20 },
         turretCost: { type: Type.Int, default: 25 },
@@ -69,9 +67,5 @@ export class TurretSpawner extends Component {
     }
     start() {
         console.log('start turret spawner');
-    }
-
-    update(dt) {
-        //* eventualy This code should take in a location from the user and build a turret there maybe using a build queue? 
     }
 }
