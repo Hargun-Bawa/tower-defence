@@ -1,10 +1,10 @@
 import {Component, Object3D, Property, Type} from '@wonderlandengine/api';
 import {state } from './game';
 /**
- * default_turret_3D
+ * poison_turret_3D
  */
-export class DefaultTurret3D extends Component {
-    static TypeName = 'default_turret_3D';
+export class PoisonTurret3D extends Component {
+    static TypeName = 'poison_turret_3D';
     /* Properties that are configurable in the editor */
     static Properties = {
         turret: {type: Type.Object},
@@ -12,7 +12,7 @@ export class DefaultTurret3D extends Component {
     };
 
     start() {
-        state.defaultTurret3D = this; }
+        state.poisonTurret3D = this; }
     init(){
         
     }

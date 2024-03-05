@@ -22,6 +22,9 @@ export class turretAimer extends Component {
         const overlaps = collision.queryOverlaps();
         for (const coll of overlaps) {
             if (coll.object.name === "dave") {
+
+
+                console.log(this.object.target);
                 if (this.object.target === null || this.object.target.walked < coll.object.walked) {
                     this.object.target = coll.object;
                 }
@@ -48,9 +51,10 @@ export class turretAimer extends Component {
             let fired = false;
             for (const coll of overlaps) {
                 if (fired == false && coll.object === this.object.target) {
+                    console.log(this.object.turret);
                     this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
                     if (this.timer > this.object.cd) {
-                        this.object.shoot(this.object.getForwardWorld(g));
+                        this.object.shoot(this.object.turret.getForwardWorld(g));
                         this.object.target.health -= this.object.damage;
                         if (this.object.status != null) {
                             this.object.target.poisoned = true;

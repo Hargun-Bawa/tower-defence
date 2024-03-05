@@ -44,7 +44,6 @@ export class DayNight extends Component {
                 this.b += this.mod * 3;
                 state.levelUp();
             }
-            console.log(this.r);
             x = [this.r, this.g, this.b];
             this.object.getComponent('light').setColor(x);
         }

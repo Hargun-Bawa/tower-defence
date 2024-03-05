@@ -4535,7 +4535,7 @@
             "parent": "510",
             "translation": [
                 0.0,
-                0.0,
+                -1.310543,
                 0.0
             ],
             "rotation": [
@@ -4545,9 +4545,9 @@
                 1.0
             ],
             "scaling": [
-                0.7197146,
-                0.7197146,
-                0.7197146
+                0.7197145,
+                0.7197145,
+                0.7197145
             ]
         },
         "505": {
@@ -4558,7 +4558,7 @@
             "parent": "510",
             "translation": [
                 0.0,
-                -0.2014607,
+                -0.760839,
                 0.0127592
             ],
             "rotation": [
@@ -4572,7 +4572,13 @@
                 1.0,
                 1.0
             ],
-            "name": "TurretBody"
+            "name": "TurretBody",
+            "components": [
+                null,
+                null,
+                null,
+                null
+            ]
         },
         "506": {
             "link": {
@@ -4599,7 +4605,7 @@
             "name": "Turret",
             "translation": [
                 0.0,
-                -0.8313989,
+                17.7953186,
                 0.0
             ],
             "rotation": [
@@ -4615,7 +4621,12 @@
             ],
             "components": [
                 {
-                    "type": "default_turret_3D"
+                    "type": "default_turret_3D",
+                    "default_turret_3D": {
+                        "turret": "505",
+                        "base": "504"
+                    },
+                    "active": true
                 }
             ]
         },
@@ -4645,6 +4656,26 @@
                 }
             ],
             "parent": null
+        },
+        "513": {
+            "name": "Empty",
+            "parent": "505",
+            "translation": [
+                0.2400758,
+                1.1466579,
+                -1.0356981
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
         }
     },
     "meshes": {

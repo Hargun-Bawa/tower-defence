@@ -15409,7 +15409,7 @@ var state = {
   currency: 50,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "default",
+  selectedTurret: "poison",
   ship: null,
   shipHit: null,
   buildTime: 15,
@@ -15430,6 +15430,7 @@ var state = {
   profitUp: 10,
   healthUp: 10,
   defaultTurret3D: null,
+  poisonTurret3D: null,
   getAttackDamageCost: function() {
     return this.attackDamagecost.toString();
   },
@@ -15807,7 +15808,6 @@ var DayNight = class extends Component {
         this.b += this.mod * 3;
         state.levelUp();
       }
-      console.log(this.r);
       x = [this.r, this.g, this.b];
       this.object.getComponent("light").setColor(x);
     }
@@ -16048,8 +16048,6 @@ var DefaultTurret3D = class extends Component {
     state.defaultTurret3D = this;
   }
   init() {
-    this.turret = this.object.children[0].getComponent("mesh");
-    this.base = this.object.children[1].getComponent("mesh");
   }
   update(dt) {
   }
@@ -16057,7 +16055,8 @@ var DefaultTurret3D = class extends Component {
 __publicField(DefaultTurret3D, "TypeName", "default_turret_3D");
 /* Properties that are configurable in the editor */
 __publicField(DefaultTurret3D, "Properties", {
-  param: Property.float(1)
+  turret: { type: Type.Object },
+  base: { type: Type.Object }
 });
 
 // js/waypoint-movement.js
@@ -16435,6 +16434,23 @@ __publicField(LevelTracker, "Properties", {
   day: { type: Type.Bool, default: true }
 });
 
+// js/poison_turret_3D.js
+var PoisonTurret3D = class extends Component {
+  start() {
+    state.poisonTurret3D = this;
+  }
+  init() {
+  }
+  update(dt) {
+  }
+};
+__publicField(PoisonTurret3D, "TypeName", "poison_turret_3D");
+/* Properties that are configurable in the editor */
+__publicField(PoisonTurret3D, "Properties", {
+  turret: { type: Type.Object },
+  base: { type: Type.Object }
+});
+
 // js/ship.js
 var Ship = class extends Component {
   init() {
@@ -16562,6 +16578,7 @@ var turretAimer = class extends Component {
     const overlaps = collision.queryOverlaps();
     for (const coll of overlaps) {
       if (coll.object.name === "dave") {
+        console.log(this.object.target);
         if (this.object.target === null || this.object.target.walked < coll.object.walked) {
           this.object.target = coll.object;
         } else {
@@ -16583,9 +16600,10 @@ var turretAimer = class extends Component {
       let fired = false;
       for (const coll of overlaps) {
         if (fired == false && coll.object === this.object.target) {
+          console.log(this.object.turret);
           this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
           if (this.timer > this.object.cd) {
-            this.object.shoot(this.object.getForwardWorld(g2));
+            this.object.shoot(this.object.turret.getForwardWorld(g2));
             this.object.target.health -= this.object.damage;
             if (this.object.status != null) {
               this.object.target.poisoned = true;
@@ -16672,7 +16690,6 @@ __publicField(ProjectilePhysics, "Properties", {
 });
 
 // js/projectile-spawner.js
-var tempquat2 = new Float32Array(8);
 var ProjectileSpawner = class extends Component {
   static onRegister(engine2) {
     engine2.registerComponent(ProjectilePhysics);
@@ -16696,7 +16713,8 @@ var ProjectileSpawner = class extends Component {
     mesh.active = true;
     obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
     obj.name = "steven";
-    obj.setPositionLocal(this.object.getPositionWorld());
+    obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());
+    console.log(this.object.turret);
     const physics = obj.addComponent(ProjectilePhysics, { speed: 0.2 });
     physics.active = true;
     return { object: obj, physics };
@@ -16718,30 +16736,16 @@ var Default = class extends Component {
     engine2.registerComponent(DefaultTurret3D);
   }
   makeTurret(x) {
-    console.log(x);
     const obj = x.engine.scene.addObject();
+    obj.turret = state.defaultTurret3D.turret.clone(obj);
+    obj.base = state.defaultTurret3D.base.clone(obj);
+    console.log(obj);
     obj.target = null;
     obj.shoot = null;
     obj.cd = x.shootingCD;
-    obj.turret = null;
     obj.name = "sam";
     obj.status = null;
     obj.damage = x.damage;
-    const newObj = state.defaultTurret3D.object.clone();
-    console.log(newObj);
-    const tes = newObj.children[0].getComponents("mesh");
-    const tes2 = newObj.children[1].getComponents("mesh");
-    obj.turret = obj.addComponent(
-      "mesh",
-      {
-        mesh: tes[0].mesh,
-        material: tes[0].material
-      }
-    );
-    obj.addComponent("mesh", {
-      mesh: tes2[0].mesh,
-      material: tes2[0].material
-    });
     obj.bulletMesh = {
       mesh: x.bulletMesh,
       material: x.bulletMaterial
@@ -16757,7 +16761,6 @@ var Default = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    obj.turret.active = true;
     const aimer = obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat24));
@@ -16776,7 +16779,6 @@ __publicField(Default, "Properties", {
 
 // js/poison.js
 var tempQuat25 = new Float32Array(8);
-var tempQuat222 = new Float32Array(8);
 var Poison = class extends Component {
   start() {
     console.log("start() with param", this.param);
@@ -16786,20 +16788,19 @@ var Poison = class extends Component {
   static onRegister(engine2) {
     engine2.registerComponent(turretAimer);
     engine2.registerComponent(ProjectileSpawner);
+    engine2.registerComponent(PoisonTurret3D);
   }
   makeTurret(x) {
-    console.log(x);
     const obj = x.engine.scene.addObject();
+    obj.turret = state.poisonTurret3D.turret.clone(obj);
+    obj.base = state.poisonTurret3D.base.clone(obj);
+    console.log(obj);
     obj.target = null;
     obj.shoot = null;
-    obj.cd = x.shootingCD / 2;
+    obj.cd = x.shootingCD;
     obj.name = "sam";
-    obj.damage = 1;
-    obj.status = "poison";
-    obj.anchor = x.object.getTransformWorld(tempQuat222);
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = x.poisonMesh;
-    mesh.material = x.poisonMaterial;
+    obj.status = "poisonTower";
+    obj.damage = x.damage;
     obj.bulletMesh = {
       mesh: x.bulletMesh,
       material: x.bulletMaterial
@@ -16815,18 +16816,18 @@ var Poison = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    mesh.active = true;
     const aimer = obj.addComponent(turretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat25));
+    obj.resetRotation();
     obj.setScalingLocal([0.2, 0.4, 0.2]);
-    obj.setRotationLocal([0, 0, 0, 1]);
     obj.active = true;
     state.turrets.push(obj);
     obj.setDirty();
+    obj2.setDirty();
   }
 };
-__publicField(Poison, "TypeName", "poisonTower");
+__publicField(Poison, "TypeName", "poison");
 /* Properties that are configurable in the editor */
 __publicField(Poison, "Properties", {
   param: Property.float(1)
@@ -18235,6 +18236,7 @@ engine.registerComponent(BulletSpawner);
 engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
+engine.registerComponent(PoisonTurret3D);
 engine.registerComponent(Ship);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
