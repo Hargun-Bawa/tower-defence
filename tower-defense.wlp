@@ -2800,11 +2800,7 @@
                     "type": "cursor-target"
                 },
                 {
-                    "type": "damage-up",
-                    "damage-up": {
-                        "buttonMeshObject": "445",
-                        "hoverMaterial": "203"
-                    }
+                    "type": "button"
                 }
             ],
             "translation": [
@@ -3170,13 +3166,6 @@
                 },
                 {
                     "type": "cursor-target"
-                },
-                {
-                    "type": "attack-speed-up",
-                    "attack-speed-up": {
-                        "buttonMeshObject": "454",
-                        "hoverMaterial": "22"
-                    }
                 }
             ],
             "translation": [
@@ -3571,13 +3560,6 @@
                 },
                 {
                     "type": "cursor-target"
-                },
-                {
-                    "type": "attack-range-up",
-                    "attack-range-up": {
-                        "buttonMeshObject": "458",
-                        "hoverMaterial": "25"
-                    }
                 }
             ],
             "translation": [
@@ -3641,14 +3623,6 @@
                                 0.25
                             ]
                         }
-                    }
-                },
-                {
-                    "type": "button",
-                    "active": true,
-                    "button": {
-                        "buttonMeshObject": "460",
-                        "hoverMaterial": "20"
                     }
                 },
                 {
@@ -4043,14 +4017,6 @@
                                 0.25
                             ]
                         }
-                    }
-                },
-                {
-                    "type": "button",
-                    "active": true,
-                    "button": {
-                        "buttonMeshObject": "462",
-                        "hoverMaterial": "88"
                     }
                 },
                 {

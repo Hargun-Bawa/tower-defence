@@ -31,13 +31,13 @@ export function hapticFeedback(object, strength, duration) {
  * Supports interaction with `finger-cursor` component for hand tracking.
  */
 export class ButtonComponent extends Component {
-    static TypeName = 'attack-speed-up';
+    static TypeName = 'button';
     static Properties = {
         /** Object that has the button's mesh attached */
         buttonMeshObject: Property.object(),
         /** Material to apply when the user hovers the button */
         hoverMaterial: Property.material(),
-    
+        buttonFunction: Property.enum(['attack-range-up', 'damage-up', 'speed-up', 'damage-up', 'profit-up'])
     };
 
     static onRegister(engine) {
@@ -93,16 +93,17 @@ export class ButtonComponent extends Component {
 
     /* Called by 'cursor-target' */
     onDown = (_, cursor) => {
-        this.soundClick.play();
-        this.buttonMeshObject.translate([0.0, -0.1, 0.0]);
+        this.buttonMeshObject.translate([0.0, -0.05, 0.0]);
         hapticFeedback(cursor.object, 1.0, 20);
-        state.currency -= 50;
+        state.buttonFunctions[this.buttonFunction];
+        //state.currency -= 50;
         state.needsUpdate = true;
         for(let i = 0; i < state.turrets.length; i++){
             console.log(" test", state.turrets[i].damage);
 
             state.turrets[i].damage *= 2 ;
         }
+        console.log(this.buttonFunction)
     }
 
     /* Called by 'cursor-target' */

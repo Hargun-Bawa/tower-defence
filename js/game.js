@@ -17,6 +17,8 @@
 // Fix animation
 // Sync day/night with level and sun/moon
 
+import { ButtonFunctions } from "./button-functions"
+
 
 // onHOver?  cursor hover for upgrade details for individual towers?
 // alternatively, 
@@ -28,8 +30,6 @@ export const state = {
     currentEnemies: [],
     maxEnemies: 15,
     enemiesDestroyed: 0,
-    random,
-
 
     health: 100,
     getHealth: function () { return this.health.toString() },
@@ -53,6 +53,8 @@ export const state = {
     pauseEnemies: true,
     pauseBuilding: false,
 
+    t : ButtonFunctions,
+    buttonFunctions: [],
     attackDamagecost: 50,
     attackRangeCost: 50,
     attackSpeedCost: 50,
@@ -73,9 +75,5 @@ export const state = {
     getAttackSpeedCost: function () { return this.attackSpeedCost.toString() },
     getProfitUpCost: function () { return this.profitUpCost.toString() },
     getHealthUpCost: function () { return this.healthUpCost.toString() },
-
-
-
-
 }
  
