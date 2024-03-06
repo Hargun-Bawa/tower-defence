@@ -2800,7 +2800,12 @@
                     "type": "cursor-target"
                 },
                 {
-                    "type": "button"
+                    "type": "button",
+                    "button": {
+                        "buttonMeshObject": "445",
+                        "hoverMaterial": "203",
+                        "buttonFunction": "attack-damage-up"
+                    }
                 }
             ],
             "translation": [
@@ -3166,6 +3171,14 @@
                 },
                 {
                     "type": "cursor-target"
+                },
+                {
+                    "type": "button",
+                    "button": {
+                        "buttonMeshObject": "454",
+                        "hoverMaterial": "25",
+                        "buttonFunction": "attack-range-up"
+                    }
                 }
             ],
             "translation": [
@@ -3560,6 +3573,14 @@
                 },
                 {
                     "type": "cursor-target"
+                },
+                {
+                    "type": "button",
+                    "button": {
+                        "buttonMeshObject": "458",
+                        "hoverMaterial": "22",
+                        "buttonFunction": "speed-up"
+                    }
                 }
             ],
             "translation": [
@@ -3954,6 +3975,14 @@
                 },
                 {
                     "type": "cursor-target"
+                },
+                {
+                    "type": "button",
+                    "button": {
+                        "buttonMeshObject": "460",
+                        "hoverMaterial": "206",
+                        "buttonFunction": "profit-up"
+                    }
                 }
             ],
             "translation": [
@@ -4348,6 +4377,14 @@
                 },
                 {
                     "type": "cursor-target"
+                },
+                {
+                    "type": "button",
+                    "button": {
+                        "buttonMeshObject": "462",
+                        "hoverMaterial": "489",
+                        "buttonFunction": "heal-ship"
+                    }
                 }
             ],
             "translation": [
@@ -5221,6 +5258,151 @@
                     "mesh": {
                         "mesh": "9",
                         "material": "387"
+                    }
+                }
+            ]
+        },
+        "600": {
+            "name": "Text",
+            "parent": "445",
+            "translation": [
+                0.0017723,
+                0.1129328,
+                -0.0019557
+            ],
+            "rotation": [
+                0.707104,
+                1.343864965974717e-7,
+                1.0452404808347637e-7,
+                0.7071094
+            ],
+            "scaling": [
+                -1.0,
+                0.9999791,
+                0.9999791
+            ],
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "effect": "outline",
+                        "text": "ATTACK DAMAGE UPGRADE\n50"
+                    }
+                }
+            ]
+        },
+        "602": {
+            "name": "Text",
+            "parent": "454",
+            "translation": [
+                0.0017723,
+                0.1129328,
+                -0.0019557
+            ],
+            "rotation": [
+                0.707104,
+                1.343864965974717e-7,
+                1.0452404808347637e-7,
+                0.7071094
+            ],
+            "scaling": [
+                -1.0,
+                0.9999791,
+                0.9999791
+            ],
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "effect": "none",
+                        "text": "TURRET RANGE UPGRADE\n50"
+                    }
+                }
+            ]
+        },
+        "603": {
+            "name": "Text",
+            "parent": "458",
+            "translation": [
+                0.0017723,
+                0.1129328,
+                -0.0019557
+            ],
+            "rotation": [
+                0.707104,
+                1.343864965974717e-7,
+                1.0452404808347637e-7,
+                0.7071094
+            ],
+            "scaling": [
+                -1.0,
+                0.9999791,
+                0.9999791
+            ],
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "effect": "outline",
+                        "text": "ATTACK SPEED UPGRADE\n50"
+                    }
+                }
+            ]
+        },
+        "604": {
+            "name": "Text",
+            "parent": "460",
+            "translation": [
+                0.0017723,
+                0.1129328,
+                -0.0019557
+            ],
+            "rotation": [
+                0.707104,
+                1.343864965974717e-7,
+                1.0452404808347637e-7,
+                0.7071094
+            ],
+            "scaling": [
+                -1.0,
+                0.9999791,
+                0.9999791
+            ],
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "effect": "outline",
+                        "text": "DROPPED GOLD UPGRADE\n50"
+                    }
+                }
+            ]
+        },
+        "605": {
+            "name": "Text",
+            "parent": "462",
+            "translation": [
+                0.0017723,
+                0.1129328,
+                -0.0019557
+            ],
+            "rotation": [
+                0.707104,
+                1.343864965974717e-7,
+                1.0452404808347637e-7,
+                0.7071094
+            ],
+            "scaling": [
+                -1.0,
+                0.9999791,
+                0.9999791
+            ],
+            "components": [
+                {
+                    "type": "text",
+                    "text": {
+                        "effect": "outline",
+                        "text": "HEAL SHIP\n50"
                     }
                 }
             ]

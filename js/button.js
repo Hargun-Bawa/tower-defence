@@ -1,6 +1,12 @@
-import { Component, InputComponent, MeshComponent, Object3D, Property } from '@wonderlandengine/api';
+import {
+  Component,
+  InputComponent,
+  MeshComponent,
+  Object3D,
+  Property,
+} from '@wonderlandengine/api';
 import { CursorTarget, HowlerAudioSource } from '@wonderlandengine/components';
-import {state } from "./game.js";
+import { state } from './game.js';
 
 /**
  * Helper function to trigger haptic feedback pulse.
@@ -10,12 +16,12 @@ import {state } from "./game.js";
  * @param {number} duration Duration in milliseconds
  */
 export function hapticFeedback(object, strength, duration) {
-    const input = object.getComponent(InputComponent);
-    if (input && input.xrInputSource) {
-        const gamepad = input.xrInputSource.gamepad;
-        if (gamepad && gamepad.hapticActuators)
-            gamepad.hapticActuators[0].pulse(strength, duration);
-    }
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
 }
 
 /**
@@ -31,95 +37,99 @@ export function hapticFeedback(object, strength, duration) {
  * Supports interaction with `finger-cursor` component for hand tracking.
  */
 export class ButtonComponent extends Component {
-    static TypeName = 'button';
-    static Properties = {
-        /** Object that has the button's mesh attached */
-        buttonMeshObject: Property.object(),
-        /** Material to apply when the user hovers the button */
-        hoverMaterial: Property.material(),
-        buttonFunction: Property.enum(['attack-range-up', 'damage-up', 'speed-up', 'damage-up', 'profit-up'])
-    };
+  static TypeName = 'button';
+  static Properties = {
+    /** Object that has the button's mesh attached */
+    buttonMeshObject: Property.object(),
+    /** Material to apply when the user hovers the button */
+    hoverMaterial: Property.material(),
+    buttonFunction: Property.enum([
+      'attack-damage-up',
+      'attack-range-up',
+      'speed-up',
+      'profit-up',
+      'heal-ship',
+    ]),
+  };
 
-    static onRegister(engine) {
-        engine.registerComponent(HowlerAudioSource);
-        engine.registerComponent(CursorTarget);
+  static onRegister(engine) {
+    engine.registerComponent(HowlerAudioSource);
+    engine.registerComponent(CursorTarget);
+  }
+
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+
+    this.target =
+      this.object.getComponent(CursorTarget) ||
+      this.object.addComponent(CursorTarget);
+
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: 'sfx/click.wav',
+      spatial: true,
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: 'sfx/unclick.wav',
+      spatial: true,
+    });
+  }
+
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === 'finger-cursor') {
+      this.onDown(_, cursor);
     }
 
-    /* Position to return to when "unpressing" the button */
-    returnPos = new Float32Array(3);
+    hapticFeedback(cursor.object, 0.5, 50);
+  };
 
-    start() {
-        this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
-        this.defaultMaterial = this.mesh.material;
-        this.buttonMeshObject.getTranslationLocal(this.returnPos);
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.buttonMeshObject.translate([0.0, -0.05, 0.0]);
+    hapticFeedback(cursor.object, 1.0, 20);
+    // this.buttonMeshObject.children[0].getComp
 
-        this.target =
-            this.object.getComponent(CursorTarget) ||
-            this.object.addComponent(CursorTarget);
+    // this.buttonMeshObject.children[0].getComponent('text').text =
+    //   state.getAttackDamageCost();
 
-        this.soundClick = this.object.addComponent(HowlerAudioSource, {
-            src: 'sfx/click.wav',
-            spatial: true,
-        });
-        this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
-            src: 'sfx/unclick.wav',
-            spatial: true,
-        });
+    this.buttonMeshObject.children[0].getComponent('text').text =
+      state.buttonFunctions[this.buttonFunction](this);
+  };
+
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback(cursor.object, 0.7, 20);
+  };
+
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === 'finger-cursor') {
+      this.onUp(_, cursor);
     }
 
-    onActivate() {
-        this.target.onHover.add(this.onHover);
-        this.target.onUnhover.add(this.onUnhover);
-        this.target.onDown.add(this.onDown);
-        this.target.onUp.add(this.onUp);
-    }
-
-    onDeactivate() {
-        this.target.onHover.remove(this.onHover);
-        this.target.onUnhover.remove(this.onUnhover);
-        this.target.onDown.remove(this.onDown);
-        this.target.onUp.remove(this.onUp);
-    }
-
-    /* Called by 'cursor-target' */
-    onHover = (_, cursor) => {
-        this.mesh.material = this.hoverMaterial;
-        if (cursor.type === 'finger-cursor') {
-            this.onDown(_, cursor);
-        }
-
-        hapticFeedback(cursor.object, 0.5, 50);
-    }
-
-    /* Called by 'cursor-target' */
-    onDown = (_, cursor) => {
-        this.buttonMeshObject.translate([0.0, -0.05, 0.0]);
-        hapticFeedback(cursor.object, 1.0, 20);
-        state.buttonFunctions[this.buttonFunction];
-        //state.currency -= 50;
-        state.needsUpdate = true;
-        for(let i = 0; i < state.turrets.length; i++){
-            console.log(" test", state.turrets[i].damage);
-
-            state.turrets[i].damage *= 2 ;
-        }
-        console.log(this.buttonFunction)
-    }
-
-    /* Called by 'cursor-target' */
-    onUp = (_, cursor) => {
-        this.soundUnClick.play();
-        this.buttonMeshObject.setTranslationLocal(this.returnPos);
-        hapticFeedback(cursor.object, 0.7, 20);
-    }
-
-    /* Called by 'cursor-target' */
-    onUnhover = (_, cursor) => {
-        this.mesh.material = this.defaultMaterial;
-        if (cursor.type === 'finger-cursor') {
-            this.onUp(_, cursor);
-        }
-
-        hapticFeedback(cursor.object, 0.3, 50);
-    }
+    hapticFeedback(cursor.object, 0.3, 50);
+  };
 }

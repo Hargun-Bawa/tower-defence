@@ -15434,8 +15434,27 @@ var state = {
   day: true,
   pauseEnemies: true,
   pauseBuilding: false,
-  t: ButtonFunctions,
-  buttonFunctions: [],
+  buttonFunctions: [
+    function() {
+      state.currency -= state.attackDamagecost;
+      state.attackDamagecost += 50;
+      state.attackDamage += 10;
+      state.needsUpdate = true;
+      return "ATTACK DAMAGE UPGRADE\n" + state.attackDamagecost.toString();
+    },
+    function() {
+      return "TURRET RANGE UPGRADE\n" + state.attackRangeCost.toString();
+    },
+    function() {
+      return "ATTACK SPEED UPGRADE\n" + state.attackSpeedCost();
+    },
+    function() {
+      return "PROFIT UPGRADE\n" + state.profitUpCost.toString();
+    },
+    function() {
+      return "SHIP HEALTH UPGRADE\n" + state.healthUpCost.toString();
+    }
+  ],
   attackDamagecost: 50,
   attackRangeCost: 50,
   attackSpeedCost: 50,
@@ -15447,22 +15466,7 @@ var state = {
   profitUp: 10,
   healthUp: 10,
   defaultTurret3D: null,
-  poisonTurret3D: null,
-  getAttackDamageCost: function() {
-    return this.attackDamagecost.toString();
-  },
-  getAttackRangeCost: function() {
-    return this.attackRangeCost.toString();
-  },
-  getAttackSpeedCost: function() {
-    return this.attackSpeedCost.toString();
-  },
-  getProfitUpCost: function() {
-    return this.profitUpCost.toString();
-  },
-  getHealthUpCost: function() {
-    return this.healthUpCost.toString();
-  }
+  poisonTurret3D: null
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15773,13 +15777,7 @@ var ButtonComponent = class extends Component {
   onDown = (_, cursor) => {
     this.buttonMeshObject.translate([0, -0.05, 0]);
     hapticFeedback(cursor.object, 1, 20);
-    state.buttonFunctions[this.buttonFunction];
-    state.needsUpdate = true;
-    for (let i = 0; i < state.turrets.length; i++) {
-      console.log(" test", state.turrets[i].damage);
-      state.turrets[i].damage *= 2;
-    }
-    console.log(this.buttonFunction);
+    this.buttonMeshObject.children[0].getComponent("text").text = state.buttonFunctions[this.buttonFunction](this);
   };
   /* Called by 'cursor-target' */
   onUp = (_, cursor) => {
@@ -15802,7 +15800,25 @@ __publicField(ButtonComponent, "Properties", {
   buttonMeshObject: Property.object(),
   /** Material to apply when the user hovers the button */
   hoverMaterial: Property.material(),
-  buttonFunction: Property.enum(["attack-range-up", "damage-up", "speed-up", "damage-up", "profit-up"])
+  buttonFunction: Property.enum([
+    "attack-damage-up",
+    "attack-range-up",
+    "speed-up",
+    "profit-up",
+    "heal-ship"
+  ])
+});
+
+// js/celestial-rotation.js
+var CelestialRotation = class extends Component {
+  update(dt) {
+    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.055555);
+  }
+};
+__publicField(CelestialRotation, "TypeName", "celestial-rotation");
+/* Properties that are configurable in the editor */
+__publicField(CelestialRotation, "Properties", {
+  param: Property.float(1)
 });
 
 // js/default_turret_3D.js
@@ -16200,18 +16216,6 @@ __publicField(PoisonTurret3D, "Properties", {
   base: { type: Type.Object },
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material }
-});
-
-// js/rtest.js
-var Rtest = class extends Component {
-  update(dt) {
-    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.055555);
-  }
-};
-__publicField(Rtest, "TypeName", "rtest");
-/* Properties that are configurable in the editor */
-__publicField(Rtest, "Properties", {
-  param: Property.float(1)
 });
 
 // js/turret-aimer.js
@@ -17866,11 +17870,11 @@ engine.registerComponent(WasdControlsComponent);
 engine.registerComponent(DayNight);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(ButtonComponent);
+engine.registerComponent(CelestialRotation);
 engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(PoisonTurret3D);
-engine.registerComponent(Rtest);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);
