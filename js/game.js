@@ -28,6 +28,7 @@ export const state = {
     currentEnemies: [],
     maxEnemies: 15,
     enemiesDestroyed: 0,
+    random,
 
 
     health: 100,
