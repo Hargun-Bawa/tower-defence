@@ -4,7 +4,7 @@ import { state } from "./game";
 /**
  * Turretaimer
  */
-export class turretAimer extends Component {
+export class TurretAimer extends Component {
     static TypeName = 'turret-aimer';
     /* Properties that are configurable in the editor */
     static Properties = {

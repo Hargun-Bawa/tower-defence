@@ -13,33 +13,40 @@ export class LevelTracker extends Component {
     };
 
     start() {
-        this.timer = 0;
         state.levelUp = function () {
             this.level += 1;
             this.maxEnemies += 10;
             let spawner = state.EnemySpawner;
+            console.log("level up: ", this.level);
+            console.log("reward Up ");
             for (let i = 0; i < state.EnemySpawner.length; i++) {
                 spawner[i].defaultReward += 1;
             }
             if (this.level % 2 === 0) {
+                //console.log("health Up");
                 for (let i = 0; i < state.EnemySpawner.length; i++) {
 
                     spawner[i].defaultHeath += 25;
                 }
             }
             if (this.level % 3 === 0) {
+                //console.log("damage Up");
                 for (let i = 0; i < state.EnemySpawner.length; i++) {
                     spawner[i].defaultDamage += 5;
                 }
             }
             if (this.level % 4 === 0) {
+                //console.log("speed Up");
                 for (let i = 0; i < state.EnemySpawner.length; i++) {
                     spawner[i].defaultSpeed += .1;
                 }
             }
             if (this.level % 5 === 0) {
+                //console.log("spawnTimer down");
                 for (let i = 0; i < state.EnemySpawner.length; i++) {
                     spawner[i].spawnTimer -= .3;
                 }
             }
-        }.bind(this); } }
+        }.bind(this);
+    }
+}

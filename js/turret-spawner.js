@@ -1,5 +1,5 @@
 import { Component, Property, Type } from '@wonderlandengine/api';
-import { turretAimer } from './turret-aimer';
+import { TurretAimer } from './turret-aimer';
 import { state } from './game';
 import { ProjectileSpawner } from './projectile-spawner';
 import { Default } from './default';
@@ -63,7 +63,7 @@ export class TurretSpawner extends Component {
         }.bind(this);
     }
     static onRegister(engine) {
-        engine.registerComponent(turretAimer);
+        engine.registerComponent(TurretAimer);
         engine.registerComponent(ProjectileSpawner);
     }
     start() {

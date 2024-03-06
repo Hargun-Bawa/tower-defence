@@ -1,5 +1,5 @@
 import { Component, Property, Type } from '@wonderlandengine/api';
-import { turretAimer } from './turret-aimer';
+import { TurretAimer } from './turret-aimer';
 import { ProjectileSpawner } from './projectile-spawner';
 import { state } from "./game";
 import { DefaultTurret3D } from './default_turret_3D';
@@ -16,7 +16,7 @@ export class Default extends Component {
     };
 
     static onRegister(engine) {
-        engine.registerComponent(turretAimer);
+        engine.registerComponent(TurretAimer);
         engine.registerComponent(ProjectileSpawner);
         engine.registerComponent(DefaultTurret3D);
     }
@@ -56,7 +56,7 @@ export class Default extends Component {
 
         // aimer is its own named object because of a previous version, it should just be added as
         // obj.addComponent(turretAimer) but that crrrently gives errors
-        obj.addComponent(turretAimer);
+        obj.addComponent(TurretAimer);
         obj.addComponent(ProjectileSpawner);
 
         // Sets tower position, makes it float flat independent of spawn angle, and scale

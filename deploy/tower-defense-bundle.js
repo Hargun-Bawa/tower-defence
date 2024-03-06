@@ -16335,9 +16335,7 @@ var EnemySpawner = class extends Component {
   spawnEnemy() {
     const obj = this.engine.scene.addObject();
     obj.enem = this.defaultEnemy.clone(obj);
-    let r = obj.enem.children[4].getComponents();
     obj.enem.setScalingLocal([3, 3, 3]);
-    console.log(r);
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
     obj.poisoned = false;
     obj.addComponent("collision", {
@@ -16346,10 +16344,6 @@ var EnemySpawner = class extends Component {
       group: 1 << 5,
       active: true
     });
-    if (obj.drone) {
-      Float32Array();
-      obj.addComponent(WaypointMovement);
-    }
     obj.walked = 0;
     obj.timer = 0;
     obj.poisonStack = 0;
@@ -16390,11 +16384,12 @@ __publicField(EnemySpawner, "Properties", {
 // js/level-tracker.js
 var LevelTracker = class extends Component {
   start() {
-    this.timer = 0;
     state.levelUp = function() {
       this.level += 1;
       this.maxEnemies += 10;
       let spawner = state.EnemySpawner;
+      console.log("level up: ", this.level);
+      console.log("reward Up ");
       for (let i = 0; i < state.EnemySpawner.length; i++) {
         spawner[i].defaultReward += 1;
       }
@@ -16446,9 +16441,6 @@ __publicField(PoisonTurret3D, "Properties", {
 
 // js/rtest.js
 var Rtest = class extends Component {
-  start() {
-    console.log("start() with param", this.param);
-  }
   update(dt) {
     this.object.rotateAxisAngleDegObject([1, 0, 0], 0.055555);
   }
@@ -16460,7 +16452,7 @@ __publicField(Rtest, "Properties", {
 });
 
 // js/turret-aimer.js
-var turretAimer = class extends Component {
+var TurretAimer = class extends Component {
   start() {
     console.log("start() with param", this.param);
   }
@@ -16528,9 +16520,9 @@ var turretAimer = class extends Component {
     }
   }
 };
-__publicField(turretAimer, "TypeName", "turret-aimer");
+__publicField(TurretAimer, "TypeName", "turret-aimer");
 /* Properties that are configurable in the editor */
-__publicField(turretAimer, "Properties", {});
+__publicField(TurretAimer, "Properties", {});
 
 // js/projectile-physics.js
 var newDir2 = new Float32Array(3);
@@ -16622,7 +16614,7 @@ __publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
 var tempQuat24 = new Float32Array(8);
 var Default = class extends Component {
   static onRegister(engine2) {
-    engine2.registerComponent(turretAimer);
+    engine2.registerComponent(TurretAimer);
     engine2.registerComponent(ProjectileSpawner);
     engine2.registerComponent(DefaultTurret3D);
   }
@@ -16651,7 +16643,7 @@ var Default = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    obj.addComponent(turretAimer);
+    obj.addComponent(TurretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat24));
     obj.setScalingLocal([0.2, 0.4, 0.2]);
@@ -16671,7 +16663,7 @@ __publicField(Default, "Properties", {
 var tempQuat25 = new Float32Array(8);
 var Poison = class extends Component {
   static onRegister(engine2) {
-    engine2.registerComponent(turretAimer);
+    engine2.registerComponent(TurretAimer);
     engine2.registerComponent(ProjectileSpawner);
     engine2.registerComponent(PoisonTurret3D);
   }
@@ -16701,7 +16693,7 @@ var Poison = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    obj.addComponent(turretAimer);
+    obj.addComponent(TurretAimer);
     obj.addComponent(ProjectileSpawner);
     obj.setTransformLocal(x.object.getTransformWorld(tempQuat25));
     obj.resetRotation();
@@ -16749,7 +16741,7 @@ var TurretSpawner = class extends Component {
     }.bind(this);
   }
   static onRegister(engine2) {
-    engine2.registerComponent(turretAimer);
+    engine2.registerComponent(TurretAimer);
     engine2.registerComponent(ProjectileSpawner);
   }
   start() {

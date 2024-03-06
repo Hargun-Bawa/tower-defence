@@ -61,17 +61,11 @@ export class EnemySpawner extends Component {
         // this creates an object and adds it to the current wonderland scene
         const obj = this.engine.scene.addObject();
         obj.enem = this.defaultEnemy.clone(obj);
-        let r = obj.enem.children[4].getComponents();
         obj.enem.setScalingLocal([3,3,3]);
-        console.log(r);
         // Sets the location of the new object to be the same as the spawn point
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
         // adds mesh to the new object referenving the mesh designated by the
         //spawning object in the editor
-        //const mesh = obj.addComponent('mesh');
-        //mesh.mesh = this.defaultMesh;
-        //mesh.material = this.defaultMaterial;
-        //mesh.active = true;
         obj.poisoned = false;
         // grants the new enemy object a collision box
         obj.addComponent("collision", {
@@ -80,11 +74,6 @@ export class EnemySpawner extends Component {
             group: 1 << 5,
             active: true,
         });
-        if(obj.drone)
-        {
-            Float32Array()
-            obj. addComponent(WaypointMovement)
-        }
         // potential distance traveled for enemy selection
         obj.walked = 0;
         obj.timer = 0;

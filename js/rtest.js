@@ -10,12 +10,7 @@ export class Rtest extends Component {
         param: Property.float(1.0)
     };
 
-    start() {
-        console.log('start() with param', this.param);
-    }
-
     update(dt) {
         this.object.rotateAxisAngleDegObject([1, 0, 0], .055555);
-        /* Called every frame. */
     }
 }

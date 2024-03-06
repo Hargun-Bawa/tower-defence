@@ -5,7 +5,6 @@
  */
 // Global TODO
 // Music/sound - Ron
-// Levels/increasing difficulty . Maybe a day night cycle to signify increased difficulty? - Hargun
 // Extra types of towers - Hieu
 // Enemy types - Saul
 // Flying enemy 
@@ -15,6 +14,9 @@
 // Turrets spawn at cursor instead of where player is standing 
 // Off limit building paths
 // See through/semi transparent hud
+// Fix animation
+// Sync day/night with level and sun/moon
+
 
 // onHOver?  cursor hover for upgrade details for individual towers?
 // alternatively, 

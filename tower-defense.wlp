@@ -1582,7 +1582,7 @@
             "name": "WaypointsA",
             "translation": [
                 -33.0809745,
-                -1.1723227,
+                -0.6654592,
                 -16.7347335
             ],
             "rotation": [
@@ -1603,7 +1603,7 @@
                         "mesh": "9",
                         "material": "20"
                     },
-                    "active": false
+                    "active": true
                 }
             ]
         },
@@ -1745,7 +1745,7 @@
             "name": "Waypoints B",
             "translation": [
                 -34.3486671,
-                -1.1536612,
+                -0.652108,
                 17.3053607
             ],
             "rotation": [
@@ -1907,7 +1907,7 @@
             "name": "Waypoints C",
             "translation": [
                 36.2585296,
-                -1.0899208,
+                -0.6549999,
                 18.3907432
             ],
             "rotation": [
@@ -2182,11 +2182,6 @@
                     }
                 }
             ],
-            "translation": [
-                0.0,
-                1.727433,
-                0.0
-            ],
             "rotation": [
                 0.0,
                 0.0,
@@ -2197,6 +2192,11 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "translation": [
+                0.0,
+                0.0619999,
+                0.0
             ]
         },
         "281": {
@@ -4461,7 +4461,7 @@
             "parent": "510",
             "translation": [
                 0.0,
-                -0.760839,
+                -1.3155608,
                 0.0127592
             ],
             "rotation": [
@@ -4508,7 +4508,7 @@
             "name": "Turret",
             "translation": [
                 0.0,
-                17.7953186,
+                -25.1814956,
                 0.0
             ],
             "rotation": [
@@ -4591,6 +4591,17 @@
                 0.5,
                 0.5,
                 0.5
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                -2.3550643,
+                0.0
             ]
         },
         "532": {
@@ -4640,6 +4651,22 @@
                         "retarget": false
                     }
                 }
+            ],
+            "translation": [
+                -0.0,
+                4.7313747,
+                0.3244454
+            ],
+            "rotation": [
+                -0.5099956,
+                -0.0,
+                -0.0,
+                0.8601769
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
             ]
         },
         "535": {
@@ -4972,7 +4999,7 @@
             "name": "TurretPoison",
             "translation": [
                 0.0,
-                18.6234092,
+                -18.6229991,
                 0.0
             ],
             "rotation": [
@@ -5007,7 +5034,7 @@
             "parent": "578",
             "translation": [
                 0.0,
-                -0.760839,
+                -1.2069296,
                 0.0127592
             ],
             "rotation": [
@@ -5161,7 +5188,7 @@
             ]
         },
         "593": {
-            "name": "Empty.001",
+            "name": "sun/moon",
             "components": [
                 {
                     "type": "rtest"
@@ -6004,6 +6031,10 @@
             },
             "image": "586",
             "name": "Specular probe: Body_BaseColor-Body_Alpha"
+        },
+        "599": {
+            "name": "texture",
+            "image": "468"
         }
     },
     "images": {
@@ -6363,7 +6394,11 @@
             "link": {
                 "name": "Metal_BaseColor",
                 "file": "models\\Turret_1.glb"
-            }
+            },
+            "maxSize": [
+                128,
+                128
+            ]
         },
         "465": {
             "link": {
@@ -6878,12 +6913,31 @@
             "link": {
                 "name": "Metal",
                 "file": "models\\Turret_1.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "476",
+                "emissiveColor": [
+                    0.2308713,
+                    0.3991031,
+                    0.3877871,
+                    1.0
+                ]
             }
         },
         "489": {
             "link": {
                 "name": "circuits",
                 "file": "models\\Turret_1.glb"
+            },
+            "Phong": {
+                "diffuseTexture": "599",
+                "emissiveTexture": "599",
+                "emissiveColor": [
+                    0.028052,
+                    0.6950672,
+                    0.0938562,
+                    0.8206278
+                ]
             }
         },
         "490": {
