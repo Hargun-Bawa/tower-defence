@@ -53,7 +53,7 @@
                         "cursorRayObject": "212",
                         "cursorObject": "210"
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "howler-audio-listener"
@@ -95,7 +95,7 @@
                     "input": {
                         "type": "eye left"
                     },
-                    "active": false
+                    "active": true
                 }
             ],
             "translation": [
@@ -128,65 +128,13 @@
                     "input": {
                         "type": "eye right"
                     },
-                    "active": false
+                    "active": true
                 }
             ],
             "translation": [
                 0.0,
                 0.0,
                 -2.384185791015625e-7
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "21": {
-            "name": "Light",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "intensity": 1111.0,
-                        "type": "spot",
-                        "shadows": false,
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "outerAngle": 130.0
-                    },
-                    "active": false
-                },
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "9",
-                        "material": "25"
-                    }
-                },
-                {
-                    "type": "waypoint-movement",
-                    "waypoint-movement": {
-                        "pathObject": "304",
-                        "speed": 5.0,
-                        "curveDistance": 0.0
-                    },
-                    "active": false
-                }
-            ],
-            "translation": [
-                0.8867278,
-                27.6359672,
-                2.0
             ],
             "rotation": [
                 0.0,
@@ -530,7 +478,11 @@
                     "active": true
                 },
                 {
-                    "type": "bullet-spawner"
+                    "type": "bullet-spawner",
+                    "bullet-spawner": {
+                        "bulletMesh": "9",
+                        "bulletMaterial": "22"
+                    }
                 }
             ]
         },
@@ -688,7 +640,7 @@
                 {
                     "type": "cursor",
                     "cursor": {
-                        "cursorObject": "127",
+                        "cursorObject": "512",
                         "collisionGroup": 0,
                         "cursorRayObject": "209",
                         "cursorRayScalingAxis": "y"
@@ -1461,7 +1413,7 @@
                 {
                     "type": "cursor",
                     "cursor": {
-                        "cursorObject": "215",
+                        "cursorObject": "511",
                         "collisionGroup": 0,
                         "cursorRayObject": "213",
                         "cursorRayScalingAxis": "y"
@@ -1573,78 +1525,6 @@
                 }
             ]
         },
-        "271": {
-            "link": {
-                "name": "Walls",
-                "file": "models\\Map_TerrainVF(1) (1).glb"
-            },
-            "components": [
-                {
-                    "active": true
-                }
-            ],
-            "translation": [
-                -0.0467529,
-                1.7776206,
-                -0.1482238
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                39.9962882,
-                31.8563499,
-                28.2387142
-            ]
-        },
-        "272": {
-            "link": {
-                "name": "Ground",
-                "file": "models\\Map_TerrainVF(1) (1).glb"
-            },
-            "components": [
-                {
-                    "active": true
-                },
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                40.0,
-                                1.0,
-                                28.0
-                            ]
-                        },
-                        "groups": 129
-                    },
-                    "active": true
-                },
-                {
-                    "type": "cursor-target"
-                }
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "translation": [
-                0.3157835,
-                -2.1988363,
-                0.0
-            ]
-        },
         "273": {
             "link": {
                 "name": "Empty",
@@ -1652,7 +1532,7 @@
             },
             "translation": [
                 -33.3397445,
-                0.0,
+                -0.624599,
                 -16.7457904
             ],
             "rotation": [
@@ -1674,7 +1554,8 @@
                         "defaultMesh": "10",
                         "defaultMaterial": "26",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 3,
+                        "defaultEnemy": "531"
                     },
                     "active": true
                 },
@@ -1701,8 +1582,8 @@
             "name": "WaypointsA",
             "translation": [
                 -33.0809745,
-                1.8406677,
-                -16.549015
+                -0.6654592,
+                -16.7347335
             ],
             "rotation": [
                 0.0,
@@ -1714,6 +1595,16 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "20"
+                    },
+                    "active": true
+                }
             ]
         },
         "276": {
@@ -1732,7 +1623,7 @@
             ],
             "translation": [
                 8.6189632,
-                -0.7879257,
+                0.0,
                 5.7255077
             ]
         },
@@ -1752,7 +1643,7 @@
             ],
             "translation": [
                 15.6111984,
-                -0.9255599,
+                0.0,
                 5.1605701
             ]
         },
@@ -1761,7 +1652,7 @@
             "parent": "275",
             "translation": [
                 34.3396492,
-                -1.9727478,
+                0.0,
                 1.2737598
             ],
             "rotation": [
@@ -1781,7 +1672,7 @@
             "parent": "275",
             "translation": [
                 61.3514251,
-                -3.4241027,
+                0.0,
                 3.2200355
             ],
             "rotation": [
@@ -1825,7 +1716,8 @@
                         "defaultMesh": "8",
                         "defaultMaterial": "22",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 3,
+                        "defaultEnemy": "531"
                     },
                     "active": true
                 },
@@ -1853,7 +1745,7 @@
             "name": "Waypoints B",
             "translation": [
                 -34.3486671,
-                0.0,
+                -0.652108,
                 17.3053607
             ],
             "rotation": [
@@ -1866,6 +1758,15 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "20"
+                    }
+                }
             ]
         },
         "288": {
@@ -1977,7 +1878,8 @@
                         "defaultMesh": "11",
                         "defaultMaterial": "25",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 3,
+                        "defaultEnemy": "531"
                     },
                     "active": true
                 },
@@ -2005,7 +1907,7 @@
             "name": "Waypoints C",
             "translation": [
                 36.2585296,
-                0.0,
+                -0.6549999,
                 18.3907432
             ],
             "rotation": [
@@ -2019,7 +1921,16 @@
                 1.0,
                 1.0
             ],
-            "parent": null
+            "parent": null,
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "20"
+                    }
+                }
+            ]
         },
         "294": {
             "name": "A",
@@ -2171,7 +2082,7 @@
         },
         "307": {
             "name": "Sun",
-            "parent": null,
+            "parent": "593",
             "components": [
                 {
                     "type": "light",
@@ -2179,23 +2090,19 @@
                         "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 0.8999999,
+                        "intensity": 1.0,
                         "color": [
-                            0.9607843,
-                            0.4935794,
-                            0.4935794
-                        ]
+                            0.9764705,
+                            0.9611533,
+                            0.9611533
+                        ],
+                        "shadows": true
                     },
                     "active": true
                 },
                 {
                     "type": "DayNight"
                 }
-            ],
-            "translation": [
-                -0.5236182,
-                55.5973434,
-                2.0
             ],
             "rotation": [
                 0.0,
@@ -2204,9 +2111,14 @@
                 1.0
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.9999996,
+                0.9999996,
+                0.9999994
+            ],
+            "translation": [
+                0.0,
+                36.037918,
+                0.0
             ]
         },
         "309": {
@@ -2256,18 +2168,19 @@
                 {
                     "type": "turret-spawner",
                     "turret-spawner": {
-                        "defaultMesh": "11",
-                        "defaultMaterial": "25",
-                        "bulletMesh": "10",
-                        "bulletMaterial": "22",
-                        "shootingCD": 1
+                        "defaultMesh": "499",
+                        "defaultMaterial": "489",
+                        "bulletMesh": "9",
+                        "bulletMaterial": "489",
+                        "shootingCD": 1,
+                        "droneMesh": "9",
+                        "droneMaterial": "26",
+                        "poisonMesh": "9",
+                        "poisonMaterial": "26",
+                        "defaultTurret": "510",
+                        "defaultTurrets": "510"
                     }
                 }
-            ],
-            "translation": [
-                0.0,
-                1.727433,
-                0.0
             ],
             "rotation": [
                 0.0,
@@ -2279,6 +2192,11 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "translation": [
+                0.0,
+                0.0619999,
+                0.0
             ]
         },
         "281": {
@@ -2354,29 +2272,30 @@
                 "file": "models\\Mothership VF.glb"
             },
             "scaling": [
-                0.0199999,
-                0.0199996,
-                0.0199996
+                0.015,
+                0.015,
+                0.015
             ],
             "translation": [
-                29.4239273,
-                1.395123,
-                -15.1753826
+                29.4239311,
+                1.0456876,
+                -15.1753797
             ],
             "rotation": [
-                0.6994082,
+                0.6994084,
                 0.1040636,
                 -0.1040637,
-                0.6994065
+                0.6994063
             ],
             "components": [
                 null,
-                null,
-                null,
-                null,
                 {
-                    "type": "ship"
+                    "active": true
                 },
+                {
+                    "active": true
+                },
+                null,
                 {
                     "type": "level-tracker"
                 }
@@ -2473,31 +2392,2077 @@
             },
             "parent": "428"
         },
-        "443": {
-            "name": "Mesh2",
+        "444": {
+            "name": "Mesh.000",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "7",
-                        "material": "283"
+                        "mesh": "195",
+                        "material": "390"
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                27.7895641,
+                -0.3869514,
+                -14.1303205
+            ],
+            "rotation": [
+                -0.2336227,
+                0.724924,
+                0.2764323,
+                0.5860808
+            ],
+            "scaling": [
+                2.5363428,
+                0.9999973,
+                0.9999942
+            ]
+        },
+        "445": {
+            "name": "Button1",
+            "parent": "451",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "451": {
+            "name": "Button11",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
                     },
-                    "active": true
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
                 },
                 {
                     "type": "cursor-target"
                 },
                 {
-                    "type": "uiHandler2",
-                    "uiHandler2": {
-                        "panel": "buttons"
+                    "type": "damage-up",
+                    "damage-up": {
+                        "buttonMeshObject": "445",
+                        "hoverMaterial": "203"
                     }
                 }
             ],
             "translation": [
-                18.7064056,
-                10.7168483,
-                -28.3554725
+                0.7788156,
+                0.0670797,
+                -0.0548466
+            ],
+            "rotation": [
+                1.7881370695249648e-7,
+                0.0000034,
+                -0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "453": {
+            "name": "Button12",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                },
+                {
+                    "type": "attack-speed-up",
+                    "attack-speed-up": {
+                        "buttonMeshObject": "454",
+                        "hoverMaterial": "22"
+                    }
+                }
+            ],
+            "translation": [
+                0.43244,
+                0.0670797,
+                -0.0547098
+            ],
+            "rotation": [
+                2.980232238769531e-7,
+                0.0000044,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "454": {
+            "name": "Button2",
+            "parent": "453",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "457": {
+            "name": "Button13",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                },
+                {
+                    "type": "attack-range-up",
+                    "attack-range-up": {
+                        "buttonMeshObject": "458",
+                        "hoverMaterial": "25"
+                    }
+                }
+            ],
+            "translation": [
+                0.0159219,
+                0.0670797,
+                -0.0547668
+            ],
+            "rotation": [
+                3.129243850708008e-7,
+                0.0000039,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "458": {
+            "name": "Button3",
+            "parent": "457",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "459": {
+            "name": "Button14",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": "button",
+                    "active": true,
+                    "button": {
+                        "buttonMeshObject": "460",
+                        "hoverMaterial": "20"
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                -0.3238708,
+                0.0670797,
+                -0.0547434
+            ],
+            "rotation": [
+                3.8743019104003906e-7,
+                0.000004,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "460": {
+            "name": "Button4",
+            "parent": "459",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "461": {
+            "name": "Button15",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": "button",
+                    "active": true,
+                    "button": {
+                        "buttonMeshObject": "462",
+                        "hoverMaterial": "88"
+                    }
+                },
+                {
+                    "type": null,
+                    "active": true,
+                    "animation": {
+                        "preview": false,
+                        "autoplay": false,
+                        "playCount": 0,
+                        "speed": 1.0,
+                        "animation": null,
+                        "retarget": false,
+                        "skin": null
+                    },
+                    "light": {
+                        "type": "point",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "intensity": 1.0,
+                        "outerAngle": 90,
+                        "innerAngle": 45,
+                        "shadows": false,
+                        "shadowRange": 10.0,
+                        "shadowBias": 0.0012,
+                        "shadowNormalBias": 0.001,
+                        "shadowTexelSize": 1.0,
+                        "cascadeCount": 4
+                    },
+                    "view": {
+                        "fov": 90,
+                        "near": 0.01,
+                        "far": 100
+                    },
+                    "input": {
+                        "type": "head"
+                    },
+                    "collision": {
+                        "collider": "sphere",
+                        "sphere": {
+                            "radius": 1.0
+                        },
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "box": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        "groups": 255
+                    },
+                    "physx": {
+                        "static": false,
+                        "kinematic": false,
+                        "simulate": true,
+                        "allowQuery": true,
+                        "allowSimulation": true,
+                        "sleepOnActivate": false,
+                        "mass": 1.0,
+                        "shape": "sphere",
+                        "sphere": {
+                            "radius": 0.25
+                        },
+                        "box": {
+                            "extents": [
+                                0.25,
+                                0.25,
+                                0.25
+                            ]
+                        },
+                        "capsule": {
+                            "radius": 0.15,
+                            "halfHeight": 0.25
+                        },
+                        "triangleMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "convexMesh": {
+                            "mesh": null,
+                            "scaling": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "translationOffset": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "linearDamping": 0.0,
+                        "angularDamping": 0.05,
+                        "staticFriction": 0.5,
+                        "dynamicFriction": 0.5,
+                        "bounciness": 0.5,
+                        "gravity": true,
+                        "trigger": false,
+                        "block": 255,
+                        "groups": 255,
+                        "lockAxis": 0,
+                        "solverPositionIterations": 4,
+                        "solverVelocityIterations": 1
+                    },
+                    "mesh": {
+                        "static": false,
+                        "material": null,
+                        "mesh": null,
+                        "skin": null
+                    },
+                    "text": {
+                        "alignment": "center",
+                        "justification": "middle",
+                        "characterSpacing": 0.0,
+                        "lineSpacing": 1.2,
+                        "effect": "none",
+                        "text": "Wonderland Engine",
+                        "material": "DefaultFontMaterial"
+                    },
+                    "8thwall-camera": {
+                        "useCustomUIOverlays": false
+                    },
+                    "anchor": {
+                        "persist": false,
+                        "uuid": ""
+                    },
+                    "cursor": {
+                        "collisionGroup": 1,
+                        "cursorRayObject": null,
+                        "cursorRayScalingAxis": "z",
+                        "cursorObject": null,
+                        "handedness": "input component",
+                        "rayCastMode": "collision",
+                        "maxDistance": 100,
+                        "styleCursor": true,
+                        "useWebXRHitTest": false
+                    },
+                    "cursor-target": {},
+                    "debug-object": {
+                        "obj": null
+                    },
+                    "device-orientation-look": {},
+                    "finger-cursor": {},
+                    "fixed-foveation": {
+                        "fixedFoveation": 0.5
+                    },
+                    "hand-tracking": {
+                        "handedness": "left",
+                        "jointMesh": null,
+                        "jointMaterial": null,
+                        "handSkin": null,
+                        "deactivateChildrenWithoutPose": true,
+                        "controllerToDeactivate": null
+                    },
+                    "hit-test-location": {
+                        "scaleObject": true
+                    },
+                    "howler-audio-listener": {
+                        "spatial": true
+                    },
+                    "howler-audio-source": {
+                        "volume": 1,
+                        "spatial": true,
+                        "loop": false,
+                        "autoplay": false,
+                        "src": ""
+                    },
+                    "image-texture": {
+                        "url": "",
+                        "material": null,
+                        "textureProperty": "auto"
+                    },
+                    "mouse-look": {
+                        "sensitity": 0.25,
+                        "requireMouseDown": true,
+                        "mouseButtonIndex": 0,
+                        "pointerLockOnClick": false
+                    },
+                    "plane-detection": {
+                        "planeMaterial": null,
+                        "collisionMask": 0
+                    },
+                    "player-height": {
+                        "height": 1.75
+                    },
+                    "target-framerate": {
+                        "framerate": 90
+                    },
+                    "teleport": {
+                        "teleportIndicatorMeshObject": null,
+                        "camRoot": null,
+                        "cam": null,
+                        "eyeLeft": null,
+                        "eyeRight": null,
+                        "handedness": "input component",
+                        "floorGroup": 1,
+                        "thumbstickActivationThreshhold": -0.7,
+                        "thumbstickDeactivationThreshhold": 0.3,
+                        "indicatorYOffset": 0.01,
+                        "rayCastMode": "collision",
+                        "maxDistance": 100
+                    },
+                    "trail": {
+                        "material": null,
+                        "segments": 50,
+                        "interval": 0.1,
+                        "width": 1,
+                        "taper": true,
+                        "resetThreshold": 0.5
+                    },
+                    "two-joint-ik-solver": {
+                        "root": null,
+                        "middle": null,
+                        "end": null,
+                        "target": null,
+                        "copyTargetRotation": true,
+                        "helper": null
+                    },
+                    "video-texture": {
+                        "url": "",
+                        "material": null,
+                        "loop": true,
+                        "autoplay": true,
+                        "muted": true,
+                        "textureProperty": "auto"
+                    },
+                    "vr-mode-active-switch": {
+                        "activateComponents": "in VR",
+                        "affectChildren": true
+                    },
+                    "vrm": {
+                        "src": "",
+                        "lookAtTarget": null
+                    },
+                    "wasd-controls": {
+                        "speed": 0.1,
+                        "lockY": false,
+                        "headObject": null
+                    },
+                    "uiHandler2": {
+                        "panel": "simple"
+                    },
+                    "DayNight": {
+                        "dayTimer": 3,
+                        "nightTimer": 3
+                    },
+                    "bullet-physics": {
+                        "speed": 1
+                    },
+                    "bullet-spawner": {
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "bulletSpeed": 1
+                    },
+                    "button": {
+                        "buttonMeshObject": null,
+                        "hoverMaterial": null
+                    },
+                    "enemy-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "spawnTimer": 5,
+                        "defaultHealth": 50,
+                        "defaultReward": 10,
+                        "specialRewardChance": 1,
+                        "defaultSpeed": 3,
+                        "defaultDamage": 5
+                    },
+                    "level-tracker": {
+                        "level": 1,
+                        "timer": 0,
+                        "day": true
+                    },
+                    "projectile-physics": {
+                        "speed": 9
+                    },
+                    "projectile-spawner": {},
+                    "ship": {
+                        "hull": 200,
+                        "shields": 0,
+                        "scanners": 0,
+                        "autofactories": 0,
+                        "targettingSystems": 0,
+                        "harvestingDroids": 0,
+                        "fuelGenerators": 0
+                    },
+                    "sun-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    },
+                    "turret-aimer": {},
+                    "turret-spawner": {
+                        "defaultMesh": null,
+                        "defaultMaterial": null,
+                        "bulletMesh": null,
+                        "bulletMaterial": null,
+                        "shootingCD": 1,
+                        "damage": 20,
+                        "turretCost": 25
+                    },
+                    "uiHandler": {
+                        "panel": "simple"
+                    },
+                    "waypoint-movement": {
+                        "pathObject": null,
+                        "speed": 1,
+                        "curveDistance": 0.1
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ],
+            "translation": [
+                -0.6723198,
+                0.0670797,
+                -0.054745
+            ],
+            "rotation": [
+                3.8743019104003906e-7,
+                0.000004,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "462": {
+            "name": "Button5",
+            "parent": "461",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "195",
+                        "material": "26"
+                    }
+                }
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.1245827,
+                0.8399999,
+                0.3874091
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "504": {
+            "link": {
+                "name": "Base",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "510",
+            "translation": [
+                0.0,
+                -1.310543,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.7197145,
+                0.7197145,
+                0.7197145
+            ]
+        },
+        "505": {
+            "link": {
+                "name": "Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "510",
+            "translation": [
+                0.0,
+                -1.3155608,
+                0.0127592
             ],
             "rotation": [
                 0.0,
@@ -2510,7 +4475,789 @@
                 1.0,
                 1.0
             ],
-            "parent": "17"
+            "name": "TurretBody",
+            "components": [
+                null,
+                null,
+                null,
+                null
+            ]
+        },
+        "506": {
+            "link": {
+                "name": "cannon<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "505"
+        },
+        "507": {
+            "link": {
+                "name": "propulser<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "505"
+        },
+        "508": {
+            "link": {
+                "name": "radar<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "505"
+        },
+        "510": {
+            "name": "Turret",
+            "translation": [
+                0.0,
+                -25.1814956,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "components": [
+                {
+                    "type": "default_turret_3D",
+                    "default_turret_3D": {
+                        "turret": "505",
+                        "base": "504",
+                        "bulletMesh": "9",
+                        "bulletMaterial": "128"
+                    },
+                    "active": true
+                }
+            ]
+        },
+        "511": {
+            "name": "3DCursorRIght",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "128"
+                    },
+                    "active": false
+                }
+            ]
+        },
+        "512": {
+            "name": "3DCursorLeft",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "128"
+                    },
+                    "active": false
+                }
+            ],
+            "parent": null
+        },
+        "513": {
+            "name": "Empty",
+            "parent": "505",
+            "translation": [
+                0.2400758,
+                1.1466579,
+                -1.0356981
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "531": {
+            "link": {
+                "name": "Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "scaling": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                -2.3550643,
+                0.0
+            ]
+        },
+        "532": {
+            "link": {
+                "name": "Body<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "components": [
+                {
+                    "mesh": {
+                        "skin": "530",
+                        "material": "526"
+                    },
+                    "active": true
+                }
+            ]
+        },
+        "533": {
+            "link": {
+                "name": "scales<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "components": [
+                {
+                    "mesh": {
+                        "skin": "530",
+                        "material": "527"
+                    }
+                }
+            ]
+        },
+        "534": {
+            "link": {
+                "name": "Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530",
+            "components": [
+                {
+                    "animation": {
+                        "preview": true,
+                        "autoplay": true,
+                        "playCount": 444,
+                        "retarget": false
+                    }
+                }
+            ],
+            "translation": [
+                -0.0,
+                4.7313747,
+                0.3244454
+            ],
+            "rotation": [
+                -0.5099956,
+                -0.0,
+                -0.0,
+                0.8601769
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "535": {
+            "link": {
+                "name": "Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "534",
+            "skin": "530"
+        },
+        "536": {
+            "link": {
+                "name": "Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "535",
+            "skin": "530"
+        },
+        "537": {
+            "link": {
+                "name": "Head<Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "536",
+            "skin": "530"
+        },
+        "538": {
+            "link": {
+                "name": "Jaw<Head<Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "537",
+            "skin": "530"
+        },
+        "539": {
+            "link": {
+                "name": "Head.Control<Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "536",
+            "skin": "530"
+        },
+        "540": {
+            "link": {
+                "name": "Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "534",
+            "skin": "530"
+        },
+        "541": {
+            "link": {
+                "name": "Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "540",
+            "skin": "530"
+        },
+        "542": {
+            "link": {
+                "name": "Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "541",
+            "skin": "530"
+        },
+        "543": {
+            "link": {
+                "name": "FL2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "544": {
+            "link": {
+                "name": "FL1.R<FL2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "543",
+            "skin": "530"
+        },
+        "545": {
+            "link": {
+                "name": "FR2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "546": {
+            "link": {
+                "name": "FR1.R<FR2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "545",
+            "skin": "530"
+        },
+        "547": {
+            "link": {
+                "name": "FL3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "548": {
+            "link": {
+                "name": "FL4.R<FL3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "547",
+            "skin": "530"
+        },
+        "549": {
+            "link": {
+                "name": "FR3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "550": {
+            "link": {
+                "name": "FR4.R<FR3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "549",
+            "skin": "530"
+        },
+        "551": {
+            "link": {
+                "name": "Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "534",
+            "skin": "530"
+        },
+        "552": {
+            "link": {
+                "name": "Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "551",
+            "skin": "530"
+        },
+        "553": {
+            "link": {
+                "name": "Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "552",
+            "skin": "530"
+        },
+        "554": {
+            "link": {
+                "name": "FL2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "555": {
+            "link": {
+                "name": "FL1.L<FL2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "554",
+            "skin": "530"
+        },
+        "556": {
+            "link": {
+                "name": "FR2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "557": {
+            "link": {
+                "name": "FR1.L<FR2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "556",
+            "skin": "530"
+        },
+        "558": {
+            "link": {
+                "name": "FL3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "559": {
+            "link": {
+                "name": "FL4.L<FL3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "558",
+            "skin": "530"
+        },
+        "560": {
+            "link": {
+                "name": "FR3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "561": {
+            "link": {
+                "name": "FR4.L<FR3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "560",
+            "skin": "530"
+        },
+        "562": {
+            "link": {
+                "name": "Heel.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "563": {
+            "link": {
+                "name": "Toes.R<Heel.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "562",
+            "skin": "530"
+        },
+        "564": {
+            "link": {
+                "name": "Toes.R.001<Heel.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "562",
+            "skin": "530"
+        },
+        "565": {
+            "link": {
+                "name": "Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "566": {
+            "link": {
+                "name": "Tail.001<Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "565",
+            "skin": "530"
+        },
+        "567": {
+            "link": {
+                "name": "Tail.002<Tail.001<Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "566",
+            "skin": "530"
+        },
+        "568": {
+            "link": {
+                "name": "Tail.003<Tail.002<Tail.001<Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "567",
+            "skin": "530"
+        },
+        "569": {
+            "link": {
+                "name": "Knee.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "570": {
+            "link": {
+                "name": "Heel.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "571": {
+            "link": {
+                "name": "Toes.L<Heel.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "570",
+            "skin": "530"
+        },
+        "572": {
+            "link": {
+                "name": "Toes.L.001<Heel.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "570",
+            "skin": "530"
+        },
+        "573": {
+            "link": {
+                "name": "Knee.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "574": {
+            "link": {
+                "name": "Tail.Control<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "575": {
+            "link": {
+                "name": "Circle",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "578": {
+            "name": "TurretPoison",
+            "translation": [
+                0.0,
+                -18.6229991,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": null,
+            "components": [
+                {
+                    "type": "poison_turret_3D",
+                    "poison_turret_3D": {
+                        "turret": "579",
+                        "base": "584",
+                        "bulletMesh": "9",
+                        "bulletMaterial": "203"
+                    }
+                }
+            ]
+        },
+        "579": {
+            "link": {
+                "name": "Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "578",
+            "translation": [
+                0.0,
+                -1.2069296,
+                0.0127592
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "TurretBodyp",
+            "components": [
+                {
+                    "mesh": {
+                        "material": "489"
+                    }
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        "580": {
+            "link": {
+                "name": "cannon<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "579"
+        },
+        "581": {
+            "link": {
+                "name": "propulser<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "579"
+        },
+        "582": {
+            "link": {
+                "name": "radar<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "579"
+        },
+        "583": {
+            "name": "Empty",
+            "parent": "579",
+            "translation": [
+                0.2400758,
+                1.1466579,
+                -1.0356981
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "584": {
+            "link": {
+                "name": "Base",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "578",
+            "translation": [
+                0.0,
+                -1.310543,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.7197145,
+                0.7197145,
+                0.7197145
+            ],
+            "name": "Basep",
+            "components": [
+                {
+                    "mesh": {
+                        "material": "489"
+                    }
+                }
+            ]
+        },
+        "590": {
+            "link": {
+                "name": "Ground",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "translation": [
+                0.0,
+                -2.1196026,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "591": {
+            "link": {
+                "name": "Empty",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            }
+        },
+        "271": {
+            "link": {
+                "name": "Walls",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "components": [
+                {
+                    "active": true
+                }
+            ],
+            "translation": [
+                -0.0467529,
+                1.7776206,
+                -0.1482238
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                39.9962882,
+                31.8563499,
+                28.2387142
+            ]
+        },
+        "593": {
+            "name": "sun/moon",
+            "components": [
+                {
+                    "type": "rtest"
+                }
+            ]
+        },
+        "594": {
+            "name": "Empty.002"
+        },
+        "595": {
+            "name": "Mesh.001",
+            "parent": "307",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "25"
+                    }
+                }
+            ]
+        },
+        "596": {
+            "name": "Moon",
+            "parent": "593",
+            "components": [
+                {
+                    "type": "light",
+                    "light": {
+                        "type": "sun",
+                        "color": [
+                            0.3164936,
+                            0.7459827,
+                            0.8235294
+                        ],
+                        "intensity": 0.5,
+                        "shadows": true
+                    }
+                }
+            ],
+            "translation": [
+                -0.0000112,
+                -22.391714,
+                -0.0000121
+            ],
+            "rotation": [
+                0.0172821,
+                0.1391892,
+                0.9900926,
+                -0.0066505
+            ],
+            "scaling": [
+                0.9999958,
+                0.9999979,
+                0.9999992
+            ]
+        },
+        "598": {
+            "name": "Mesh.003",
+            "parent": "596",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "387"
+                    }
+                }
+            ]
         }
     },
     "meshes": {
@@ -2864,6 +5611,90 @@
                 "name": "Mothership tx.2",
                 "file": "models\\Mothership VF.glb"
             }
+        },
+        "492": {
+            "link": {
+                "name": "Base",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "493": {
+            "link": {
+                "name": "Base.0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "494": {
+            "link": {
+                "name": "Base.1",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "495": {
+            "link": {
+                "name": "Base.2",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "496": {
+            "link": {
+                "name": "cannon",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "497": {
+            "link": {
+                "name": "cannon.0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "498": {
+            "link": {
+                "name": "propulser",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "499": {
+            "link": {
+                "name": "radar",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "500": {
+            "link": {
+                "name": "Turret",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "501": {
+            "link": {
+                "name": "Turret.0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "502": {
+            "link": {
+                "name": "Turret.1",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "503": {
+            "link": {
+                "name": "Turret.2",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "528": {
+            "link": {
+                "name": "Body",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "529": {
+            "link": {
+                "name": "scales",
+                "file": "models\\Ground alien_VF.glb"
+            }
         }
     },
     "textures": {
@@ -3076,6 +5907,134 @@
                 "name": "texture_27",
                 "file": "models\\Mothership VF.glb"
             }
+        },
+        "475": {
+            "link": {
+                "name": "texture_0",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "476": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "477": {
+            "link": {
+                "name": "texture_2",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "478": {
+            "link": {
+                "name": "texture_3",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "479": {
+            "link": {
+                "name": "texture_4",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "480": {
+            "link": {
+                "name": "texture_5",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "481": {
+            "link": {
+                "name": "texture_6",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "482": {
+            "link": {
+                "name": "texture_7",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "483": {
+            "link": {
+                "name": "texture_8",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "484": {
+            "link": {
+                "name": "texture_9",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "485": {
+            "link": {
+                "name": "texture_10",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "486": {
+            "link": {
+                "name": "texture_11",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "520": {
+            "link": {
+                "name": "texture_0",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "521": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "522": {
+            "link": {
+                "name": "texture_2",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "523": {
+            "link": {
+                "name": "texture_3",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "524": {
+            "link": {
+                "name": "texture_4",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "525": {
+            "link": {
+                "name": "texture_5",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "587": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "image": "585",
+            "name": "Irradiance probe: Body_BaseColor-Body_Alpha"
+        },
+        "588": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "image": "586",
+            "name": "Specular probe: Body_BaseColor-Body_Alpha"
+        },
+        "599": {
+            "name": "texture",
+            "image": "468"
         }
     },
     "images": {
@@ -3129,181 +6088,449 @@
             "link": {
                 "name": "Floor tx",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "259": {
             "link": {
                 "name": "Floor tx.0",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "331": {
             "link": {
                 "name": "White chasis_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "332": {
             "link": {
                 "name": "White chasis_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "333": {
             "link": {
                 "name": "White chasis_BaseColor-White chasis_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "334": {
             "link": {
                 "name": "White chasis_Metallic-White chasis_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "335": {
             "link": {
                 "name": "Ship floor_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                512,
+                512
+            ]
         },
         "336": {
             "link": {
                 "name": "Ship floor_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                512,
+                512
+            ]
         },
         "337": {
             "link": {
                 "name": "Ship floor_BaseColor-Ship floor_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                256,
+                256
+            ]
         },
         "338": {
             "link": {
                 "name": "Ship floor_Metallic-Ship floor_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "339": {
             "link": {
                 "name": "Chasis joint_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "340": {
             "link": {
                 "name": "Chasis joint_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "341": {
             "link": {
                 "name": "Chasis joint_BaseColor-Chasis joint_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "342": {
             "link": {
                 "name": "Chasis joint_Metallic-Chasis joint_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "343": {
             "link": {
                 "name": "Black metallic_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "344": {
             "link": {
                 "name": "Black metallic_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "345": {
             "link": {
                 "name": "Black metallic_BaseColor-Black metallic_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "346": {
             "link": {
                 "name": "Black metallic_Metallic-Black metallic_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "347": {
             "link": {
                 "name": "Orange window_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "348": {
             "link": {
                 "name": "Orange window_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "349": {
             "link": {
                 "name": "Orange window_BaseColor-Orange window_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "350": {
             "link": {
                 "name": "Orange window_Metallic-Orange window_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "351": {
             "link": {
                 "name": "Red metallic_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "352": {
             "link": {
                 "name": "Red metallic_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "353": {
             "link": {
                 "name": "Red metallic_BaseColor-Red metallic_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "354": {
             "link": {
                 "name": "Red metallic_Metallic-Red metallic_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "355": {
             "link": {
                 "name": "Blue mate_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "356": {
             "link": {
                 "name": "Blue mate_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "357": {
             "link": {
                 "name": "Blue mate_BaseColor-Blue mate_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "358": {
             "link": {
                 "name": "Blue mate_Metallic-Blue mate_Roughness",
                 "file": "models\\Mothership VF.glb"
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
+        },
+        "463": {
+            "link": {
+                "name": "White case_BaseColor",
+                "file": "models\\Turret_1.glb"
             }
+        },
+        "464": {
+            "link": {
+                "name": "Metal_BaseColor",
+                "file": "models\\Turret_1.glb"
+            },
+            "maxSize": [
+                128,
+                128
+            ]
+        },
+        "465": {
+            "link": {
+                "name": "Metal_Roughness",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "466": {
+            "link": {
+                "name": "circuits_Emission",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "467": {
+            "link": {
+                "name": "circuits_Normal",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "468": {
+            "link": {
+                "name": "circuits_BaseColor-circuits_Alpha",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "469": {
+            "link": {
+                "name": "circuits_Metallic-circuits_Roughness",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "470": {
+            "link": {
+                "name": "red mat_BaseColor",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "471": {
+            "link": {
+                "name": "red mat_Metallic-red mat_Roughness",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "472": {
+            "link": {
+                "name": "fiber_Emission",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "473": {
+            "link": {
+                "name": "fiber_Normal",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "474": {
+            "link": {
+                "name": "fiber_BaseColor-fiber_Alpha",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "514": {
+            "link": {
+                "name": "Body_Emission",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
+        },
+        "515": {
+            "link": {
+                "name": "Body_BaseColor-Body_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
+        },
+        "516": {
+            "link": {
+                "name": "Body_Metallic",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "517": {
+            "link": {
+                "name": "Scales_Normal",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "518": {
+            "link": {
+                "name": "Scales_BaseColor-Scales_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "519": {
+            "link": {
+                "name": "Scales_Metallic",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "585": {
+            "link": {
+                "name": "Body_BaseColor-Body_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "name": "Irradiance probe: Body_BaseColor-Body_Alpha",
+            "isProbe": true,
+            "isSpecularProbe": false,
+            "compression": "etc1s",
+            "maxSize": [
+                64,
+                64
+            ]
+        },
+        "586": {
+            "link": {
+                "name": "Body_BaseColor-Body_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "name": "Specular probe: Body_BaseColor-Body_Alpha",
+            "isProbe": false,
+            "isSpecularProbe": true,
+            "compression": "etc1s",
+            "maxSize": [
+                512,
+                512
+            ]
         }
     },
     "materials": {
@@ -3369,9 +6596,9 @@
                     1.0
                 ],
                 "specularColor": [
-                    9.999999974752427e-7,
-                    9.999899930335232e-7,
-                    9.999899930335232e-7,
+                    0.9955157,
+                    0.9910915,
+                    0.0089283,
                     1.0
                 ],
                 "ambientColor": [
@@ -3379,8 +6606,18 @@
                     0.3089579,
                     0.0,
                     1.0
-                ]
-            }
+                ],
+                "emissiveColor": [
+                    0.973495,
+                    0.9955157,
+                    0.0133925,
+                    1.0
+                ],
+                "diffuseTexture": "363",
+                "emissiveTexture": "362",
+                "normalTexture": "360"
+            },
+            "pipeline": "231"
         },
         "26": {
             "name": "Green",
@@ -3544,6 +6781,14 @@
             "link": {
                 "name": "Floor",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "Phong": {
+                "emissiveColor": [
+                    0.1210762,
+                    0.1210762,
+                    0.1210762,
+                    0.632287
+                ]
             }
         },
         "283": {
@@ -3554,12 +6799,48 @@
             "link": {
                 "name": "White chasis",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveColor": [
+                    0.8206278,
+                    0.7948681,
+                    0.7948681,
+                    0.4035874
+                ],
+                "emissiveTexture": "361",
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "diffuseColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.05,
+                    0.05,
+                    0.05,
+                    1.0
+                ]
             }
         },
         "388": {
             "link": {
                 "name": "Ship floor",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "365",
+                "emissiveColor": [
+                    0.2556053,
+                    0.189125,
+                    0.189125,
+                    1.0
+                ]
             }
         },
         "389": {
@@ -3578,6 +6859,15 @@
             "link": {
                 "name": "Orange window",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveColor": [
+                    0.9013453,
+                    0.4650186,
+                    0.16976,
+                    1.0
+                ],
+                "emissiveTexture": "377"
             }
         },
         "392": {
@@ -3590,6 +6880,92 @@
             "link": {
                 "name": "Blue mate",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "385",
+                "emissiveColor": [
+                    0.0033783,
+                    0.0179372,
+                    0.015391,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "fogColor": [
+                    0.0697379,
+                    0.0934806,
+                    0.1524663,
+                    0.0538116
+                ]
+            }
+        },
+        "487": {
+            "link": {
+                "name": "White case",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "488": {
+            "link": {
+                "name": "Metal",
+                "file": "models\\Turret_1.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "476",
+                "emissiveColor": [
+                    0.2308713,
+                    0.3991031,
+                    0.3877871,
+                    1.0
+                ]
+            }
+        },
+        "489": {
+            "link": {
+                "name": "circuits",
+                "file": "models\\Turret_1.glb"
+            },
+            "Phong": {
+                "diffuseTexture": "599",
+                "emissiveTexture": "599",
+                "emissiveColor": [
+                    0.028052,
+                    0.6950672,
+                    0.0938562,
+                    0.8206278
+                ]
+            }
+        },
+        "490": {
+            "link": {
+                "name": "red mat",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "491": {
+            "link": {
+                "name": "fiber",
+                "file": "models\\Turret_1.glb"
+            }
+        },
+        "526": {
+            "link": {
+                "name": "Body",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "520",
+                "diffuseTexture": "521"
+            }
+        },
+        "527": {
+            "link": {
+                "name": "Scales",
+                "file": "models\\Ground alien_VF.glb"
             }
         }
     },
@@ -3834,9 +7210,33 @@
                     "local-floor": true
                 }
             }
+        },
+        "rendering": {
+            "textureStreaming": {
+                "maxCacheSize": 2048
+            },
+            "textureAtlasSize": [
+                8192,
+                8192
+            ],
+            "compressedTextureAtlasSize": [
+                32768,
+                16384
+            ],
+            "usePreZ": false,
+            "sky": {
+                "enabled": false
+            }
         }
     },
-    "animations": {},
+    "animations": {
+        "576": {
+            "link": {
+                "name": "BonesAction.003",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        }
+    },
     "skins": {
         "133": {
             "link": {
@@ -3904,6 +7304,55 @@
                 "191",
                 "192",
                 "193"
+            ]
+        },
+        "530": {
+            "link": {
+                "name": "Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "joints": [
+                "534",
+                "535",
+                "536",
+                "537",
+                "538",
+                "539",
+                "540",
+                "541",
+                "542",
+                "543",
+                "544",
+                "545",
+                "546",
+                "547",
+                "548",
+                "549",
+                "550",
+                "551",
+                "552",
+                "553",
+                "554",
+                "555",
+                "556",
+                "557",
+                "558",
+                "559",
+                "560",
+                "561",
+                "562",
+                "563",
+                "564",
+                "565",
+                "566",
+                "567",
+                "568",
+                "569",
+                "570",
+                "571",
+                "572",
+                "573",
+                "574"
             ]
         }
     },
@@ -4063,6 +7512,14 @@
         },
         "442": {
             "fileName": "models/Mothership VF.glb",
+            "importerName": ""
+        },
+        "509": {
+            "fileName": "models/Turret_1.glb",
+            "importerName": ""
+        },
+        "577": {
+            "fileName": "models/Ground alien_VF.glb",
             "importerName": ""
         }
     },

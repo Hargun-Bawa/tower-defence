@@ -15409,14 +15409,40 @@ var state = {
   currency: 50,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "drone",
-  ship: null,
+  selectedTurret: "poison",
   shipHit: null,
   buildTime: 15,
   levelUp: null,
   day: true,
   pauseEnemies: true,
-  pauseBuilding: false
+  pauseBuilding: false,
+  attackDamagecost: 50,
+  attackRangeCost: 50,
+  attackSpeedCost: 50,
+  profitUpCost: 50,
+  healthUpCost: 50,
+  attackDamage: 10,
+  attackRange: 10,
+  attackSpeed: 10,
+  profitUp: 10,
+  healthUp: 10,
+  defaultTurret3D: null,
+  poisonTurret3D: null,
+  getAttackDamageCost: function() {
+    return this.attackDamagecost.toString();
+  },
+  getAttackRangeCost: function() {
+    return this.attackRangeCost.toString();
+  },
+  getAttackSpeedCost: function() {
+    return this.attackSpeedCost.toString();
+  },
+  getProfitUpCost: function() {
+    return this.profitUpCost.toString();
+  },
+  getHealthUpCost: function() {
+    return this.healthUpCost.toString();
+  }
 };
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
@@ -15466,6 +15492,10 @@ var WasdControlsComponent = class extends Component {
       this.left = true;
     } else if (e.keyCode === 69) {
       state.buildT();
+    } else if (e.keyCode === 49) {
+      state.selectedTurret = "default";
+    } else if (e.keyCode === 50) {
+      state.selectedTurret = "poison";
     }
   }
   release(e) {
@@ -15488,6 +15518,390 @@ __publicField(WasdControlsComponent, "Properties", {
   lockY: { type: Type.Bool, default: false },
   /** Object of which the orientation is used to determine forward direction */
   headObject: { type: Type.Object }
+});
+
+// js/Attack_Range_up.js
+function hapticFeedback(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var ButtonComponent = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback(cursor.object, 1, 20);
+    state.currency -= 50;
+    state.needsUpdate = true;
+    for (let i = 0; i < state.turrets.length; i++) {
+      console.log(" test", state.turrets[i].damage);
+      state.turrets[i].damage *= 2;
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback(cursor.object, 0.3, 50);
+  };
+};
+__publicField(ButtonComponent, "TypeName", "attack-range-up");
+__publicField(ButtonComponent, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material()
+});
+
+// js/Attack_speed_up.js
+function hapticFeedback2(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var ButtonComponent2 = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback2(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback2(cursor.object, 1, 20);
+    state.currency -= 50;
+    state.needsUpdate = true;
+    for (let i = 0; i < state.turrets.length; i++) {
+      console.log(" test", state.turrets[i].damage);
+      state.turrets[i].damage *= 2;
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback2(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback2(cursor.object, 0.3, 50);
+  };
+};
+__publicField(ButtonComponent2, "TypeName", "attack-speed-up");
+__publicField(ButtonComponent2, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material()
+});
+
+// js/DamageUp.js
+function hapticFeedback3(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var DamageUp = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback3(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback3(cursor.object, 1, 20);
+    if (state.currency >= state.attackDamagecost) {
+      state.currency -= state.attackDamageCost;
+      state.attackDamage += 50;
+      state.needsUpdate = true;
+      for (let i = 0; i < state.turrets.length; i++) {
+        state.purchase(0, 50);
+      }
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback3(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback3(cursor.object, 0.3, 50);
+  };
+};
+__publicField(DamageUp, "TypeName", "damage-up");
+__publicField(DamageUp, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material(),
+  cost: { type: Type.Int, default: state.attackDamagecost }
+});
+
+// js/DayNight.js
+var DayNight = class extends Component {
+  start() {
+    console.log("start() with param", this.param);
+  }
+  init() {
+    this.timer1 = 0;
+    this.r = 0.5;
+    this.g = 0.5;
+    this.b = 0.5;
+    this.mod = 5e-3;
+  }
+  update(dt) {
+    this.timer1 += dt;
+    let x = new Float32Array(3);
+    if (this.timer1 > 0.125) {
+      this.r += this.mod;
+      this.g += this.mod;
+      this.b += this.mod;
+      this.timer1 = 0;
+      if (this.r > 1 || this.r < 0.2) {
+        state.day = !state.day;
+        state.pauseEnemies = !state.pauseEnemies;
+        state.pauseBuilding = !state.pauseBuilding;
+        this.mod *= -1;
+        this.r += this.mod * 3;
+        this.g += this.mod * 3;
+        this.b += this.mod * 3;
+        state.levelUp();
+      }
+      x = [this.r, this.g, this.b];
+      this.object.getComponent("light").setColor(x);
+    }
+  }
+};
+__publicField(DayNight, "TypeName", "DayNight");
+/* Properties that are configurable in the editor */
+__publicField(DayNight, "Properties", {
+  dayTimer: { type: Type.Int, default: 2 }
+});
+
+// js/button copy 4.js
+function hapticFeedback4(object, strength, duration) {
+  const input = object.getComponent(InputComponent);
+  if (input && input.xrInputSource) {
+    const gamepad = input.xrInputSource.gamepad;
+    if (gamepad && gamepad.hapticActuators)
+      gamepad.hapticActuators[0].pulse(strength, duration);
+  }
+}
+var ButtonComponent3 = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(HowlerAudioSource);
+    engine2.registerComponent(CursorTarget);
+  }
+  /* Position to return to when "unpressing" the button */
+  returnPos = new Float32Array(3);
+  start() {
+    this.mesh = this.buttonMeshObject.getComponent(MeshComponent);
+    this.defaultMaterial = this.mesh.material;
+    this.buttonMeshObject.getTranslationLocal(this.returnPos);
+    this.target = this.object.getComponent(CursorTarget) || this.object.addComponent(CursorTarget);
+    this.soundClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/click.wav",
+      spatial: true
+    });
+    this.soundUnClick = this.object.addComponent(HowlerAudioSource, {
+      src: "sfx/unclick.wav",
+      spatial: true
+    });
+  }
+  onActivate() {
+    this.target.onHover.add(this.onHover);
+    this.target.onUnhover.add(this.onUnhover);
+    this.target.onDown.add(this.onDown);
+    this.target.onUp.add(this.onUp);
+  }
+  onDeactivate() {
+    this.target.onHover.remove(this.onHover);
+    this.target.onUnhover.remove(this.onUnhover);
+    this.target.onDown.remove(this.onDown);
+    this.target.onUp.remove(this.onUp);
+  }
+  /* Called by 'cursor-target' */
+  onHover = (_, cursor) => {
+    this.mesh.material = this.hoverMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onDown(_, cursor);
+    }
+    hapticFeedback4(cursor.object, 0.5, 50);
+  };
+  /* Called by 'cursor-target' */
+  onDown = (_, cursor) => {
+    this.soundClick.play();
+    this.buttonMeshObject.translate([0, -0.1, 0]);
+    hapticFeedback4(cursor.object, 1, 20);
+    state.currency -= 50;
+    state.needsUpdate = true;
+    for (let i = 0; i < state.turrets.length; i++) {
+      console.log(" test", state.turrets[i].damage);
+      state.turrets[i].damage *= 2;
+    }
+  };
+  /* Called by 'cursor-target' */
+  onUp = (_, cursor) => {
+    this.soundUnClick.play();
+    this.buttonMeshObject.setTranslationLocal(this.returnPos);
+    hapticFeedback4(cursor.object, 0.7, 20);
+  };
+  /* Called by 'cursor-target' */
+  onUnhover = (_, cursor) => {
+    this.mesh.material = this.defaultMaterial;
+    if (cursor.type === "finger-cursor") {
+      this.onUp(_, cursor);
+    }
+    hapticFeedback4(cursor.object, 0.3, 50);
+  };
+};
+__publicField(ButtonComponent3, "TypeName", "button");
+__publicField(ButtonComponent3, "Properties", {
+  /** Object that has the button's mesh attached */
+  buttonMeshObject: Property.object(),
+  /** Material to apply when the user hovers the button */
+  hoverMaterial: Property.material()
 });
 
 // js/bullet-physics.js
@@ -15628,6 +16042,21 @@ __publicField(BulletSpawner, "Properties", {
   bulletSpeed: { type: Type.Float, default: 1 }
 });
 
+// js/default_turret_3D.js
+var DefaultTurret3D = class extends Component {
+  start() {
+    state.defaultTurret3D = this;
+  }
+};
+__publicField(DefaultTurret3D, "TypeName", "default_turret_3D");
+/* Properties that are configurable in the editor */
+__publicField(DefaultTurret3D, "Properties", {
+  turret: { type: Type.Object },
+  base: { type: Type.Object },
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material }
+});
+
 // js/waypoint-movement.js
 var WaypointMovement = class extends Component {
   init() {
@@ -15722,8 +16151,24 @@ var WaypointMovement = class extends Component {
     this.fromToLength = vec3_exports.length(this.currentPosition);
   }
   update(dt) {
+    this.object.timer += dt;
+    if (this.object.timer > 1 && this.object.poisoned === true) {
+      this.object.health -= this.object.poisonStack;
+      this.object.poisonStack -= 1;
+      if (this.object.health < 0) {
+        this.object.destroy();
+        state.currency += this.object.value;
+        state.needsUpdate = true;
+      }
+      console.log(this.object.health);
+      this.object.timer = 0;
+      if (this.object.poisonStack < 1) {
+        this.object.poisoned = false;
+      }
+    }
     this.currentLength += dt * this.speed;
     this.object.walked += 1;
+    this.object.enem.lookAt(this.toPosition);
     let factor = this.currentLength / this.fromToLength;
     if (factor > 0.5 && this.currentPositionIndex != this.positions.length - 1) {
       this.incrementCurveIndex = true;
@@ -15889,22 +16334,19 @@ var EnemySpawner = class extends Component {
   // TODO add a onHIt function to the object that is spawned 
   spawnEnemy() {
     const obj = this.engine.scene.addObject();
+    obj.enem = this.defaultEnemy.clone(obj);
+    obj.enem.setScalingLocal([3, 3, 3]);
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = this.defaultMesh;
-    mesh.material = this.defaultMaterial;
-    mesh.active = true;
+    obj.poisoned = false;
     obj.addComponent("collision", {
       shape: WL.Collider.Sphere,
       extents: [5, 0, 0],
       group: 1 << 5,
       active: true
     });
-    if (obj.drone) {
-      Float32Array();
-      obj.addComponent(WaypointMovement);
-    }
     obj.walked = 0;
+    obj.timer = 0;
+    obj.poisonStack = 0;
     obj.health = this.defaultHealth;
     obj.damage = this.defaultDamage;
     obj.value = this.defaultReward;
@@ -15927,27 +16369,27 @@ var EnemySpawner = class extends Component {
 __publicField(EnemySpawner, "TypeName", "enemy-spawner");
 /* Properties that are configurable in the editor */
 __publicField(EnemySpawner, "Properties", {
+  defaultEnemy: { type: Type.Object },
   defaultMesh: { type: Type.Mesh },
   defaultMaterial: { type: Type.Material },
-  spawnTimer: { type: Type.Int, default: 5 },
+  spawnTimer: { type: Type.Float, default: 3 },
   defaultHealth: { type: Type.Int, default: 50 },
   defaultReward: { type: Type.Int, default: 10 },
   specialRewardChance: { type: Type.Int, default: 1 },
   defaultSpeed: { type: Type.Float, default: 3 },
-  defaultDamage: { type: Type.Int, default: 5 }
+  defaultDamage: { type: Type.Int, default: 5 },
+  poisoned: { type: Type.Bool, default: false }
 });
 
 // js/level-tracker.js
 var LevelTracker = class extends Component {
-  init() {
-  }
   start() {
-    this.timer = 0;
     state.levelUp = function() {
-      console.log("levelup!");
       this.level += 1;
       this.maxEnemies += 10;
       let spawner = state.EnemySpawner;
+      console.log("level up: ", this.level);
+      console.log("reward Up ");
       for (let i = 0; i < state.EnemySpawner.length; i++) {
         spawner[i].defaultReward += 1;
       }
@@ -15982,79 +16424,35 @@ __publicField(LevelTracker, "Properties", {
   day: { type: Type.Bool, default: true }
 });
 
-// js/ship.js
-var Ship = class extends Component {
-  init() {
-    state.ship = this;
-    state.needsUpdate = true;
-    state.shipHit = function(damage) {
-      this.hull -= damage;
-      state.health = this.getHealth();
-    }.bind(this);
-    state.purchase = function(selector, amount) {
-      switch (selector) {
-        case 0:
-          state.currency -= amount;
-          this.hull += amount;
-          break;
-        case 1:
-          state.currency -= amount;
-          this.shields += amount;
-          break;
-        case 2:
-          state.currency -= amount;
-          this.scanners += amount;
-          break;
-        case 3:
-          state.currency -= amount;
-          this.autofactories += amount;
-          break;
-        case 4:
-          state.currency -= amount;
-          this.targettingSystems += amount;
-          break;
-        case 5:
-          state.currency -= amount;
-          this.harvestingDroids += amount;
-          break;
-        case 6:
-          state.currency -= amount;
-          this.fuelGenerators += amount;
-          break;
-      }
-    }.bind(this);
-  }
-  setHealth() {
-    let health = 0;
-    return health;
+// js/poison_turret_3D.js
+var PoisonTurret3D = class extends Component {
+  start() {
+    state.poisonTurret3D = this;
   }
 };
-__publicField(Ship, "TypeName", "ship");
-/// Currency earned from defeating monsters can be invested in the ship
-/// these properties define critical and non critical systems needed to 
-/// repair the ship and escape the planet. when reaching certain values
-/// they also upgrade the users turrets/ personal stats 
-__publicField(Ship, "Properties", {
-  // default health value 
-  // Other values can only be upgraded once hull threshholds are reached
-  /// IE Hull must be level 2 before shields can become level 2 
-  hull: { type: Type.Int, default: 200 },
-  // reduces the amount of damage done by enemies 
-  shields: { type: Type.Int, default: 0 },
-  // increases the attack range of turrets
-  scanners: { type: Type.Int, default: 0 },
-  /// allows for more ( or maybe different ) turrets
-  autofactories: { type: Type.Int, default: 0 },
-  /// Increases attack speed 
-  targettingSystems: { type: Type.Int, default: 0 },
-  /// increases the amount of money earned from killing enemies
-  harvestingDroids: { type: Type.Int, default: 0 },
-  /// Provides more material/ currency 
-  fuelGenerators: { type: Type.Int, default: 0 }
+__publicField(PoisonTurret3D, "TypeName", "poison_turret_3D");
+/* Properties that are configurable in the editor */
+__publicField(PoisonTurret3D, "Properties", {
+  turret: { type: Type.Object },
+  base: { type: Type.Object },
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material }
+});
+
+// js/rtest.js
+var Rtest = class extends Component {
+  update(dt) {
+    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.055555);
+  }
+};
+__publicField(Rtest, "TypeName", "rtest");
+/* Properties that are configurable in the editor */
+__publicField(Rtest, "Properties", {
+  param: Property.float(1)
 });
 
 // js/turret-aimer.js
-var turretAimer = class extends Component {
+var TurretAimer = class extends Component {
   start() {
     console.log("start() with param", this.param);
   }
@@ -16062,23 +16460,6 @@ var turretAimer = class extends Component {
     this.timer = 0;
     this.hits = 0;
   }
-  /* The old seek code that used RayCsting for aiming, not in use but keeping it around just in case
-  seek() {
-      let g = new Float32Array(3);
-      this.object.getForwardWorld(g);
-      let ray = WL.scene.rayCast(this.object.getTranslationWorld(), g, 1 << 1, 1 << 2);
-      let hits = ray.hitCount;
-      this.loc = ray.locations;
-      this.dis = ray.distances;
-      let obs = ray.objects;
-      if (hits > 0) {
-          this.object.target = obs[0];
-          this.object.lookAt(this.object.target.getPositionWorld())
-      }
-      else {
-          this.object.rotateAxisAngleDegObject([0, 1, 0], 5);
-      }
-  }*/
   seek() {
     const collision = this.object.getComponent("collision");
     const overlaps = collision.queryOverlaps();
@@ -16092,44 +16473,56 @@ var turretAimer = class extends Component {
       }
     }
   }
+  checkStatus() {
+    if (this.object.status != null) {
+      this.object.target.poisoned = true;
+      this.object.target.poisonStack += 1;
+    }
+  }
+  checkDead() {
+    if (this.object.target.health <= 0) {
+      state.currency += this.object.target.value;
+      this.object.target.destroy();
+      state.needsUpdate = true;
+      state.enemiesDestroyed++;
+    }
+  }
+  fire() {
+    let g = new Float32Array(3);
+    const collision = this.object.getComponent("collision");
+    const overlaps = collision.queryOverlaps();
+    let fired = false;
+    for (const coll of overlaps) {
+      if (fired == false && coll.object === this.object.target) {
+        this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+        if (this.timer > this.object.cd) {
+          this.object.shoot(this.object.turret.getForwardWorld(g));
+          this.object.target.health -= this.object.damage;
+          this.checkStatus();
+          this.timer = 0;
+          this.checkDead();
+        }
+        fired = true;
+      }
+    }
+    if (!fired) {
+      this.object.target = null;
+    }
+    ;
+  }
   update(dt) {
     this.timer += dt;
-    let g = new Float32Array(3);
     if (this.object.target == null || this.object.target.objectId < 0) {
       this.seek();
     }
     if (this.object.target && this.object.target.isDestroyed == false) {
-      let g2 = new Float32Array(3);
-      const collision = this.object.getComponent("collision");
-      const overlaps = collision.queryOverlaps();
-      let fired = false;
-      for (const coll of overlaps) {
-        if (fired == false && coll.object === this.object.target) {
-          this.object.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
-          if (this.timer > this.object.cd) {
-            this.object.shoot(this.object.getForwardWorld(g2));
-            this.object.target.health -= this.object.damage;
-            this.timer = 0;
-            if (this.object.target.health <= 0) {
-              state.currency += this.object.target.value;
-              this.object.target.destroy();
-              state.needsUpdate = true;
-              state.enemiesDestroyed++;
-            }
-          }
-          fired = true;
-        }
-      }
-      if (!fired) {
-        this.object.target = null;
-      }
-      ;
+      this.fire();
     }
   }
 };
-__publicField(turretAimer, "TypeName", "turret-aimer");
+__publicField(TurretAimer, "TypeName", "turret-aimer");
 /* Properties that are configurable in the editor */
-__publicField(turretAimer, "Properties", {});
+__publicField(TurretAimer, "Properties", {});
 
 // js/projectile-physics.js
 var newDir2 = new Float32Array(3);
@@ -16189,7 +16582,6 @@ __publicField(ProjectilePhysics, "Properties", {
 });
 
 // js/projectile-spawner.js
-var tempquat2 = new Float32Array(8);
 var ProjectileSpawner = class extends Component {
   static onRegister(engine2) {
     engine2.registerComponent(ProjectilePhysics);
@@ -16204,16 +16596,13 @@ var ProjectileSpawner = class extends Component {
       projectile.physics.active = true;
     }.bind(this);
   }
-  start() {
-    console.log("projectile-spawner");
-  }
   spawn() {
     const obj = this.engine.scene.addObject();
     let mesh = obj.addComponent("mesh", this.object.bulletMesh);
     mesh.active = true;
     obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
     obj.name = "steven";
-    obj.setPositionLocal(this.object.getPositionWorld());
+    obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());
     const physics = obj.addComponent(ProjectilePhysics, { speed: 0.2 });
     physics.active = true;
     return { object: obj, physics };
@@ -16221,46 +16610,27 @@ var ProjectileSpawner = class extends Component {
 };
 __publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
 
-// js/turret-spawner.js
+// js/default.js
 var tempQuat24 = new Float32Array(8);
-var TurretSpawner = class extends Component {
-  /// drone turret?
-  init() {
-    this.timer = 0;
-    this.name = "dave";
-    state.turretSpawner = this;
-    state.buildT = function() {
-      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
-        let turret = this.makeTurret();
-        state.spawnedTurrets += 1;
-        state.turrets.push(turret);
-        state.currency -= this.turretCost;
-        state.needsUpdate = true;
-      }
-    }.bind(this);
-  }
+var Default = class extends Component {
   static onRegister(engine2) {
-    engine2.registerComponent(turretAimer);
+    engine2.registerComponent(TurretAimer);
     engine2.registerComponent(ProjectileSpawner);
+    engine2.registerComponent(DefaultTurret3D);
   }
-  start() {
-    console.log("start turret spawner");
-  }
-  update(dt) {
-  }
-  makeTurret() {
-    const obj = this.engine.scene.addObject();
+  makeTurret(x) {
+    const obj = x.engine.scene.addObject();
+    obj.turret = state.defaultTurret3D.turret.clone(obj);
+    obj.base = state.defaultTurret3D.base.clone(obj);
     obj.target = null;
     obj.shoot = null;
-    obj.cd = this.shootingCD;
+    obj.cd = x.shootingCD;
     obj.name = "sam";
-    obj.damage = this.damage;
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = this.defaultMesh;
-    mesh.material = this.defaultMaterial;
+    obj.status = null;
+    obj.damage = x.damage;
     obj.bulletMesh = {
-      mesh: this.bulletMesh,
-      material: this.bulletMaterial
+      mesh: state.defaultTurret3D.bulletMesh,
+      material: state.defaultTurret3D.bulletMaterial
     };
     obj.addComponent("collision", {
       collider: WL.Collider.Sphere,
@@ -16273,11 +16643,9 @@ var TurretSpawner = class extends Component {
       CollisionEventType: 1,
       active: true
     });
-    mesh.active = true;
-    const aimer = obj.addComponent(turretAimer);
+    obj.addComponent(TurretAimer);
     obj.addComponent(ProjectileSpawner);
-    obj.setTransformLocal(this.object.getTransformWorld(tempQuat24));
-    const x = new Float32Array(3);
+    obj.setTransformLocal(x.object.getTransformWorld(tempQuat24));
     obj.setScalingLocal([0.2, 0.4, 0.2]);
     obj.setRotationLocal([0, 0, 0, 1]);
     obj.active = true;
@@ -16285,15 +16653,112 @@ var TurretSpawner = class extends Component {
     obj.setDirty();
   }
 };
+__publicField(Default, "TypeName", "default");
+/* Properties that are configurable in the editor */
+__publicField(Default, "Properties", {
+  param: Property.float(1)
+});
+
+// js/poison.js
+var tempQuat25 = new Float32Array(8);
+var Poison = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(TurretAimer);
+    engine2.registerComponent(ProjectileSpawner);
+    engine2.registerComponent(PoisonTurret3D);
+  }
+  makeTurret(x) {
+    const obj = x.engine.scene.addObject();
+    obj.turret = state.poisonTurret3D.turret.clone(obj);
+    obj.base = state.poisonTurret3D.base.clone(obj);
+    console.log(obj);
+    obj.target = null;
+    obj.shoot = null;
+    obj.cd = x.shootingCD;
+    obj.name = "sam";
+    obj.status = "poisonTower";
+    obj.damage = x.damage;
+    obj.bulletMesh = {
+      mesh: state.poisonTurret3D.bulletMesh,
+      material: state.poisonTurret3D.bulletMaterial
+    };
+    obj.addComponent("collision", {
+      collider: WL.Collider.Sphere,
+      extents: [5, 0, 0],
+      group: 1 << 5,
+      // this code is a test to see how to trigger Collision Onhit and onleave that has
+      // some documentation on wonderland, but I cant figre out how to use
+      // IF we can get it working it would make aiming and shooting signifficantly
+      //   more efficient
+      CollisionEventType: 1,
+      active: true
+    });
+    obj.addComponent(TurretAimer);
+    obj.addComponent(ProjectileSpawner);
+    obj.setTransformLocal(x.object.getTransformWorld(tempQuat25));
+    obj.resetRotation();
+    obj.setScalingLocal([0.2, 0.4, 0.2]);
+    obj.active = true;
+    state.turrets.push(obj);
+    obj.setDirty();
+  }
+};
+__publicField(Poison, "TypeName", "poison");
+/* Properties that are configurable in the editor */
+__publicField(Poison, "Properties", {
+  param: Property.float(1)
+});
+
+// js/turret-spawner.js
+var TurretSpawner = class extends Component {
+  /// poison turret?
+  init() {
+    this.timer = 0;
+    this.name = "dave";
+    this.makeTurret = null;
+    state.turretSpawner = this;
+    state.defaultMesh = new Component("Object", { mesh: this.defaultMesh, material: this.defaultMaterial });
+    state.poisonMesh = new Component("mesh", { mesh: this.poisonMesh, material: this.poisonMaterial });
+    state.buildT = function() {
+      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
+        let tempTurret = null;
+        console.log(state.selectedTurret);
+        if (state.selectedTurret === "default") {
+          tempTurret = new Default();
+          let turret = tempTurret.makeTurret(this);
+          state.spawnedTurrets += 1;
+          state.currency -= this.turretCost;
+          state.needsUpdate = true;
+        }
+        if (state.selectedTurret === "poison") {
+          tempTurret = new Poison();
+          let turret = tempTurret.makeTurret(this);
+          state.spawnedTurrets += 1;
+          state.currency -= this.turretCost;
+          state.needsUpdate = true;
+        }
+      }
+    }.bind(this);
+  }
+  static onRegister(engine2) {
+    engine2.registerComponent(TurretAimer);
+    engine2.registerComponent(ProjectileSpawner);
+  }
+  start() {
+    console.log("start turret spawner");
+  }
+};
 __publicField(TurretSpawner, "TypeName", "turret-spawner");
 __publicField(TurretSpawner, "Properties", {
   defaultMesh: { type: Type.Mesh },
   defaultMaterial: { type: Type.Material },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material },
+  poisonMesh: { type: Type.Mesh },
+  poisonMaterial: { type: Type.Material },
   shootingCD: { type: Type.Int, default: 1 },
   damage: { type: Type.Int, default: 20 },
-  turretCost: { type: Type.Int, default: 25 }
+  turretCost: { type: Type.Int, default: 25 },
+  defaultTurret: { type: Type.Object },
+  defaultBase: { type: Type.Object }
 });
 
 // js/CanvasUI.js
@@ -17635,10 +18100,17 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(ButtonComponent);
+engine.registerComponent(ButtonComponent2);
+engine.registerComponent(DamageUp);
+engine.registerComponent(DayNight);
+engine.registerComponent(ButtonComponent3);
 engine.registerComponent(BulletSpawner);
+engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
-engine.registerComponent(Ship);
+engine.registerComponent(PoisonTurret3D);
+engine.registerComponent(Rtest);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);

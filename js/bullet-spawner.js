@@ -15,7 +15,9 @@ import { HowlerAudioSource } from "@wonderlandengine/components";
 import { state } from "./game";
 import { BulletPhysics } from "./bullet-physics";
 /**
+ * spawns Projectiles for the player 
 @brief Spawns a new bullet object when the player depresses the trigger.
+
 */
 
 const tempQuat2 = new Float32Array(8);

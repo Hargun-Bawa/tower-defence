@@ -1,6 +1,7 @@
-import { Component, Type, Property } from '@wonderlandengine/api';
+import { Component, Type, Property, Object3D } from '@wonderlandengine/api';
 import { state } from "./game";
 import { WaypointMovement } from "./waypoint-movement";
+import { DefaultTurret3D } from './default_turret_3D';
 
 
 /**
@@ -12,14 +13,16 @@ export class EnemySpawner extends Component {
     static TypeName = 'enemy-spawner';
     /* Properties that are configurable in the editor */
     static Properties = {
+        defaultEnemy: { type: Type.Object },
         defaultMesh: { type: Type.Mesh },
         defaultMaterial: { type: Type.Material },
-        spawnTimer: { type: Type.Int, default: 5 },
+        spawnTimer: { type: Type.Float, default: 3 },
         defaultHealth : { type: Type.Int, default: 50},
         defaultReward: { type: Type.Int, default: 10},
         specialRewardChance: { type: Type.Int, default : 1},
         defaultSpeed: {type: Type.Float, default: 3.0},
-        defaultDamage : {type :Type.Int, default : 5}
+        defaultDamage : {type :Type.Int, default : 5},
+        poisoned: { type:Type.Bool, default: false},
     };
 
     // The game file contains the state object, the init function adds a function
@@ -57,32 +60,28 @@ export class EnemySpawner extends Component {
     spawnEnemy() {
         // this creates an object and adds it to the current wonderland scene
         const obj = this.engine.scene.addObject();
+        obj.enem = this.defaultEnemy.clone(obj);
+        obj.enem.setScalingLocal([3,3,3]);
         // Sets the location of the new object to be the same as the spawn point
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
         // adds mesh to the new object referenving the mesh designated by the
         //spawning object in the editor
-        const mesh = obj.addComponent('mesh');
-        mesh.mesh = this.defaultMesh;
-        mesh.material = this.defaultMaterial;
-        mesh.active = true;
+        obj.poisoned = false;
         // grants the new enemy object a collision box
-
         obj.addComponent("collision", {
             shape: WL.Collider.Sphere,
             extents: [5, 0, 0],
             group: 1 << 5,
             active: true,
         });
-        if(obj.drone)
-        {
-            Float32Array()
-            obj. addComponent(WaypointMovement)
-        }
         // potential distance traveled for enemy selection
         obj.walked = 0;
+        obj.timer = 0;
+        obj.poisonStack = 0;
         obj.health = this.defaultHealth;
         obj.damage = this.defaultDamage;
         obj.value = this.defaultReward;
+    
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
         let o = this.object.getComponent(WaypointMovement);

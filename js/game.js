@@ -5,10 +5,7 @@
  */
 // Global TODO
 // Music/sound - Ron
-// Levels/increasing difficulty . Maybe a day night cycle to signify increased difficulty? - Hargun
 // Extra types of towers - Hieu
-// Turret UPgrades
-// Hud for turret selection
 // Enemy types - Saul
 // Flying enemy 
 // Boss monster/ seige weapon
@@ -16,7 +13,10 @@
 // terrain collision
 // Turrets spawn at cursor instead of where player is standing 
 // Off limit building paths
-// See through/semi transparent hud 
+// See through/semi transparent hud
+// Fix animation
+// Sync day/night with level and sun/moon
+
 
 // onHOver?  cursor hover for upgrade details for individual towers?
 // alternatively, 
@@ -44,8 +44,7 @@ export const state = {
 
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "drone",
-    ship: null,
+    selectedTurret : "poison",
     shipHit:null,
     buildTime : 15,
 
@@ -53,6 +52,30 @@ export const state = {
     day: true,
     pauseEnemies: true,
     pauseBuilding: false,
+
+    attackDamagecost: 50,
+    attackRangeCost: 50,
+    attackSpeedCost: 50,
+    profitUpCost: 50,
+    healthUpCost: 50,
+
+    attackDamage: 10,
+    attackRange: 10,
+    attackSpeed: 10,
+    profitUp: 10,
+    healthUp: 10,
+
+    defaultTurret3D: null,
+    poisonTurret3D: null,
+
+    getAttackDamageCost: function () { return this.attackDamagecost.toString() },
+    getAttackRangeCost: function () { return this.attackRangeCost.toString() },
+    getAttackSpeedCost: function () { return this.attackSpeedCost.toString() },
+    getProfitUpCost: function () { return this.profitUpCost.toString() },
+    getHealthUpCost: function () { return this.healthUpCost.toString() },
+
+
+
 
 }
  
