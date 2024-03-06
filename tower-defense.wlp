@@ -148,58 +148,6 @@
                 1.0
             ]
         },
-        "21": {
-            "name": "Light",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "intensity": 1111.0,
-                        "type": "spot",
-                        "shadows": false,
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "outerAngle": 130.0
-                    },
-                    "active": false
-                },
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "9",
-                        "material": "25"
-                    }
-                },
-                {
-                    "type": "waypoint-movement",
-                    "waypoint-movement": {
-                        "pathObject": "304",
-                        "speed": 5.0,
-                        "curveDistance": 0.0
-                    },
-                    "active": false
-                }
-            ],
-            "translation": [
-                0.8867278,
-                27.6359672,
-                2.0
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
         "53": {
             "link": {
                 "name": "root",
@@ -1577,81 +1525,6 @@
                 }
             ]
         },
-        "271": {
-            "link": {
-                "name": "Walls",
-                "file": "models\\Map_TerrainVF(1) (1).glb"
-            },
-            "components": [
-                {
-                    "active": true
-                }
-            ],
-            "translation": [
-                -0.0467529,
-                1.7776206,
-                -0.1482238
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                39.9962882,
-                31.8563499,
-                28.2387142
-            ]
-        },
-        "272": {
-            "link": {
-                "name": "Ground",
-                "file": "models\\Map_TerrainVF(1) (1).glb"
-            },
-            "components": [
-                {
-                    "active": true,
-                    "mesh": {
-                        "mesh": "7"
-                    }
-                },
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                40.0,
-                                1.0,
-                                28.0
-                            ]
-                        },
-                        "groups": 129
-                    },
-                    "active": true
-                },
-                {
-                    "type": "cursor-target"
-                }
-            ],
-            "rotation": [
-                0.4999994,
-                0.5000005,
-                0.5000005,
-                -0.4999995
-            ],
-            "scaling": [
-                42.9296531,
-                44.2256431,
-                0.9999995
-            ],
-            "translation": [
-                -2.2826962,
-                -0.8187477,
-                13.4163818
-            ]
-        },
         "273": {
             "link": {
                 "name": "Empty",
@@ -1659,7 +1532,7 @@
             },
             "translation": [
                 -33.3397445,
-                0.0,
+                -0.624599,
                 -16.7457904
             ],
             "rotation": [
@@ -1681,7 +1554,8 @@
                         "defaultMesh": "10",
                         "defaultMaterial": "26",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 3,
+                        "defaultEnemy": "531"
                     },
                     "active": true
                 },
@@ -1708,8 +1582,8 @@
             "name": "WaypointsA",
             "translation": [
                 -33.0809745,
-                1.8406677,
-                -16.549015
+                -1.1723227,
+                -16.7347335
             ],
             "rotation": [
                 0.0,
@@ -1721,6 +1595,16 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "20"
+                    },
+                    "active": false
+                }
             ]
         },
         "276": {
@@ -1739,7 +1623,7 @@
             ],
             "translation": [
                 8.6189632,
-                -0.7879257,
+                0.0,
                 5.7255077
             ]
         },
@@ -1759,7 +1643,7 @@
             ],
             "translation": [
                 15.6111984,
-                -0.9255599,
+                0.0,
                 5.1605701
             ]
         },
@@ -1768,7 +1652,7 @@
             "parent": "275",
             "translation": [
                 34.3396492,
-                -1.9727478,
+                0.0,
                 1.2737598
             ],
             "rotation": [
@@ -1788,7 +1672,7 @@
             "parent": "275",
             "translation": [
                 61.3514251,
-                -3.4241027,
+                0.0,
                 3.2200355
             ],
             "rotation": [
@@ -1832,7 +1716,8 @@
                         "defaultMesh": "8",
                         "defaultMaterial": "22",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 3,
+                        "defaultEnemy": "531"
                     },
                     "active": true
                 },
@@ -1860,7 +1745,7 @@
             "name": "Waypoints B",
             "translation": [
                 -34.3486671,
-                0.0,
+                -1.1536612,
                 17.3053607
             ],
             "rotation": [
@@ -1873,6 +1758,15 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "20"
+                    }
+                }
             ]
         },
         "288": {
@@ -1984,7 +1878,8 @@
                         "defaultMesh": "11",
                         "defaultMaterial": "25",
                         "movement": "275",
-                        "spawnTimer": 3
+                        "spawnTimer": 3,
+                        "defaultEnemy": "531"
                     },
                     "active": true
                 },
@@ -2012,7 +1907,7 @@
             "name": "Waypoints C",
             "translation": [
                 36.2585296,
-                0.0,
+                -1.0899208,
                 18.3907432
             ],
             "rotation": [
@@ -2026,7 +1921,16 @@
                 1.0,
                 1.0
             ],
-            "parent": null
+            "parent": null,
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "20"
+                    }
+                }
+            ]
         },
         "294": {
             "name": "A",
@@ -2178,7 +2082,7 @@
         },
         "307": {
             "name": "Sun",
-            "parent": null,
+            "parent": "593",
             "components": [
                 {
                     "type": "light",
@@ -2186,24 +2090,19 @@
                         "type": "sun",
                         "innerAngle": 1.0,
                         "outerAngle": 200.0,
-                        "intensity": 2.0,
+                        "intensity": 1.0,
                         "color": [
                             0.9764705,
                             0.9611533,
                             0.9611533
                         ],
-                        "shadows": false
+                        "shadows": true
                     },
                     "active": true
                 },
                 {
                     "type": "DayNight"
                 }
-            ],
-            "translation": [
-                -0.5236182,
-                55.5973434,
-                2.0
             ],
             "rotation": [
                 0.0,
@@ -2212,9 +2111,14 @@
                 1.0
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.9999996,
+                0.9999996,
+                0.9999994
+            ],
+            "translation": [
+                0.0,
+                36.037918,
+                0.0
             ]
         },
         "309": {
@@ -2368,31 +2272,30 @@
                 "file": "models\\Mothership VF.glb"
             },
             "scaling": [
-                0.0199999,
-                0.0199996,
-                0.0199996
+                0.015,
+                0.015,
+                0.015
             ],
             "translation": [
-                29.4239273,
-                1.395123,
-                -15.1753826
+                29.4239311,
+                1.0456876,
+                -15.1753797
             ],
             "rotation": [
-                0.6994082,
+                0.6994084,
                 0.1040636,
                 -0.1040637,
-                0.6994065
+                0.6994063
             ],
             "components": [
-                null,
                 null,
                 {
                     "active": true
                 },
-                null,
                 {
-                    "type": "ship"
+                    "active": true
                 },
+                null,
                 {
                     "type": "level-tracker"
                 }
@@ -2504,20 +2407,20 @@
                 }
             ],
             "translation": [
-                27.8994255,
-                -0.4086523,
-                -13.7275953
+                27.7895641,
+                -0.3869514,
+                -14.1303205
             ],
             "rotation": [
-                -0.2006887,
-                0.734717,
-                0.3026044,
-                0.5730143
+                -0.2336227,
+                0.724924,
+                0.2764323,
+                0.5860808
             ],
             "scaling": [
-                2.536338,
-                0.9999991,
-                0.9999952
+                2.5363428,
+                0.9999973,
+                0.9999942
             ]
         },
         "445": {
@@ -4624,7 +4527,9 @@
                     "type": "default_turret_3D",
                     "default_turret_3D": {
                         "turret": "505",
-                        "base": "504"
+                        "base": "504",
+                        "bulletMesh": "9",
+                        "bulletMaterial": "128"
                     },
                     "active": true
                 }
@@ -4675,6 +4580,656 @@
                 1.0,
                 1.0,
                 1.0
+            ]
+        },
+        "531": {
+            "link": {
+                "name": "Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "scaling": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "532": {
+            "link": {
+                "name": "Body<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "components": [
+                {
+                    "mesh": {
+                        "skin": "530",
+                        "material": "526"
+                    },
+                    "active": true
+                }
+            ]
+        },
+        "533": {
+            "link": {
+                "name": "scales<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "components": [
+                {
+                    "mesh": {
+                        "skin": "530",
+                        "material": "527"
+                    }
+                }
+            ]
+        },
+        "534": {
+            "link": {
+                "name": "Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530",
+            "components": [
+                {
+                    "animation": {
+                        "preview": true,
+                        "autoplay": true,
+                        "playCount": 444,
+                        "retarget": false
+                    }
+                }
+            ]
+        },
+        "535": {
+            "link": {
+                "name": "Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "534",
+            "skin": "530"
+        },
+        "536": {
+            "link": {
+                "name": "Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "535",
+            "skin": "530"
+        },
+        "537": {
+            "link": {
+                "name": "Head<Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "536",
+            "skin": "530"
+        },
+        "538": {
+            "link": {
+                "name": "Jaw<Head<Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "537",
+            "skin": "530"
+        },
+        "539": {
+            "link": {
+                "name": "Head.Control<Torso.3<Torso.2<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "536",
+            "skin": "530"
+        },
+        "540": {
+            "link": {
+                "name": "Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "534",
+            "skin": "530"
+        },
+        "541": {
+            "link": {
+                "name": "Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "540",
+            "skin": "530"
+        },
+        "542": {
+            "link": {
+                "name": "Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "541",
+            "skin": "530"
+        },
+        "543": {
+            "link": {
+                "name": "FL2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "544": {
+            "link": {
+                "name": "FL1.R<FL2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "543",
+            "skin": "530"
+        },
+        "545": {
+            "link": {
+                "name": "FR2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "546": {
+            "link": {
+                "name": "FR1.R<FR2.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "545",
+            "skin": "530"
+        },
+        "547": {
+            "link": {
+                "name": "FL3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "548": {
+            "link": {
+                "name": "FL4.R<FL3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "547",
+            "skin": "530"
+        },
+        "549": {
+            "link": {
+                "name": "FR3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "542",
+            "skin": "530"
+        },
+        "550": {
+            "link": {
+                "name": "FR4.R<FR3.R<Leg3.R<Leg2.R<Leg1.R<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "549",
+            "skin": "530"
+        },
+        "551": {
+            "link": {
+                "name": "Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "534",
+            "skin": "530"
+        },
+        "552": {
+            "link": {
+                "name": "Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "551",
+            "skin": "530"
+        },
+        "553": {
+            "link": {
+                "name": "Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "552",
+            "skin": "530"
+        },
+        "554": {
+            "link": {
+                "name": "FL2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "555": {
+            "link": {
+                "name": "FL1.L<FL2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "554",
+            "skin": "530"
+        },
+        "556": {
+            "link": {
+                "name": "FR2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "557": {
+            "link": {
+                "name": "FR1.L<FR2.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "556",
+            "skin": "530"
+        },
+        "558": {
+            "link": {
+                "name": "FL3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "559": {
+            "link": {
+                "name": "FL4.L<FL3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "558",
+            "skin": "530"
+        },
+        "560": {
+            "link": {
+                "name": "FR3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "553",
+            "skin": "530"
+        },
+        "561": {
+            "link": {
+                "name": "FR4.L<FR3.L<Leg3.L<Leg2.L<Leg1.L<Torso.1<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "560",
+            "skin": "530"
+        },
+        "562": {
+            "link": {
+                "name": "Heel.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "563": {
+            "link": {
+                "name": "Toes.R<Heel.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "562",
+            "skin": "530"
+        },
+        "564": {
+            "link": {
+                "name": "Toes.R.001<Heel.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "562",
+            "skin": "530"
+        },
+        "565": {
+            "link": {
+                "name": "Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "566": {
+            "link": {
+                "name": "Tail.001<Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "565",
+            "skin": "530"
+        },
+        "567": {
+            "link": {
+                "name": "Tail.002<Tail.001<Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "566",
+            "skin": "530"
+        },
+        "568": {
+            "link": {
+                "name": "Tail.003<Tail.002<Tail.001<Tail<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "567",
+            "skin": "530"
+        },
+        "569": {
+            "link": {
+                "name": "Knee.IK.R<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "570": {
+            "link": {
+                "name": "Heel.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "571": {
+            "link": {
+                "name": "Toes.L<Heel.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "570",
+            "skin": "530"
+        },
+        "572": {
+            "link": {
+                "name": "Toes.L.001<Heel.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "570",
+            "skin": "530"
+        },
+        "573": {
+            "link": {
+                "name": "Knee.IK.L<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "574": {
+            "link": {
+                "name": "Tail.Control<Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "parent": "531",
+            "skin": "530"
+        },
+        "575": {
+            "link": {
+                "name": "Circle",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "578": {
+            "name": "TurretPoison",
+            "translation": [
+                0.0,
+                18.6234092,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": null,
+            "components": [
+                {
+                    "type": "poison_turret_3D",
+                    "poison_turret_3D": {
+                        "turret": "579",
+                        "base": "584",
+                        "bulletMesh": "9",
+                        "bulletMaterial": "203"
+                    }
+                }
+            ]
+        },
+        "579": {
+            "link": {
+                "name": "Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "578",
+            "translation": [
+                0.0,
+                -0.760839,
+                0.0127592
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "TurretBodyp",
+            "components": [
+                {
+                    "mesh": {
+                        "material": "489"
+                    }
+                },
+                null,
+                null,
+                null
+            ]
+        },
+        "580": {
+            "link": {
+                "name": "cannon<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "579"
+        },
+        "581": {
+            "link": {
+                "name": "propulser<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "579"
+        },
+        "582": {
+            "link": {
+                "name": "radar<Turret",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "579"
+        },
+        "583": {
+            "name": "Empty",
+            "parent": "579",
+            "translation": [
+                0.2400758,
+                1.1466579,
+                -1.0356981
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "584": {
+            "link": {
+                "name": "Base",
+                "file": "models\\Turret_1.glb"
+            },
+            "parent": "578",
+            "translation": [
+                0.0,
+                -1.310543,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.7197145,
+                0.7197145,
+                0.7197145
+            ],
+            "name": "Basep",
+            "components": [
+                {
+                    "mesh": {
+                        "material": "489"
+                    }
+                }
+            ]
+        },
+        "590": {
+            "link": {
+                "name": "Ground",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "translation": [
+                0.0,
+                -2.1196026,
+                0.0
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "591": {
+            "link": {
+                "name": "Empty",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            }
+        },
+        "271": {
+            "link": {
+                "name": "Walls",
+                "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "components": [
+                {
+                    "active": true
+                }
+            ],
+            "translation": [
+                -0.0467529,
+                1.7776206,
+                -0.1482238
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                39.9962882,
+                31.8563499,
+                28.2387142
+            ]
+        },
+        "593": {
+            "name": "Empty.001",
+            "components": [
+                {
+                    "type": "rtest"
+                }
+            ]
+        },
+        "594": {
+            "name": "Empty.002"
+        },
+        "595": {
+            "name": "Mesh.001",
+            "parent": "307",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "25"
+                    }
+                }
+            ]
+        },
+        "596": {
+            "name": "Moon",
+            "parent": "593",
+            "components": [
+                {
+                    "type": "light",
+                    "light": {
+                        "type": "sun",
+                        "color": [
+                            0.3164936,
+                            0.7459827,
+                            0.8235294
+                        ],
+                        "intensity": 0.5,
+                        "shadows": true
+                    }
+                }
+            ],
+            "translation": [
+                -0.0000112,
+                -22.391714,
+                -0.0000121
+            ],
+            "rotation": [
+                0.0172821,
+                0.1391892,
+                0.9900926,
+                -0.0066505
+            ],
+            "scaling": [
+                0.9999958,
+                0.9999979,
+                0.9999992
+            ]
+        },
+        "598": {
+            "name": "Mesh.003",
+            "parent": "596",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "387"
+                    }
+                }
             ]
         }
     },
@@ -5101,6 +5656,18 @@
                 "name": "Turret.2",
                 "file": "models\\Turret_1.glb"
             }
+        },
+        "528": {
+            "link": {
+                "name": "Body",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "529": {
+            "link": {
+                "name": "scales",
+                "file": "models\\Ground alien_VF.glb"
+            }
         }
     },
     "textures": {
@@ -5385,6 +5952,58 @@
                 "name": "texture_11",
                 "file": "models\\Turret_1.glb"
             }
+        },
+        "520": {
+            "link": {
+                "name": "texture_0",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "521": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "522": {
+            "link": {
+                "name": "texture_2",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "523": {
+            "link": {
+                "name": "texture_3",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "524": {
+            "link": {
+                "name": "texture_4",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "525": {
+            "link": {
+                "name": "texture_5",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "587": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "image": "585",
+            "name": "Irradiance probe: Body_BaseColor-Body_Alpha"
+        },
+        "588": {
+            "link": {
+                "name": "texture_1",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "image": "586",
+            "name": "Specular probe: Body_BaseColor-Body_Alpha"
         }
     },
     "images": {
@@ -5438,181 +6057,301 @@
             "link": {
                 "name": "Floor tx",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "259": {
             "link": {
                 "name": "Floor tx.0",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "331": {
             "link": {
                 "name": "White chasis_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "332": {
             "link": {
                 "name": "White chasis_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "333": {
             "link": {
                 "name": "White chasis_BaseColor-White chasis_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "334": {
             "link": {
                 "name": "White chasis_Metallic-White chasis_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "335": {
             "link": {
                 "name": "Ship floor_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                512,
+                512
+            ]
         },
         "336": {
             "link": {
                 "name": "Ship floor_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                512,
+                512
+            ]
         },
         "337": {
             "link": {
                 "name": "Ship floor_BaseColor-Ship floor_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                256,
+                256
+            ]
         },
         "338": {
             "link": {
                 "name": "Ship floor_Metallic-Ship floor_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "339": {
             "link": {
                 "name": "Chasis joint_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "340": {
             "link": {
                 "name": "Chasis joint_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "341": {
             "link": {
                 "name": "Chasis joint_BaseColor-Chasis joint_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "342": {
             "link": {
                 "name": "Chasis joint_Metallic-Chasis joint_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "343": {
             "link": {
                 "name": "Black metallic_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "344": {
             "link": {
                 "name": "Black metallic_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "345": {
             "link": {
                 "name": "Black metallic_BaseColor-Black metallic_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "346": {
             "link": {
                 "name": "Black metallic_Metallic-Black metallic_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "347": {
             "link": {
                 "name": "Orange window_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "348": {
             "link": {
                 "name": "Orange window_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "349": {
             "link": {
                 "name": "Orange window_BaseColor-Orange window_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "350": {
             "link": {
                 "name": "Orange window_Metallic-Orange window_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "351": {
             "link": {
                 "name": "Red metallic_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "352": {
             "link": {
                 "name": "Red metallic_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "353": {
             "link": {
                 "name": "Red metallic_BaseColor-Red metallic_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "354": {
             "link": {
                 "name": "Red metallic_Metallic-Red metallic_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "355": {
             "link": {
                 "name": "Blue mate_Emission",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "356": {
             "link": {
                 "name": "Blue mate_Normal",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "357": {
             "link": {
                 "name": "Blue mate_BaseColor-Blue mate_Alpha",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "358": {
             "link": {
                 "name": "Blue mate_Metallic-Blue mate_Roughness",
                 "file": "models\\Mothership VF.glb"
-            }
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
         },
         "463": {
             "link": {
@@ -5685,6 +6424,78 @@
                 "name": "fiber_BaseColor-fiber_Alpha",
                 "file": "models\\Turret_1.glb"
             }
+        },
+        "514": {
+            "link": {
+                "name": "Body_Emission",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
+        },
+        "515": {
+            "link": {
+                "name": "Body_BaseColor-Body_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "maxSize": [
+                1024,
+                1024
+            ]
+        },
+        "516": {
+            "link": {
+                "name": "Body_Metallic",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "517": {
+            "link": {
+                "name": "Scales_Normal",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "518": {
+            "link": {
+                "name": "Scales_BaseColor-Scales_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "519": {
+            "link": {
+                "name": "Scales_Metallic",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        },
+        "585": {
+            "link": {
+                "name": "Body_BaseColor-Body_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "name": "Irradiance probe: Body_BaseColor-Body_Alpha",
+            "isProbe": true,
+            "isSpecularProbe": false,
+            "compression": "etc1s",
+            "maxSize": [
+                64,
+                64
+            ]
+        },
+        "586": {
+            "link": {
+                "name": "Body_BaseColor-Body_Alpha",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "name": "Specular probe: Body_BaseColor-Body_Alpha",
+            "isProbe": false,
+            "isSpecularProbe": true,
+            "compression": "etc1s",
+            "maxSize": [
+                512,
+                512
+            ]
         }
     },
     "materials": {
@@ -5750,9 +6561,9 @@
                     1.0
                 ],
                 "specularColor": [
-                    9.999999974752427e-7,
-                    9.999899930335232e-7,
-                    9.999899930335232e-7,
+                    0.9955157,
+                    0.9910915,
+                    0.0089283,
                     1.0
                 ],
                 "ambientColor": [
@@ -5760,8 +6571,18 @@
                     0.3089579,
                     0.0,
                     1.0
-                ]
-            }
+                ],
+                "emissiveColor": [
+                    0.973495,
+                    0.9955157,
+                    0.0133925,
+                    1.0
+                ],
+                "diffuseTexture": "363",
+                "emissiveTexture": "362",
+                "normalTexture": "360"
+            },
+            "pipeline": "231"
         },
         "26": {
             "name": "Green",
@@ -5925,6 +6746,14 @@
             "link": {
                 "name": "Floor",
                 "file": "models\\Map_TerrainVF(1) (1).glb"
+            },
+            "Phong": {
+                "emissiveColor": [
+                    0.1210762,
+                    0.1210762,
+                    0.1210762,
+                    0.632287
+                ]
             }
         },
         "283": {
@@ -5935,12 +6764,48 @@
             "link": {
                 "name": "White chasis",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveColor": [
+                    0.8206278,
+                    0.7948681,
+                    0.7948681,
+                    0.4035874
+                ],
+                "emissiveTexture": "361",
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "diffuseColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.05,
+                    0.05,
+                    0.05,
+                    1.0
+                ]
             }
         },
         "388": {
             "link": {
                 "name": "Ship floor",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "365",
+                "emissiveColor": [
+                    0.2556053,
+                    0.189125,
+                    0.189125,
+                    1.0
+                ]
             }
         },
         "389": {
@@ -5959,6 +6824,15 @@
             "link": {
                 "name": "Orange window",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveColor": [
+                    0.9013453,
+                    0.4650186,
+                    0.16976,
+                    1.0
+                ],
+                "emissiveTexture": "377"
             }
         },
         "392": {
@@ -5971,6 +6845,27 @@
             "link": {
                 "name": "Blue mate",
                 "file": "models\\Mothership VF.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "385",
+                "emissiveColor": [
+                    0.0033783,
+                    0.0179372,
+                    0.015391,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "fogColor": [
+                    0.0697379,
+                    0.0934806,
+                    0.1524663,
+                    0.0538116
+                ]
             }
         },
         "487": {
@@ -6001,6 +6896,22 @@
             "link": {
                 "name": "fiber",
                 "file": "models\\Turret_1.glb"
+            }
+        },
+        "526": {
+            "link": {
+                "name": "Body",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "Phong": {
+                "emissiveTexture": "520",
+                "diffuseTexture": "521"
+            }
+        },
+        "527": {
+            "link": {
+                "name": "Scales",
+                "file": "models\\Ground alien_VF.glb"
             }
         }
     },
@@ -6245,9 +7156,33 @@
                     "local-floor": true
                 }
             }
+        },
+        "rendering": {
+            "textureStreaming": {
+                "maxCacheSize": 2048
+            },
+            "textureAtlasSize": [
+                8192,
+                8192
+            ],
+            "compressedTextureAtlasSize": [
+                32768,
+                16384
+            ],
+            "usePreZ": false,
+            "sky": {
+                "enabled": false
+            }
         }
     },
-    "animations": {},
+    "animations": {
+        "576": {
+            "link": {
+                "name": "BonesAction.003",
+                "file": "models\\Ground alien_VF.glb"
+            }
+        }
+    },
     "skins": {
         "133": {
             "link": {
@@ -6315,6 +7250,55 @@
                 "191",
                 "192",
                 "193"
+            ]
+        },
+        "530": {
+            "link": {
+                "name": "Ground alien",
+                "file": "models\\Ground alien_VF.glb"
+            },
+            "joints": [
+                "534",
+                "535",
+                "536",
+                "537",
+                "538",
+                "539",
+                "540",
+                "541",
+                "542",
+                "543",
+                "544",
+                "545",
+                "546",
+                "547",
+                "548",
+                "549",
+                "550",
+                "551",
+                "552",
+                "553",
+                "554",
+                "555",
+                "556",
+                "557",
+                "558",
+                "559",
+                "560",
+                "561",
+                "562",
+                "563",
+                "564",
+                "565",
+                "566",
+                "567",
+                "568",
+                "569",
+                "570",
+                "571",
+                "572",
+                "573",
+                "574"
             ]
         }
     },
@@ -6478,6 +7462,10 @@
         },
         "509": {
             "fileName": "models/Turret_1.glb",
+            "importerName": ""
+        },
+        "577": {
+            "fileName": "models/Ground alien_VF.glb",
             "importerName": ""
         }
     },

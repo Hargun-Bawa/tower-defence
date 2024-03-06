@@ -39,6 +39,7 @@ export class TurretSpawner extends Component {
             if (state.currency >= this.turretCost && state.pauseBuilding === false) {
 
                 let tempTurret = null;
+                console.log(state.selectedTurret);
                 if (state.selectedTurret === "default") {
                     tempTurret = new Default;
 

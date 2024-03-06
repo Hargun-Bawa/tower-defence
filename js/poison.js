@@ -39,9 +39,9 @@ export class Poison extends Component {
         obj.status = "poisonTower";
         obj.damage = x.damage;
 
-        obj.bulletMesh = {
-            mesh: x.bulletMesh,
-            material: x.bulletMaterial
+      obj.bulletMesh = {
+            mesh:state.poisonTurret3D.bulletMesh,
+            material: state.poisonTurret3D.bulletMaterial,
         }
         obj.addComponent("collision", {
             collider: WL.Collider.Sphere,

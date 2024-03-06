@@ -27,7 +27,6 @@ export class Default extends Component {
         // related to turret operation. Any additional functionality should follow this standard
         // The turret object3D should be given the necessary properties and functions to pass onto children
         // TODO make the towers spawn at ground level instead of floating
-
         
         const obj = x.engine.scene.addObject();
         obj.turret = state.defaultTurret3D.turret.clone(obj);
@@ -71,6 +70,4 @@ export class Default extends Component {
         state.turrets.push(obj);
         obj.setDirty();
     }
-
-
 };

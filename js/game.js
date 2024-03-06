@@ -41,7 +41,7 @@ export const state = {
 
     needsUpdate: false,
     gameOver: false,
-    selectedTurret : "default",
+    selectedTurret : "poison",
     shipHit:null,
     buildTime : 15,
 

@@ -15409,7 +15409,7 @@ var state = {
   currency: 50,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "default",
+  selectedTurret: "poison",
   shipHit: null,
   buildTime: 15,
   levelUp: null,
@@ -15495,7 +15495,7 @@ var WasdControlsComponent = class extends Component {
     } else if (e.keyCode === 49) {
       state.selectedTurret = "default";
     } else if (e.keyCode === 50) {
-      state.selectedTurret = "posion";
+      state.selectedTurret = "poison";
     }
   }
   release(e) {
@@ -16334,7 +16334,10 @@ var EnemySpawner = class extends Component {
   // TODO add a onHIt function to the object that is spawned 
   spawnEnemy() {
     const obj = this.engine.scene.addObject();
-    obj.enem = this.defaultEnemy.clone();
+    obj.enem = this.defaultEnemy.clone(obj);
+    let r = obj.enem.children[4].getComponents();
+    obj.enem.setScalingLocal([3, 3, 3]);
+    console.log(r);
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
     obj.poisoned = false;
     obj.addComponent("collision", {
@@ -16439,6 +16442,21 @@ __publicField(PoisonTurret3D, "Properties", {
   base: { type: Type.Object },
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material }
+});
+
+// js/rtest.js
+var Rtest = class extends Component {
+  start() {
+    console.log("start() with param", this.param);
+  }
+  update(dt) {
+    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.055555);
+  }
+};
+__publicField(Rtest, "TypeName", "rtest");
+/* Properties that are configurable in the editor */
+__publicField(Rtest, "Properties", {
+  param: Property.float(1)
 });
 
 // js/turret-aimer.js
@@ -16669,8 +16687,8 @@ var Poison = class extends Component {
     obj.status = "poisonTower";
     obj.damage = x.damage;
     obj.bulletMesh = {
-      mesh: x.bulletMesh,
-      material: x.bulletMaterial
+      mesh: state.poisonTurret3D.bulletMesh,
+      material: state.poisonTurret3D.bulletMaterial
     };
     obj.addComponent("collision", {
       collider: WL.Collider.Sphere,
@@ -16712,6 +16730,7 @@ var TurretSpawner = class extends Component {
     state.buildT = function() {
       if (state.currency >= this.turretCost && state.pauseBuilding === false) {
         let tempTurret = null;
+        console.log(state.selectedTurret);
         if (state.selectedTurret === "default") {
           tempTurret = new Default();
           let turret = tempTurret.makeTurret(this);
@@ -18099,6 +18118,7 @@ engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(PoisonTurret3D);
+engine.registerComponent(Rtest);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);

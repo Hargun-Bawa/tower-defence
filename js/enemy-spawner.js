@@ -60,7 +60,10 @@ export class EnemySpawner extends Component {
     spawnEnemy() {
         // this creates an object and adds it to the current wonderland scene
         const obj = this.engine.scene.addObject();
-        obj.enem = this.defaultEnemy.clone();
+        obj.enem = this.defaultEnemy.clone(obj);
+        let r = obj.enem.children[4].getComponents();
+        obj.enem.setScalingLocal([3,3,3]);
+        console.log(r);
         // Sets the location of the new object to be the same as the spawn point
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
         // adds mesh to the new object referenving the mesh designated by the
