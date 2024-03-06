@@ -13,6 +13,7 @@ export class EnemySpawner extends Component {
     static TypeName = 'enemy-spawner';
     /* Properties that are configurable in the editor */
     static Properties = {
+        defaultEnemy: { type: Type.Object },
         defaultMesh: { type: Type.Mesh },
         defaultMaterial: { type: Type.Material },
         spawnTimer: { type: Type.Float, default: 3 },
@@ -59,17 +60,17 @@ export class EnemySpawner extends Component {
     spawnEnemy() {
         // this creates an object and adds it to the current wonderland scene
         const obj = this.engine.scene.addObject();
+        obj.enem = this.defaultEnemy.clone();
         // Sets the location of the new object to be the same as the spawn point
         obj.setTransformLocal(this.object.getTransformWorld(tempQuat2));
         // adds mesh to the new object referenving the mesh designated by the
         //spawning object in the editor
-        const mesh = obj.addComponent('mesh');
-        mesh.mesh = this.defaultMesh;
-        mesh.material = this.defaultMaterial;
-        mesh.active = true;
+        //const mesh = obj.addComponent('mesh');
+        //mesh.mesh = this.defaultMesh;
+        //mesh.material = this.defaultMaterial;
+        //mesh.active = true;
         obj.poisoned = false;
         // grants the new enemy object a collision box
-
         obj.addComponent("collision", {
             shape: WL.Collider.Sphere,
             extents: [5, 0, 0],

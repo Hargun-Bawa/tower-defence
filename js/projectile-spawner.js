@@ -32,7 +32,6 @@ export class ProjectileSpawner extends Component {
         obj.addComponent('collision', { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 })
         obj.name = "steven";
         obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());
-        console.log(this.object.turret);
         const physics = obj.addComponent(ProjectilePhysics, { speed: .2 });
         physics.active = true;
         return { object: obj, physics: physics };

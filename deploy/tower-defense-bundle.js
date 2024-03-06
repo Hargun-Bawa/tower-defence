@@ -16168,6 +16168,7 @@ var WaypointMovement = class extends Component {
     }
     this.currentLength += dt * this.speed;
     this.object.walked += 1;
+    this.object.enem.lookAt(this.toPosition);
     let factor = this.currentLength / this.fromToLength;
     if (factor > 0.5 && this.currentPositionIndex != this.positions.length - 1) {
       this.incrementCurveIndex = true;
@@ -16333,11 +16334,8 @@ var EnemySpawner = class extends Component {
   // TODO add a onHIt function to the object that is spawned 
   spawnEnemy() {
     const obj = this.engine.scene.addObject();
+    obj.enem = this.defaultEnemy.clone();
     obj.setTransformLocal(this.object.getTransformWorld(tempQuat23));
-    const mesh = obj.addComponent("mesh");
-    mesh.mesh = this.defaultMesh;
-    mesh.material = this.defaultMaterial;
-    mesh.active = true;
     obj.poisoned = false;
     obj.addComponent("collision", {
       shape: WL.Collider.Sphere,
@@ -16374,6 +16372,7 @@ var EnemySpawner = class extends Component {
 __publicField(EnemySpawner, "TypeName", "enemy-spawner");
 /* Properties that are configurable in the editor */
 __publicField(EnemySpawner, "Properties", {
+  defaultEnemy: { type: Type.Object },
   defaultMesh: { type: Type.Mesh },
   defaultMaterial: { type: Type.Material },
   spawnTimer: { type: Type.Float, default: 3 },
@@ -16594,7 +16593,6 @@ var ProjectileSpawner = class extends Component {
     obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
     obj.name = "steven";
     obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());
-    console.log(this.object.turret);
     const physics = obj.addComponent(ProjectilePhysics, { speed: 0.2 });
     physics.active = true;
     return { object: obj, physics };
