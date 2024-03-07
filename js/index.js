@@ -46,7 +46,7 @@ const Constants = {
     WebXROptionalFeatures: ['local','local-floor','hand-tracking','hit-test',],
 };
 const RuntimeOptions = {
-    physx: false,
+    physx: true,
     loader: false,
     xrFramebufferScaleFactor: 1,
     xrOfferSession: {

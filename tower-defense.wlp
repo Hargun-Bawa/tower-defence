@@ -3,9 +3,9 @@
         "14": {
             "name": "Player",
             "translation": [
-                27.5282173,
-                -0.7703294,
-                -7.5311474
+                25.643671,
+                0.2711,
+                -9.0019693
             ],
             "rotation": [
                 0.0,
@@ -25,6 +25,28 @@
                         "headObject": "17",
                         "lockY": true,
                         "speed": 0.2
+                    }
+                },
+                {
+                    "type": "collision",
+                    "collision": {
+                        "sphere": {
+                            "radius": 2.0
+                        },
+                        "groups": 128
+                    }
+                },
+                {
+                    "type": "physx",
+                    "physx": {
+                        "kinematic": false,
+                        "sphere": {
+                            "radius": 2.0
+                        },
+                        "lockAxis": 18,
+                        "mass": 1000000.0,
+                        "groups": 16,
+                        "block": 128
                     }
                 }
             ]
@@ -2254,17 +2276,7 @@
         },
         "330": {
             "name": "Collision.000",
-            "parent": "14",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "sphere": {
-                            "radius": 2.0
-                        }
-                    }
-                }
-            ]
+            "parent": "14"
         },
         "428": {
             "link": {
@@ -5194,7 +5206,7 @@
             "name": "sun/moon",
             "components": [
                 {
-                    "type": "rtest"
+                    "type": "celestial-rotation"
                 }
             ]
         },
@@ -5403,6 +5415,1683 @@
                     "text": {
                         "effect": "outline",
                         "text": "HEAL SHIP\n50"
+                    }
+                }
+            ]
+        },
+        "606": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 144
+                    }
+                }
+            ],
+            "translation": [
+                3.504101186990738e-8,
+                -0.0000011,
+                -0.7515648
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "607": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                40.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                4.4354237616062164e-8,
+                -0.0000014,
+                0.7953847
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.2367279
+            ]
+        },
+        "608": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                40.0,
+                                3.0,
+                                2.0
+                            ]
+                        }
+                    }
+                }
+            ],
+            "translation": [
+                1.885928213596344e-8,
+                -6.034970283508301e-7,
+                -0.9054305
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "609": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.0769396,
+                -0.0000017,
+                -0.6546591
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "610": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.2850595,
+                -0.000002,
+                -0.7144126
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "611": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.7401447,
+                -0.0000035,
+                -0.7196761
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "612": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.5210071,
+                -0.0000028,
+                -0.5621609
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "613": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.6203116,
+                -0.0000032,
+                -0.6118557
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "614": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.5405778,
+                -0.0000031,
+                -0.2645657
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "615": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.2941754,
+                -0.0000035,
+                -0.2398743
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "616": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.03748,
+                -0.0000035,
+                -0.3591901
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "617": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.0609645,
+                -0.000004,
+                -0.2025444
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "619": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.0479723,
+                -0.0558012,
+                -0.261446
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "620": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.5898313,
+                -0.0558016,
+                -0.1639126
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "621": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.7045517,
+                -0.0558021,
+                -0.0344958
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "622": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.7045517,
+                -0.0558023,
+                0.097962
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "623": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.6549153,
+                -0.0558026,
+                0.1966001
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "624": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.6974461,
+                -0.0558031,
+                0.2742505
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "625": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.7666116,
+                -0.0558034,
+                0.3322376
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "626": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.8322912,
+                -0.0558037,
+                0.3842985
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "627": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.8858658,
+                -0.0558042,
+                0.4640679
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "628": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -1.0024782,
+                -0.0558047,
+                0.631734
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "629": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.7169188,
+                -0.0558052,
+                0.6896831
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "630": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.600107,
+                -0.0558055,
+                0.6179015
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "631": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.4907567,
+                -0.055806,
+                0.5592846
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "632": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.2952198,
+                -0.0558063,
+                0.5703386
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "633": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                -0.0472362,
+                -0.0558068,
+                0.4988348
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "634": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.0142234,
+                -0.0558069,
+                0.3808165
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "635": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.1053653,
+                -0.0558073,
+                0.2785125
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "636": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.1053653,
+                -0.0558074,
+                0.4301775
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "637": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.1053653,
+                -0.0558077,
+                0.56796
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "638": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.1681987,
+                -0.0558081,
+                0.7031511
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "639": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.4009824,
+                -0.0558083,
+                0.7031511
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "640": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.3836881,
+                -0.0558088,
+                0.1059933
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "641": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.3836881,
+                -0.0558093,
+                -0.115274
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "645": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.3836881,
+                -0.0558091,
+                -0.0474059
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "646": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.2839007,
+                -0.0558096,
+                -0.0369193
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "647": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.6308966,
+                -0.05581,
+                -0.0709963
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "648": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.8568048,
+                -0.0558108,
+                -0.1591415
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "649": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.9422866,
+                -0.0558112,
+                -0.2875107
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "650": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.9422866,
+                -0.0558114,
+                -0.4173976
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "651": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.9422866,
+                -0.0558117,
+                -0.5513516
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "652": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.9422866,
+                -0.055812,
+                -0.6994575
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "653": {
+            "name": "Collision",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                5.0,
+                                3.0,
+                                2.0
+                            ]
+                        },
+                        "groups": 128
+                    }
+                }
+            ],
+            "translation": [
+                0.9422866,
+                -0.0558121,
+                -0.7298625
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0250023,
+                0.0313909,
+                0.0393814
+            ]
+        },
+        "658": {
+            "name": "PhysicsBody.001",
+            "parent": "590",
+            "components": [
+                {
+                    "type": "physx",
+                    "physx": {
+                        "shape": "plane",
+                        "static": true,
+                        "groups": 144,
+                        "block": 144,
+                        "allowQuery": true
+                    }
+                }
+            ],
+            "rotation": [
+                0.4592302,
+                0.5376907,
+                0.4592294,
+                0.5376844
+            ],
+            "translation": [
+                2.3096799850463867e-7,
+                0.0673107,
+                2.2724270820617676e-7
+            ],
+            "scaling": [
+                1.0000025,
+                1.000001,
+                1.0000023
+            ]
+        },
+        "659": {
+            "name": "PhysicsBody.000",
+            "parent": "271",
+            "components": [
+                {
+                    "type": "physx",
+                    "physx": {
+                        "sphere": {
+                            "radius": 5.0
+                        },
+                        "static": false,
+                        "lockAxis": 45,
+                        "groups": 128,
+                        "block": 16,
+                        "kinematic": false
+                    },
+                    "active": true
+                }
+            ],
+            "translation": [
+                0.2655689,
+                0.0338155,
+                -0.5773479
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.1120827
+            ]
+        },
+        "660": {
+            "name": "Mesh.002",
+            "parent": "659",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "47",
+                        "material": "20"
+                    }
+                }
+            ]
+        },
+        "661": {
+            "name": "Mesh.004",
+            "parent": "14",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "22"
                     }
                 }
             ]
@@ -7375,6 +9064,9 @@
             "sky": {
                 "enabled": false
             }
+        },
+        "physx": {
+            "enable": true
         }
     },
     "animations": {

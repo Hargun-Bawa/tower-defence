@@ -15471,6 +15471,7 @@ var state = {
 
 // node_modules/@wonderlandengine/components/dist/wasd-controls.js
 var _direction = new Float32Array(3);
+var _prev = new Float32Array(3);
 var WasdControlsComponent = class extends Component {
   init() {
     this.up = false;
@@ -15486,14 +15487,16 @@ var WasdControlsComponent = class extends Component {
   }
   update() {
     vec3_exports.zero(_direction);
-    if (this.up)
+    if (this.up) {
       _direction[2] -= 1;
-    if (this.down)
+    }
+    if (this.down) {
       _direction[2] += 1;
+    }
     if (this.left)
-      _direction[0] -= 1;
+      this.headObject.rotateAxisAngleDegLocal([0, 1, 0], 1);
     if (this.right)
-      _direction[0] += 1;
+      this.headObject.rotateAxisAngleDegLocal([0, 1, 0], -1);
     vec3_exports.normalize(_direction, _direction);
     _direction[0] *= this.speed;
     _direction[2] *= this.speed;
@@ -15504,6 +15507,12 @@ var WasdControlsComponent = class extends Component {
       vec3_exports.scale(_direction, _direction, this.speed);
     }
     this.object.translateLocal(_direction);
+    if (this.object.getComponent("collision").queryOverlaps().length > 0) {
+      console.log(this.object.getPositionLocal());
+      vec3_exports.scale(_direction, _direction, -1);
+      this.object.translateLocal(_direction);
+      console.log(this.object.getPositionLocal());
+    }
   }
   press(e) {
     if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) {
@@ -17819,7 +17828,7 @@ var Constants = {
   WebXROptionalFeatures: ["local", "local-floor", "hand-tracking", "hit-test"]
 };
 var RuntimeOptions = {
-  physx: false,
+  physx: true,
   loader: false,
   xrFramebufferScaleFactor: 1,
   xrOfferSession: {
