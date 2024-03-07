@@ -31,22 +31,9 @@
                     "type": "collision",
                     "collision": {
                         "sphere": {
-                            "radius": 2.0
+                            "radius": 1.0
                         },
                         "groups": 128
-                    }
-                },
-                {
-                    "type": "physx",
-                    "physx": {
-                        "kinematic": false,
-                        "sphere": {
-                            "radius": 2.0
-                        },
-                        "lockAxis": 18,
-                        "mass": 1000000.0,
-                        "groups": 16,
-                        "block": 128
                     }
                 }
             ]
@@ -2273,10 +2260,6 @@
                     }
                 }
             ]
-        },
-        "330": {
-            "name": "Collision.000",
-            "parent": "14"
         },
         "428": {
             "link": {
@@ -7033,68 +7016,6 @@
                 1.000001,
                 1.0000023
             ]
-        },
-        "659": {
-            "name": "PhysicsBody.000",
-            "parent": "271",
-            "components": [
-                {
-                    "type": "physx",
-                    "physx": {
-                        "sphere": {
-                            "radius": 5.0
-                        },
-                        "static": false,
-                        "lockAxis": 45,
-                        "groups": 128,
-                        "block": 16,
-                        "kinematic": false
-                    },
-                    "active": true
-                }
-            ],
-            "translation": [
-                0.2655689,
-                0.0338155,
-                -0.5773479
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.1120827
-            ]
-        },
-        "660": {
-            "name": "Mesh.002",
-            "parent": "659",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "47",
-                        "material": "20"
-                    }
-                }
-            ]
-        },
-        "661": {
-            "name": "Mesh.004",
-            "parent": "14",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "9",
-                        "material": "22"
-                    }
-                }
-            ]
         }
     },
     "meshes": {
@@ -9066,7 +8987,7 @@
             }
         },
         "physx": {
-            "enable": true
+            "enable": false
         }
     },
     "animations": {

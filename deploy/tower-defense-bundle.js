@@ -15494,9 +15494,9 @@ var WasdControlsComponent = class extends Component {
       _direction[2] += 1;
     }
     if (this.left)
-      this.headObject.rotateAxisAngleDegLocal([0, 1, 0], 1);
+      _direction[0] -= 1;
     if (this.right)
-      this.headObject.rotateAxisAngleDegLocal([0, 1, 0], -1);
+      _direction[0] += 1;
     vec3_exports.normalize(_direction, _direction);
     _direction[0] *= this.speed;
     _direction[2] *= this.speed;
@@ -17828,7 +17828,7 @@ var Constants = {
   WebXROptionalFeatures: ["local", "local-floor", "hand-tracking", "hit-test"]
 };
 var RuntimeOptions = {
-  physx: true,
+  physx: false,
   loader: false,
   xrFramebufferScaleFactor: 1,
   xrOfferSession: {
