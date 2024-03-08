@@ -7,7 +7,7 @@ import { state } from './game.js';
 export class UIHandler extends Component {
     static TypeName = "uiHandler";
     static Properties = {
-        panel: Property.enum(['simple', 'buttons', 'scrolling', 'images', 'input-text'], 'simple')
+        panel: Property.enum(['simple', 'buttons', 'scrolling', 'images', 'input-text', 'simple2'], 'simple')
     };
 
     static onRegister(engine) {
@@ -19,9 +19,8 @@ export class UIHandler extends Component {
         // as Wonderland seems  to not like "${ state.health}" for reasons I don't understand
         this.hp = state.getHealth();
         this.currency = state.getCurrency();
-    }
+        console.log(this.object.name);
 
-    start() {
         this.target = this.object.getComponent('cursor-target');
         this.target.addHoverFunction(this.onHover.bind(this));
         this.target.addUnHoverFunction(this.onUnHover.bind(this));
@@ -48,6 +47,9 @@ export class UIHandler extends Component {
             case 4://input-text
                 this.inputTextPanel();
                 break;
+            case 5://simple2
+                this.simplePanel2();
+                break;
         }
     }
 
@@ -64,6 +66,23 @@ export class UIHandler extends Component {
         }
         // TODO  figure out why \n doesnt work for newline functions
         const content = { body: "Health: " + state.getHealth() + "\rMoney: " + state.getCurrency() };
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
+        this.ui.updateConfig(this, config.height, 100);
+        let ui = this.ui;
+    }
+
+    simplePanel2() {
+        const config = {
+            body: {
+                fontSize: 50,
+                type: "text",
+                position: { top: 10 },
+                paddingTop: 50,
+                height: 256
+            },
+        }
+        // TODO  figure out why \n doesnt work for newline functions
+        const content = { body: "blarfh: " + "\rMoney: " };
         this.ui = new CanvasUI(content, config, this.object, this.engine);
         this.ui.updateConfig(this, config.height, 100);
         let ui = this.ui;
@@ -99,9 +118,9 @@ export class UIHandler extends Component {
             laser: "<path>M 54 32 L 10 10 L 10 54 Z</path>",
         }
 
-        this.ui2 = new CanvasUI(content, config, this.object, this.engine);
-        this.ui2.update();
-        let ui2 = this.ui2;
+        this.ui = new CanvasUI(content, config, this.object, this.engine);
+        this.ui.update();
+        let ui = this.ui;
     }
 
     scrollPanel() {
@@ -304,6 +323,6 @@ export class UIHandler extends Component {
             state.needsUpdate = false;
         }
         if (this.ui) this.ui.update();
-        if( this.ui2 ) this.ui2.update();
+        if (this.ui2) this.ui2.update();
     }
 }

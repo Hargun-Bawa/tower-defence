@@ -5475,7 +5475,7 @@
                 }
             ],
             "translation": [
-                4.4354237616062164e-8,
+                4.435423761606216e-8,
                 -0.0000014,
                 0.7953846
             ],
@@ -7103,6 +7103,44 @@
                         },
                         "groups": 16
                     }
+                }
+            ]
+        },
+        "661": {
+            "name": "Test",
+            "parent": "17",
+            "translation": [
+                -0.1616287,
+                0.1399602,
+                -19.6894721
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "7",
+                        "material": "662"
+                    }
+                },
+                {
+                    "type": "uiHandler",
+                    "uiHandler": {
+                        "panel": "simple2"
+                    }
+                },
+                {
+                    "type": "cursor-target"
                 }
             ]
         }
@@ -8814,6 +8852,14 @@
                 "name": "Scales",
                 "file": "models\\Ground alien_VF.glb"
             }
+        },
+        "662": {
+            "name": "CanvasUI2",
+            "pipeline": "664"
+        },
+        "663": {
+            "name": "CanvasUI",
+            "pipeline": "282"
         }
     },
     "shaders": {
@@ -9328,6 +9374,18 @@
                 "ALPHA_MASKED": true
             },
             "name": "UI",
+            "depthFunction": "always"
+        },
+        "664": {
+            "link": {
+                "name": "Flat Opaque Textured",
+                "file": "default"
+            },
+            "features": {
+                "TEXTURED": true,
+                "ALPHA_MASKED": true
+            },
+            "name": "UI2",
             "depthFunction": "always"
         }
     },

@@ -277,6 +277,7 @@ border: width color style
 */
 class CanvasUI {
     constructor(content, config, object, engine) {
+        console.log(object.name, 'CanvasUI constructor!!!!!!!!!!');
         const defaultconfig = {
             width: 512,
             height: 512,
@@ -331,13 +332,10 @@ class CanvasUI {
             }
         })
 
-
         this.canvas = this.createOffscreenCanvas(this.config.width, this.config.height);
         this.context = this.canvas.getContext('2d');
         this.context.save();
-
         const opacity = (this.config.opacity !== undefined) ? this.config.opacity : 0.7;
-
         const mesh = object.getComponent('mesh');
         this.material = mesh.material;
 

@@ -16158,16 +16158,16 @@ var EnemySpawner = class extends Component {
     obj.health = this.defaultHealth;
     obj.damage = this.defaultDamage;
     obj.value = this.defaultReward;
-    let o = this.object.getComponent(WaypointMovement);
-    o.speed = this.defaultSpeed;
+    let waypoint = this.object.getComponent(WaypointMovement);
+    waypoint.speed = this.defaultSpeed;
     obj.f = function() {
       state.health -= obj.damage;
       const index = state.currentEnemies.indexOf(obj);
-      const x2 = state.currentEnemies.splice(index, 1);
+      state.currentEnemies.splice(index, 1);
       state.needsUpdate = true;
       obj.destroy();
     };
-    obj.addComponent(WaypointMovement, o);
+    obj.addComponent(WaypointMovement, waypoint);
     obj.setScalingLocal([0.2, 0.2, 0.2]);
     obj.active = true;
     obj.setDirty();
@@ -16281,7 +16281,7 @@ var TurretAimer = class extends Component {
     }
   }
   fire() {
-    let g = new Float32Array(3);
+    let target_location = new Float32Array(3);
     const collision = this.object.getComponent("collision");
     const overlaps = collision.queryOverlaps();
     let fired = false;
@@ -16292,7 +16292,7 @@ var TurretAimer = class extends Component {
           [0, 1, 0]
         );
         if (this.timer > this.object.cd) {
-          this.object.shoot(this.object.turret.getForwardWorld(g));
+          this.object.shoot(this.object.turret.getForwardWorld(target_location));
           this.object.target.health -= this.object.damage;
           this.checkStatus();
           this.timer = 0;
@@ -16352,8 +16352,8 @@ var ProjectilePhysics = class extends Component {
     this.object.setPositionLocal(this.position);
     let overlaps = this.collision.queryOverlaps();
     if (overlaps.length > 0) {
-      if (overlaps[0].object.parent.name === "centermass") {
-        console.log(overlaps);
+      if (overlaps[0].object.name === "centermass") {
+        console.log(overlaps[0].object.parent.name);
       }
       this.destroyBullet(0);
       return;
@@ -16816,6 +16816,7 @@ var CanvasKeyboard = class {
 };
 var CanvasUI = class {
   constructor(content, config2, object, engine2) {
+    console.log(object.name, "CanvasUI constructor!!!!!!!!!!");
     const defaultconfig = {
       width: 512,
       height: 512,
@@ -17521,8 +17522,7 @@ var UIHandler = class extends Component {
   init() {
     this.hp = state.getHealth();
     this.currency = state.getCurrency();
-  }
-  start() {
+    console.log(this.object.name);
     this.target = this.object.getComponent("cursor-target");
     this.target.addHoverFunction(this.onHover.bind(this));
     this.target.addUnHoverFunction(this.onUnHover.bind(this));
@@ -17547,6 +17547,9 @@ var UIHandler = class extends Component {
       case 4:
         this.inputTextPanel();
         break;
+      case 5:
+        this.simplePanel2();
+        break;
     }
   }
   // this is the code for the Health and currency HUD 
@@ -17561,6 +17564,21 @@ var UIHandler = class extends Component {
       }
     };
     const content = { body: "Health: " + state.getHealth() + "\rMoney: " + state.getCurrency() };
+    this.ui = new CanvasUI(content, config2, this.object, this.engine);
+    this.ui.updateConfig(this, config2.height, 100);
+    let ui2 = this.ui;
+  }
+  simplePanel2() {
+    const config2 = {
+      body: {
+        fontSize: 50,
+        type: "text",
+        position: { top: 10 },
+        paddingTop: 50,
+        height: 256
+      }
+    };
+    const content = { body: "blarfh: \rMoney: " };
     this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.updateConfig(this, config2.height, 100);
     let ui2 = this.ui;
@@ -17767,7 +17785,7 @@ var UIHandler = class extends Component {
 };
 __publicField(UIHandler, "TypeName", "uiHandler");
 __publicField(UIHandler, "Properties", {
-  panel: Property.enum(["simple", "buttons", "scrolling", "images", "input-text"], "simple")
+  panel: Property.enum(["simple", "buttons", "scrolling", "images", "input-text", "simple2"], "simple")
 });
 
 // js/index.js
