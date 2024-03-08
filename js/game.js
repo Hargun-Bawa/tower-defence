@@ -16,10 +16,6 @@
 // Fix animation
 // Sync day/night with level and sun/moon
 
-import { ButtonFunctions } from './button-functions';
-
-// onHOver?  cursor hover for upgrade details for individual towers?
-// alternatively,
 export const state = {
   EnemySpawner: [],
   //this is the function that spawns enemeies
@@ -30,6 +26,7 @@ export const state = {
   enemiesDestroyed: 0,
 
   health: 100,
+  maxHealth: 1000,
   getHealth: function () {
     return this.health.toString();
   },
@@ -42,11 +39,10 @@ export const state = {
   buildT: null,
   spawnedTurrets: 0,
   maxTurrets: 10,
-  currency: 50,
+  currency: 500,
 
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: 'poison',
   shipHit: null,
   buildTime: 15,
 
@@ -55,37 +51,75 @@ export const state = {
   pauseEnemies: true,
   pauseBuilding: false,
   buttonFunctions: [
+
     function () {
-      state.currency -= state.attackDamagecost;
-      state.attackDamagecost += 50;
+      state.currency -= state.attackDamageCost;
+      state.attackDamageCost += 50;
       state.attackDamage += 10;
       state.needsUpdate = true;
-      return 'ATTACK DAMAGE UPGRADE\n' + state.attackDamagecost.toString();
+      state.poisonDamage += 0.5;
+      for (turret in state.turrets) {
+        if (turret.TypeName != 'poison') turret.damage = state.attackDamage;
+      }
+      return 'ATTACK DAMAGE UPGRADE\n' + state.attackDamageCost.toString();
     },
+
     function () {
+      state.currency -= state.attackRangeCost;
+      state.attackRangeCost *=2;
+      state.attackRange += .5;
+      state.needsUpdate = true;
+      for( turret in state.turrets){
+        turret.object.getComponent('collision').extents = [state.attackRange, 0, 0];  
+      }
       return 'TURRET RANGE UPGRADE\n' + state.attackRangeCost.toString();
     },
+
     function () {
+      state.currency -= state.attackSpeedCost;
+      state.attackSpeedCost += 50;
+      state.attackSpeed -= 0.1;
+      state.needsUpdate = true;
       return 'ATTACK SPEED UPGRADE\n' + state.attackSpeedCost();
     },
+
     function () {
+      state.currency -= state.profitUpCost;
+      state.profitUpCost *= 3;
+      state.bonus += 2;
+      state.needsUpdate = true;
       return 'PROFIT UPGRADE\n' + state.profitUpCost.toString();
     },
+
     function () {
+        if(state.maxHealth - state.health )
+        {
+          state.currency -= (state.maxHealth - state.health);
+          state.health = state.maxHealth ;
+        }
+        else 
+        {
+          state.currency -= state.healthUpCost;
+          state.healthUpCost *= 4;
+          state.maxHealth *= 2;
+        }
+        state.needsUpdate = true;
       return 'SHIP HEALTH UPGRADE\n' + state.healthUpCost.toString();
     },
   ],
-  attackDamagecost: 50,
+  attackDamageCost: 50,
   attackRangeCost: 50,
   attackSpeedCost: 50,
   profitUpCost: 50,
   healthUpCost: 50,
 
   attackDamage: 10,
-  attackRange: 10,
+  poisonDamage: 1.0,
+  attackRange: 5.0,
   attackSpeed: 10,
   profitUp: 10,
   healthUp: 10,
+  bonus: 0,
 
   defaultTurret3D: null,
   poisonTurret3D: null,

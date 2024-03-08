@@ -1881,15 +1881,15 @@ var require_howler = __commonJS({
         }
         return self2;
       };
-      HowlerGlobal.prototype.pos = function(x, y, z) {
+      HowlerGlobal.prototype.pos = function(x2, y, z) {
         var self2 = this;
         if (!self2.ctx || !self2.ctx.listener) {
           return self2;
         }
         y = typeof y !== "number" ? self2._pos[1] : y;
         z = typeof z !== "number" ? self2._pos[2] : z;
-        if (typeof x === "number") {
-          self2._pos = [x, y, z];
+        if (typeof x2 === "number") {
+          self2._pos = [x2, y, z];
           if (typeof self2.ctx.listener.positionX !== "undefined") {
             self2.ctx.listener.positionX.setTargetAtTime(self2._pos[0], Howler.ctx.currentTime, 0.1);
             self2.ctx.listener.positionY.setTargetAtTime(self2._pos[1], Howler.ctx.currentTime, 0.1);
@@ -1902,7 +1902,7 @@ var require_howler = __commonJS({
         }
         return self2;
       };
-      HowlerGlobal.prototype.orientation = function(x, y, z, xUp, yUp, zUp) {
+      HowlerGlobal.prototype.orientation = function(x2, y, z, xUp, yUp, zUp) {
         var self2 = this;
         if (!self2.ctx || !self2.ctx.listener) {
           return self2;
@@ -1913,17 +1913,17 @@ var require_howler = __commonJS({
         xUp = typeof xUp !== "number" ? or[3] : xUp;
         yUp = typeof yUp !== "number" ? or[4] : yUp;
         zUp = typeof zUp !== "number" ? or[5] : zUp;
-        if (typeof x === "number") {
-          self2._orientation = [x, y, z, xUp, yUp, zUp];
+        if (typeof x2 === "number") {
+          self2._orientation = [x2, y, z, xUp, yUp, zUp];
           if (typeof self2.ctx.listener.forwardX !== "undefined") {
-            self2.ctx.listener.forwardX.setTargetAtTime(x, Howler.ctx.currentTime, 0.1);
+            self2.ctx.listener.forwardX.setTargetAtTime(x2, Howler.ctx.currentTime, 0.1);
             self2.ctx.listener.forwardY.setTargetAtTime(y, Howler.ctx.currentTime, 0.1);
             self2.ctx.listener.forwardZ.setTargetAtTime(z, Howler.ctx.currentTime, 0.1);
             self2.ctx.listener.upX.setTargetAtTime(xUp, Howler.ctx.currentTime, 0.1);
             self2.ctx.listener.upY.setTargetAtTime(yUp, Howler.ctx.currentTime, 0.1);
             self2.ctx.listener.upZ.setTargetAtTime(zUp, Howler.ctx.currentTime, 0.1);
           } else {
-            self2.ctx.listener.setOrientation(x, y, z, xUp, yUp, zUp);
+            self2.ctx.listener.setOrientation(x2, y, z, xUp, yUp, zUp);
           }
         } else {
           return or;
@@ -2007,7 +2007,7 @@ var require_howler = __commonJS({
         }
         return self2;
       };
-      Howl.prototype.pos = function(x, y, z, id) {
+      Howl.prototype.pos = function(x2, y, z, id) {
         var self2 = this;
         if (!self2._webAudio) {
           return self2;
@@ -2016,7 +2016,7 @@ var require_howler = __commonJS({
           self2._queue.push({
             event: "pos",
             action: function() {
-              self2.pos(x, y, z, id);
+              self2.pos(x2, y, z, id);
             }
           });
           return self2;
@@ -2024,8 +2024,8 @@ var require_howler = __commonJS({
         y = typeof y !== "number" ? 0 : y;
         z = typeof z !== "number" ? -0.5 : z;
         if (typeof id === "undefined") {
-          if (typeof x === "number") {
-            self2._pos = [x, y, z];
+          if (typeof x2 === "number") {
+            self2._pos = [x2, y, z];
           } else {
             return self2._pos;
           }
@@ -2034,18 +2034,18 @@ var require_howler = __commonJS({
         for (var i = 0; i < ids.length; i++) {
           var sound = self2._soundById(ids[i]);
           if (sound) {
-            if (typeof x === "number") {
-              sound._pos = [x, y, z];
+            if (typeof x2 === "number") {
+              sound._pos = [x2, y, z];
               if (sound._node) {
                 if (!sound._panner || sound._panner.pan) {
                   setupPanner(sound, "spatial");
                 }
                 if (typeof sound._panner.positionX !== "undefined") {
-                  sound._panner.positionX.setValueAtTime(x, Howler.ctx.currentTime);
+                  sound._panner.positionX.setValueAtTime(x2, Howler.ctx.currentTime);
                   sound._panner.positionY.setValueAtTime(y, Howler.ctx.currentTime);
                   sound._panner.positionZ.setValueAtTime(z, Howler.ctx.currentTime);
                 } else {
-                  sound._panner.setPosition(x, y, z);
+                  sound._panner.setPosition(x2, y, z);
                 }
               }
               self2._emit("pos", sound._id);
@@ -2056,7 +2056,7 @@ var require_howler = __commonJS({
         }
         return self2;
       };
-      Howl.prototype.orientation = function(x, y, z, id) {
+      Howl.prototype.orientation = function(x2, y, z, id) {
         var self2 = this;
         if (!self2._webAudio) {
           return self2;
@@ -2065,7 +2065,7 @@ var require_howler = __commonJS({
           self2._queue.push({
             event: "orientation",
             action: function() {
-              self2.orientation(x, y, z, id);
+              self2.orientation(x2, y, z, id);
             }
           });
           return self2;
@@ -2073,8 +2073,8 @@ var require_howler = __commonJS({
         y = typeof y !== "number" ? self2._orientation[1] : y;
         z = typeof z !== "number" ? self2._orientation[2] : z;
         if (typeof id === "undefined") {
-          if (typeof x === "number") {
-            self2._orientation = [x, y, z];
+          if (typeof x2 === "number") {
+            self2._orientation = [x2, y, z];
           } else {
             return self2._orientation;
           }
@@ -2083,8 +2083,8 @@ var require_howler = __commonJS({
         for (var i = 0; i < ids.length; i++) {
           var sound = self2._soundById(ids[i]);
           if (sound) {
-            if (typeof x === "number") {
-              sound._orientation = [x, y, z];
+            if (typeof x2 === "number") {
+              sound._orientation = [x2, y, z];
               if (sound._node) {
                 if (!sound._panner) {
                   if (!sound._pos) {
@@ -2093,11 +2093,11 @@ var require_howler = __commonJS({
                   setupPanner(sound, "spatial");
                 }
                 if (typeof sound._panner.orientationX !== "undefined") {
-                  sound._panner.orientationX.setValueAtTime(x, Howler.ctx.currentTime);
+                  sound._panner.orientationX.setValueAtTime(x2, Howler.ctx.currentTime);
                   sound._panner.orientationY.setValueAtTime(y, Howler.ctx.currentTime);
                   sound._panner.orientationZ.setValueAtTime(z, Howler.ctx.currentTime);
                 } else {
-                  sound._panner.setOrientation(x, y, z);
+                  sound._panner.setOrientation(x2, y, z);
                 }
               }
               self2._emit("orientation", sound._id);
@@ -2273,21 +2273,21 @@ var require_earcut = __commonJS({
       var hasHoles = holeIndices && holeIndices.length, outerLen = hasHoles ? holeIndices[0] * dim : data.length, outerNode = linkedList(data, 0, outerLen, dim, true), triangles = [];
       if (!outerNode || outerNode.next === outerNode.prev)
         return triangles;
-      var minX, minY, maxX, maxY, x, y, invSize;
+      var minX, minY, maxX, maxY, x2, y, invSize;
       if (hasHoles)
         outerNode = eliminateHoles(data, holeIndices, outerNode, dim);
       if (data.length > 80 * dim) {
         minX = maxX = data[0];
         minY = maxY = data[1];
         for (var i = dim; i < outerLen; i += dim) {
-          x = data[i];
+          x2 = data[i];
           y = data[i + 1];
-          if (x < minX)
-            minX = x;
+          if (x2 < minX)
+            minX = x2;
           if (y < minY)
             minY = y;
-          if (x > maxX)
-            maxX = x;
+          if (x2 > maxX)
+            maxX = x2;
           if (y > maxY)
             maxY = y;
         }
@@ -2472,11 +2472,11 @@ var require_earcut = __commonJS({
       var p = outerNode, hx = hole.x, hy = hole.y, qx = -Infinity, m;
       do {
         if (hy <= p.y && hy >= p.next.y && p.next.y !== p.y) {
-          var x = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
-          if (x <= hx && x > qx) {
-            qx = x;
+          var x2 = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
+          if (x2 <= hx && x2 > qx) {
+            qx = x2;
             m = p.x < p.next.x ? p : p.next;
-            if (x === hx)
+            if (x2 === hx)
               return m;
           }
         }
@@ -2556,18 +2556,18 @@ var require_earcut = __commonJS({
       } while (numMerges > 1);
       return list;
     }
-    function zOrder(x, y, minX, minY, invSize) {
-      x = (x - minX) * invSize | 0;
+    function zOrder(x2, y, minX, minY, invSize) {
+      x2 = (x2 - minX) * invSize | 0;
       y = (y - minY) * invSize | 0;
-      x = (x | x << 8) & 16711935;
-      x = (x | x << 4) & 252645135;
-      x = (x | x << 2) & 858993459;
-      x = (x | x << 1) & 1431655765;
+      x2 = (x2 | x2 << 8) & 16711935;
+      x2 = (x2 | x2 << 4) & 252645135;
+      x2 = (x2 | x2 << 2) & 858993459;
+      x2 = (x2 | x2 << 1) & 1431655765;
       y = (y | y << 8) & 16711935;
       y = (y | y << 4) & 252645135;
       y = (y | y << 2) & 858993459;
       y = (y | y << 1) & 1431655765;
-      return x | y << 1;
+      return x2 | y << 1;
     }
     function getLeftmost(start) {
       var p = start, leftmost = start;
@@ -2649,8 +2649,8 @@ var require_earcut = __commonJS({
       b2.prev = bp;
       return b2;
     }
-    function insertNode(i, x, y, last) {
-      var p = new Node(i, x, y);
+    function insertNode(i, x2, y, last) {
+      var p = new Node(i, x2, y);
       if (!last) {
         p.prev = p;
         p.next = p;
@@ -2670,9 +2670,9 @@ var require_earcut = __commonJS({
       if (p.nextZ)
         p.nextZ.prevZ = p.prevZ;
     }
-    function Node(i, x, y) {
+    function Node(i, x2, y) {
       this.i = i;
-      this.x = x;
+      this.x = x2;
       this.y = y;
       this.prev = null;
       this.next = null;
@@ -5909,7 +5909,7 @@ var Texture = class {
    * @param w width
    * @param h height
    */
-  updateSubImage(x, y, w, h) {
+  updateSubImage(x2, y, w, h) {
     if (!this.valid || this._imageIndex === null)
       return;
     if (!temp2d) {
@@ -5929,10 +5929,10 @@ var Texture = class {
       return;
     temp2d.canvas.width = w;
     temp2d.canvas.height = h;
-    temp2d.ctx.drawImage(img, x, y, w, h, 0, 0, w, h);
+    temp2d.ctx.drawImage(img, x2, y, w, h, 0, 0, w, h);
     const yOffset = (img.videoHeight ?? img.height) - y - h;
     wasm._images[this._imageIndex] = temp2d.canvas;
-    wasm._wl_renderer_updateImage(this._id, this._imageIndex, x, yOffset);
+    wasm._wl_renderer_updateImage(this._id, this._imageIndex, x2, yOffset);
     wasm._images[this._imageIndex] = img;
   }
   /**
@@ -10749,15 +10749,15 @@ function multiply(out, a, b) {
   return out;
 }
 function translate(out, a, v) {
-  var x = v[0], y = v[1], z = v[2];
+  var x2 = v[0], y = v[1], z = v[2];
   var a00, a01, a02, a03;
   var a10, a11, a12, a13;
   var a20, a21, a22, a23;
   if (a === out) {
-    out[12] = a[0] * x + a[4] * y + a[8] * z + a[12];
-    out[13] = a[1] * x + a[5] * y + a[9] * z + a[13];
-    out[14] = a[2] * x + a[6] * y + a[10] * z + a[14];
-    out[15] = a[3] * x + a[7] * y + a[11] * z + a[15];
+    out[12] = a[0] * x2 + a[4] * y + a[8] * z + a[12];
+    out[13] = a[1] * x2 + a[5] * y + a[9] * z + a[13];
+    out[14] = a[2] * x2 + a[6] * y + a[10] * z + a[14];
+    out[15] = a[3] * x2 + a[7] * y + a[11] * z + a[15];
   } else {
     a00 = a[0];
     a01 = a[1];
@@ -10783,19 +10783,19 @@ function translate(out, a, v) {
     out[9] = a21;
     out[10] = a22;
     out[11] = a23;
-    out[12] = a00 * x + a10 * y + a20 * z + a[12];
-    out[13] = a01 * x + a11 * y + a21 * z + a[13];
-    out[14] = a02 * x + a12 * y + a22 * z + a[14];
-    out[15] = a03 * x + a13 * y + a23 * z + a[15];
+    out[12] = a00 * x2 + a10 * y + a20 * z + a[12];
+    out[13] = a01 * x2 + a11 * y + a21 * z + a[13];
+    out[14] = a02 * x2 + a12 * y + a22 * z + a[14];
+    out[15] = a03 * x2 + a13 * y + a23 * z + a[15];
   }
   return out;
 }
 function scale(out, a, v) {
-  var x = v[0], y = v[1], z = v[2];
-  out[0] = a[0] * x;
-  out[1] = a[1] * x;
-  out[2] = a[2] * x;
-  out[3] = a[3] * x;
+  var x2 = v[0], y = v[1], z = v[2];
+  out[0] = a[0] * x2;
+  out[1] = a[1] * x2;
+  out[2] = a[2] * x2;
+  out[3] = a[3] * x2;
   out[4] = a[4] * y;
   out[5] = a[5] * y;
   out[6] = a[6] * y;
@@ -10811,8 +10811,8 @@ function scale(out, a, v) {
   return out;
 }
 function rotate(out, a, rad, axis) {
-  var x = axis[0], y = axis[1], z = axis[2];
-  var len4 = Math.hypot(x, y, z);
+  var x2 = axis[0], y = axis[1], z = axis[2];
+  var len4 = Math.hypot(x2, y, z);
   var s, c, t;
   var a00, a01, a02, a03;
   var a10, a11, a12, a13;
@@ -10824,7 +10824,7 @@ function rotate(out, a, rad, axis) {
     return null;
   }
   len4 = 1 / len4;
-  x *= len4;
+  x2 *= len4;
   y *= len4;
   z *= len4;
   s = Math.sin(rad);
@@ -10842,14 +10842,14 @@ function rotate(out, a, rad, axis) {
   a21 = a[9];
   a22 = a[10];
   a23 = a[11];
-  b00 = x * x * t + c;
-  b01 = y * x * t + z * s;
-  b02 = z * x * t - y * s;
-  b10 = x * y * t - z * s;
+  b00 = x2 * x2 * t + c;
+  b01 = y * x2 * t + z * s;
+  b02 = z * x2 * t - y * s;
+  b10 = x2 * y * t - z * s;
   b11 = y * y * t + c;
-  b12 = z * y * t + x * s;
-  b20 = x * z * t + y * s;
-  b21 = y * z * t - x * s;
+  b12 = z * y * t + x2 * s;
+  b20 = x2 * z * t + y * s;
+  b21 = y * z * t - x2 * s;
   b22 = z * z * t + c;
   out[0] = a00 * b00 + a10 * b01 + a20 * b02;
   out[1] = a01 * b00 + a11 * b01 + a21 * b02;
@@ -11003,29 +11003,29 @@ function fromScaling(out, v) {
   return out;
 }
 function fromRotation(out, rad, axis) {
-  var x = axis[0], y = axis[1], z = axis[2];
-  var len4 = Math.hypot(x, y, z);
+  var x2 = axis[0], y = axis[1], z = axis[2];
+  var len4 = Math.hypot(x2, y, z);
   var s, c, t;
   if (len4 < EPSILON) {
     return null;
   }
   len4 = 1 / len4;
-  x *= len4;
+  x2 *= len4;
   y *= len4;
   z *= len4;
   s = Math.sin(rad);
   c = Math.cos(rad);
   t = 1 - c;
-  out[0] = x * x * t + c;
-  out[1] = y * x * t + z * s;
-  out[2] = z * x * t - y * s;
+  out[0] = x2 * x2 * t + c;
+  out[1] = y * x2 * t + z * s;
+  out[2] = z * x2 * t - y * s;
   out[3] = 0;
-  out[4] = x * y * t - z * s;
+  out[4] = x2 * y * t - z * s;
   out[5] = y * y * t + c;
-  out[6] = z * y * t + x * s;
+  out[6] = z * y * t + x2 * s;
   out[7] = 0;
-  out[8] = x * z * t + y * s;
-  out[9] = y * z * t - x * s;
+  out[8] = x2 * z * t + y * s;
+  out[9] = y * z * t - x2 * s;
   out[10] = z * z * t + c;
   out[11] = 0;
   out[12] = 0;
@@ -11098,17 +11098,17 @@ function fromZRotation(out, rad) {
   return out;
 }
 function fromRotationTranslation(out, q, v) {
-  var x = q[0], y = q[1], z = q[2], w = q[3];
-  var x2 = x + x;
+  var x2 = q[0], y = q[1], z = q[2], w = q[3];
+  var x22 = x2 + x2;
   var y2 = y + y;
   var z2 = z + z;
-  var xx = x * x2;
-  var xy = x * y2;
-  var xz = x * z2;
+  var xx = x2 * x22;
+  var xy = x2 * y2;
+  var xz = x2 * z2;
   var yy = y * y2;
   var yz = y * z2;
   var zz = z * z2;
-  var wx = w * x2;
+  var wx = w * x22;
   var wy = w * y2;
   var wz = w * z2;
   out[0] = 1 - (yy + zz);
@@ -11211,17 +11211,17 @@ function getRotation(out, mat) {
   return out;
 }
 function fromRotationTranslationScale(out, q, v, s) {
-  var x = q[0], y = q[1], z = q[2], w = q[3];
-  var x2 = x + x;
+  var x2 = q[0], y = q[1], z = q[2], w = q[3];
+  var x22 = x2 + x2;
   var y2 = y + y;
   var z2 = z + z;
-  var xx = x * x2;
-  var xy = x * y2;
-  var xz = x * z2;
+  var xx = x2 * x22;
+  var xy = x2 * y2;
+  var xz = x2 * z2;
   var yy = y * y2;
   var yz = y * z2;
   var zz = z * z2;
-  var wx = w * x2;
+  var wx = w * x22;
   var wy = w * y2;
   var wz = w * z2;
   var sx = s[0];
@@ -11246,17 +11246,17 @@ function fromRotationTranslationScale(out, q, v, s) {
   return out;
 }
 function fromRotationTranslationScaleOrigin(out, q, v, s, o) {
-  var x = q[0], y = q[1], z = q[2], w = q[3];
-  var x2 = x + x;
+  var x2 = q[0], y = q[1], z = q[2], w = q[3];
+  var x22 = x2 + x2;
   var y2 = y + y;
   var z2 = z + z;
-  var xx = x * x2;
-  var xy = x * y2;
-  var xz = x * z2;
+  var xx = x2 * x22;
+  var xy = x2 * y2;
+  var xz = x2 * z2;
   var yy = y * y2;
   var yz = y * z2;
   var zz = z * z2;
-  var wx = w * x2;
+  var wx = w * x22;
   var wy = w * y2;
   var wz = w * z2;
   var sx = s[0];
@@ -11293,17 +11293,17 @@ function fromRotationTranslationScaleOrigin(out, q, v, s, o) {
   return out;
 }
 function fromQuat(out, q) {
-  var x = q[0], y = q[1], z = q[2], w = q[3];
-  var x2 = x + x;
+  var x2 = q[0], y = q[1], z = q[2], w = q[3];
+  var x22 = x2 + x2;
   var y2 = y + y;
   var z2 = z + z;
-  var xx = x * x2;
-  var yx = y * x2;
+  var xx = x2 * x22;
+  var yx = y * x22;
   var yy = y * y2;
-  var zx = z * x2;
+  var zx = z * x22;
   var zy = z * y2;
   var zz = z * z2;
-  var wx = w * x2;
+  var wx = w * x22;
   var wy = w * y2;
   var wz = w * z2;
   out[0] = 1 - yy - zz;
@@ -11784,14 +11784,14 @@ function clone2(a) {
   return out;
 }
 function length(a) {
-  var x = a[0];
+  var x2 = a[0];
   var y = a[1];
   var z = a[2];
-  return Math.hypot(x, y, z);
+  return Math.hypot(x2, y, z);
 }
-function fromValues2(x, y, z) {
+function fromValues2(x2, y, z) {
   var out = new ARRAY_TYPE(3);
-  out[0] = x;
+  out[0] = x2;
   out[1] = y;
   out[2] = z;
   return out;
@@ -11802,8 +11802,8 @@ function copy2(out, a) {
   out[2] = a[2];
   return out;
 }
-function set2(out, x, y, z) {
-  out[0] = x;
+function set2(out, x2, y, z) {
+  out[0] = x2;
   out[1] = y;
   out[2] = z;
   return out;
@@ -11875,22 +11875,22 @@ function scaleAndAdd(out, a, b, scale6) {
   return out;
 }
 function distance(a, b) {
-  var x = b[0] - a[0];
+  var x2 = b[0] - a[0];
   var y = b[1] - a[1];
   var z = b[2] - a[2];
-  return Math.hypot(x, y, z);
+  return Math.hypot(x2, y, z);
 }
 function squaredDistance(a, b) {
-  var x = b[0] - a[0];
+  var x2 = b[0] - a[0];
   var y = b[1] - a[1];
   var z = b[2] - a[2];
-  return x * x + y * y + z * z;
+  return x2 * x2 + y * y + z * z;
 }
 function squaredLength(a) {
-  var x = a[0];
+  var x2 = a[0];
   var y = a[1];
   var z = a[2];
-  return x * x + y * y + z * z;
+  return x2 * x2 + y * y + z * z;
 }
 function negate(out, a) {
   out[0] = -a[0];
@@ -11905,10 +11905,10 @@ function inverse(out, a) {
   return out;
 }
 function normalize(out, a) {
-  var x = a[0];
+  var x2 = a[0];
   var y = a[1];
   var z = a[2];
-  var len4 = x * x + y * y + z * z;
+  var len4 = x2 * x2 + y * y + z * z;
   if (len4 > 0) {
     len4 = 1 / Math.sqrt(len4);
   }
@@ -11972,25 +11972,25 @@ function random(out, scale6) {
   return out;
 }
 function transformMat4(out, a, m) {
-  var x = a[0], y = a[1], z = a[2];
-  var w = m[3] * x + m[7] * y + m[11] * z + m[15];
+  var x2 = a[0], y = a[1], z = a[2];
+  var w = m[3] * x2 + m[7] * y + m[11] * z + m[15];
   w = w || 1;
-  out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w;
-  out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w;
-  out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w;
+  out[0] = (m[0] * x2 + m[4] * y + m[8] * z + m[12]) / w;
+  out[1] = (m[1] * x2 + m[5] * y + m[9] * z + m[13]) / w;
+  out[2] = (m[2] * x2 + m[6] * y + m[10] * z + m[14]) / w;
   return out;
 }
 function transformMat3(out, a, m) {
-  var x = a[0], y = a[1], z = a[2];
-  out[0] = x * m[0] + y * m[3] + z * m[6];
-  out[1] = x * m[1] + y * m[4] + z * m[7];
-  out[2] = x * m[2] + y * m[5] + z * m[8];
+  var x2 = a[0], y = a[1], z = a[2];
+  out[0] = x2 * m[0] + y * m[3] + z * m[6];
+  out[1] = x2 * m[1] + y * m[4] + z * m[7];
+  out[2] = x2 * m[2] + y * m[5] + z * m[8];
   return out;
 }
 function transformQuat(out, a, q) {
   var qx = q[0], qy = q[1], qz = q[2], qw = q[3];
-  var x = a[0], y = a[1], z = a[2];
-  var uvx = qy * z - qz * y, uvy = qz * x - qx * z, uvz = qx * y - qy * x;
+  var x2 = a[0], y = a[1], z = a[2];
+  var uvx = qy * z - qz * y, uvy = qz * x2 - qx * z, uvz = qx * y - qy * x2;
   var uuvx = qy * uvz - qz * uvy, uuvy = qz * uvx - qx * uvz, uuvz = qx * uvy - qy * uvx;
   var w2 = qw * 2;
   uvx *= w2;
@@ -11999,7 +11999,7 @@ function transformQuat(out, a, q) {
   uuvx *= 2;
   uuvy *= 2;
   uuvz *= 2;
-  out[0] = x + uvx + uuvx;
+  out[0] = x2 + uvx + uuvx;
   out[1] = y + uvy + uuvy;
   out[2] = z + uvz + uuvz;
   return out;
@@ -12118,9 +12118,9 @@ function clone3(a) {
   out[3] = a[3];
   return out;
 }
-function fromValues3(x, y, z, w) {
+function fromValues3(x2, y, z, w) {
   var out = new ARRAY_TYPE(4);
-  out[0] = x;
+  out[0] = x2;
   out[1] = y;
   out[2] = z;
   out[3] = w;
@@ -12133,8 +12133,8 @@ function copy3(out, a) {
   out[3] = a[3];
   return out;
 }
-function set3(out, x, y, z, w) {
-  out[0] = x;
+function set3(out, x2, y, z, w) {
+  out[0] = x2;
   out[1] = y;
   out[2] = z;
   out[3] = w;
@@ -12155,29 +12155,29 @@ function scale3(out, a, b) {
   return out;
 }
 function length2(a) {
-  var x = a[0];
+  var x2 = a[0];
   var y = a[1];
   var z = a[2];
   var w = a[3];
-  return Math.hypot(x, y, z, w);
+  return Math.hypot(x2, y, z, w);
 }
 function squaredLength2(a) {
-  var x = a[0];
+  var x2 = a[0];
   var y = a[1];
   var z = a[2];
   var w = a[3];
-  return x * x + y * y + z * z + w * w;
+  return x2 * x2 + y * y + z * z + w * w;
 }
 function normalize2(out, a) {
-  var x = a[0];
+  var x2 = a[0];
   var y = a[1];
   var z = a[2];
   var w = a[3];
-  var len4 = x * x + y * y + z * z + w * w;
+  var len4 = x2 * x2 + y * y + z * z + w * w;
   if (len4 > 0) {
     len4 = 1 / Math.sqrt(len4);
   }
-  out[0] = x * len4;
+  out[0] = x2 * len4;
   out[1] = y * len4;
   out[2] = z * len4;
   out[3] = w * len4;
@@ -12320,32 +12320,32 @@ function rotateZ3(out, a, rad) {
   return out;
 }
 function calculateW(out, a) {
-  var x = a[0], y = a[1], z = a[2];
-  out[0] = x;
+  var x2 = a[0], y = a[1], z = a[2];
+  out[0] = x2;
   out[1] = y;
   out[2] = z;
-  out[3] = Math.sqrt(Math.abs(1 - x * x - y * y - z * z));
+  out[3] = Math.sqrt(Math.abs(1 - x2 * x2 - y * y - z * z));
   return out;
 }
 function exp(out, a) {
-  var x = a[0], y = a[1], z = a[2], w = a[3];
-  var r = Math.sqrt(x * x + y * y + z * z);
+  var x2 = a[0], y = a[1], z = a[2], w = a[3];
+  var r = Math.sqrt(x2 * x2 + y * y + z * z);
   var et = Math.exp(w);
   var s = r > 0 ? et * Math.sin(r) / r : 0;
-  out[0] = x * s;
+  out[0] = x2 * s;
   out[1] = y * s;
   out[2] = z * s;
   out[3] = et * Math.cos(r);
   return out;
 }
 function ln(out, a) {
-  var x = a[0], y = a[1], z = a[2], w = a[3];
-  var r = Math.sqrt(x * x + y * y + z * z);
+  var x2 = a[0], y = a[1], z = a[2], w = a[3];
+  var r = Math.sqrt(x2 * x2 + y * y + z * z);
   var t = r > 0 ? Math.atan2(r, w) / r : 0;
-  out[0] = x * t;
+  out[0] = x2 * t;
   out[1] = y * t;
   out[2] = z * t;
-  out[3] = 0.5 * Math.log(x * x + y * y + z * z + w * w);
+  out[3] = 0.5 * Math.log(x2 * x2 + y * y + z * z + w * w);
   return out;
 }
 function pow(out, a, b) {
@@ -12437,13 +12437,13 @@ function fromMat3(out, m) {
   }
   return out;
 }
-function fromEuler(out, x, y, z) {
+function fromEuler(out, x2, y, z) {
   var halfToRad = 0.5 * Math.PI / 180;
-  x *= halfToRad;
+  x2 *= halfToRad;
   y *= halfToRad;
   z *= halfToRad;
-  var sx = Math.sin(x);
-  var cx = Math.cos(x);
+  var sx = Math.sin(x2);
+  var cx = Math.cos(x2);
   var sy = Math.sin(y);
   var cy = Math.cos(y);
   var sz = Math.sin(z);
@@ -15192,9 +15192,9 @@ var Vrm = class extends Component {
     vec3_exports.normalize(lookAtDirection, lookAtDirection);
     this.bones.head.parent.transformVectorInverseWorld(lookAtDirection);
     const z = vec3_exports.dot(lookAtDirection, this._forwardVector);
-    const x = vec3_exports.dot(lookAtDirection, this._rightVector);
-    const yaw = Math.atan2(x, z) * this._rad2deg;
-    const xz = Math.sqrt(x * x + z * z);
+    const x2 = vec3_exports.dot(lookAtDirection, this._rightVector);
+    const yaw = Math.atan2(x2, z) * this._rad2deg;
+    const xz = Math.sqrt(x2 * x2 + z * z);
     const y = vec3_exports.dot(lookAtDirection, this._upVector);
     let pitch = Math.atan2(-y, xz) * this._rad2deg;
     if (pitch > 0) {
@@ -15385,24 +15385,6 @@ __publicField(Vrm, "Properties", {
   lookAtTarget: { type: Type.Object }
 });
 
-// js/button-functions.js
-var ButtonFunctions = class extends Component {
-  start() {
-    state.buttonFunctions.push(function() {
-      state.damage += 50, state.currency -= 10, state.log("damage increased by 50");
-      state.needsUpdate = true;
-    });
-    console.log(state.buttonFunctions);
-  }
-  update(dt) {
-  }
-};
-__publicField(ButtonFunctions, "TypeName", "button-functions");
-/* Properties that are configurable in the editor */
-__publicField(ButtonFunctions, "Properties", {
-  param: Property.float(1)
-});
-
 // js/game.js
 var state = {
   EnemySpawner: [],
@@ -15413,6 +15395,7 @@ var state = {
   maxEnemies: 15,
   enemiesDestroyed: 0,
   health: 100,
+  maxHealth: 1e3,
   getHealth: function() {
     return this.health.toString();
   },
@@ -15424,10 +15407,9 @@ var state = {
   buildT: null,
   spawnedTurrets: 0,
   maxTurrets: 10,
-  currency: 50,
+  currency: 500,
   needsUpdate: false,
   gameOver: false,
-  selectedTurret: "poison",
   shipHit: null,
   buildTime: 15,
   levelUp: null,
@@ -15436,35 +15418,66 @@ var state = {
   pauseBuilding: false,
   buttonFunctions: [
     function() {
-      state.currency -= state.attackDamagecost;
-      state.attackDamagecost += 50;
+      state.currency -= state.attackDamageCost;
+      state.attackDamageCost += 50;
       state.attackDamage += 10;
       state.needsUpdate = true;
-      return "ATTACK DAMAGE UPGRADE\n" + state.attackDamagecost.toString();
+      state.poisonDamage += 0.5;
+      for (turret in state.turrets) {
+        if (turret.TypeName != "poison")
+          turret.damage = state.attackDamage;
+      }
+      return "ATTACK DAMAGE UPGRADE\n" + state.attackDamageCost.toString();
     },
     function() {
+      state.currency -= state.attackRangeCost;
+      state.attackRangeCost *= 2;
+      state.attackRange += 0.5;
+      state.needsUpdate = true;
+      for (turret in state.turrets) {
+        turret.object.getComponent("collision").extents = [state.attackRange, 0, 0];
+      }
       return "TURRET RANGE UPGRADE\n" + state.attackRangeCost.toString();
     },
     function() {
+      state.currency -= state.attackSpeedCost;
+      state.attackSpeedCost += 50;
+      state.attackSpeed -= 0.1;
+      state.needsUpdate = true;
       return "ATTACK SPEED UPGRADE\n" + state.attackSpeedCost();
     },
     function() {
+      state.currency -= state.profitUpCost;
+      state.profitUpCost *= 3;
+      state.bonus += 2;
+      state.needsUpdate = true;
       return "PROFIT UPGRADE\n" + state.profitUpCost.toString();
     },
     function() {
+      if (state.maxHealth - state.health) {
+        state.currency -= state.maxHealth - state.health;
+        state.health = state.maxHealth;
+      } else {
+        state.currency -= state.healthUpCost;
+        state.healthUpCost *= 4;
+        state.maxHealth *= 2;
+      }
+      state.needsUpdate = true;
       return "SHIP HEALTH UPGRADE\n" + state.healthUpCost.toString();
     }
   ],
-  attackDamagecost: 50,
+  attackDamageCost: 50,
   attackRangeCost: 50,
   attackSpeedCost: 50,
   profitUpCost: 50,
   healthUpCost: 50,
   attackDamage: 10,
-  attackRange: 10,
+  poisonDamage: 1,
+  attackRange: 5,
   attackSpeed: 10,
   profitUp: 10,
   healthUp: 10,
+  bonus: 0,
   defaultTurret3D: null,
   poisonTurret3D: null
 };
@@ -15508,10 +15521,8 @@ var WasdControlsComponent = class extends Component {
     }
     this.object.translateLocal(_direction);
     if (this.object.getComponent("collision").queryOverlaps().length > 0) {
-      console.log(this.object.getPositionLocal());
       vec3_exports.scale(_direction, _direction, -1);
       this.object.translateLocal(_direction);
-      console.log(this.object.getPositionLocal());
     }
   }
   press(e) {
@@ -15526,9 +15537,9 @@ var WasdControlsComponent = class extends Component {
     } else if (e.keyCode === 69) {
       state.buildT();
     } else if (e.keyCode === 49) {
-      state.selectedTurret = "default";
+      state.buildT(state.turretSpawner, state.defaultTurret3D);
     } else if (e.keyCode === 50) {
-      state.selectedTurret = "poison";
+      state.buildT(state.turretSpawner, state.poisonTurret3D);
     }
   }
   release(e) {
@@ -15565,28 +15576,29 @@ var DayNight = class extends Component {
     this.b = 0.5;
     this.mod = 5e-3;
   }
-  update(dt) {
-    this.timer1 += dt;
-    let x = new Float32Array(3);
-    if (this.timer1 > 0.125) {
-      this.r += this.mod;
-      this.g += this.mod;
-      this.b += this.mod;
-      this.timer1 = 0;
-      if (this.r > 1 || this.r < 0.2) {
-        state.day = !state.day;
-        state.pauseEnemies = !state.pauseEnemies;
-        state.pauseBuilding = !state.pauseBuilding;
-        this.mod *= -1;
-        this.r += this.mod * 3;
-        this.g += this.mod * 3;
-        this.b += this.mod * 3;
-        state.levelUp();
-      }
-      x = [this.r, this.g, this.b];
-      this.object.getComponent("light").setColor(x);
-    }
-  }
+  //     update(dt) {
+  //         this.timer1 += dt;
+  //         let colour = new Float32Array(3);
+  //         if (this.timer1 > .125) {
+  //             this.r += this.mod;
+  //             this.g += this.mod;
+  //             this.b += this.mod;
+  //             this.timer1 = 0;
+  //             if (this.r > 1 || this.r < .2) {
+  //                 state.day = !state.day;
+  //                 state.pauseEnemies = !state.pauseEnemies;
+  //                 state.pauseBuilding = !state.pauseBuilding;
+  //                 this.mod *= -1;
+  //                 this.r += this.mod * 3;
+  //                 this.g += this.mod * 3;
+  //                 this.b += this.mod * 3;
+  //                 state.levelUp();
+  //             }
+  //             colour = [this.r, this.g, this.b];
+  //             this.object.getComponent('light').setColor(colour);
+  //         }
+  //     }
+  // }
 };
 __publicField(DayNight, "TypeName", "DayNight");
 /* Properties that are configurable in the editor */
@@ -15819,31 +15831,62 @@ __publicField(ButtonComponent, "Properties", {
 });
 
 // js/celestial-rotation.js
+var x = new Float32Array(4);
 var CelestialRotation = class extends Component {
   update(dt) {
-    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.055555);
+    this.timer += dt;
+    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.05);
+    this.rotated += 0.05;
+    if (this.rotated > 65 && this.rotated < 295) {
+      if (state.day == true) {
+        state.levelUp();
+      }
+      state.pauseEnemies = false;
+      state.pauseBuilding = true;
+      state.day = false;
+    } else {
+      state.pauseEnemies = true;
+      state.pauseBuilding = false;
+      state.day = true;
+    }
   }
 };
 __publicField(CelestialRotation, "TypeName", "celestial-rotation");
 /* Properties that are configurable in the editor */
 __publicField(CelestialRotation, "Properties", {
-  param: Property.float(1)
+  param: Property.float(1),
+  timer: Property.float(0),
+  rotated: Property.float(0)
+});
+
+// js/Turret3D.js
+var Turret3D = class extends Component {
+};
+__publicField(Turret3D, "TypeName", "turret_3D");
+__publicField(Turret3D, "Properties", {
+  turret: { type: Type.Object },
+  base: { type: Type.Object },
+  bulletMesh: { type: Type.Mesh },
+  bulletMaterial: { type: Type.Material },
+  cd: { type: Type.Float, default: 1 },
+  range: { type: Type.Float, default: 10 },
+  damage: { type: Type.Float, default: 10 },
+  cost: { type: Type.Int, default: 20 },
+  status: {
+    type: Type.Enum,
+    values: ["", "poison", "slow", "stun"],
+    default: ""
+  }
 });
 
 // js/default_turret_3D.js
-var DefaultTurret3D = class extends Component {
+var DefaultTurret3D = class extends Turret3D {
+  /* Properties that are configurable in the editor */
   start() {
     state.defaultTurret3D = this;
   }
 };
 __publicField(DefaultTurret3D, "TypeName", "default_turret_3D");
-/* Properties that are configurable in the editor */
-__publicField(DefaultTurret3D, "Properties", {
-  turret: { type: Type.Object },
-  base: { type: Type.Object },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material }
-});
 
 // js/waypoint-movement.js
 var WaypointMovement = class extends Component {
@@ -15942,7 +15985,7 @@ var WaypointMovement = class extends Component {
     this.object.timer += dt;
     if (this.object.timer > 1 && this.object.poisoned === true) {
       this.object.health -= this.object.poisonStack;
-      this.object.poisonStack -= 1;
+      this.object.poisonStack -= state.poisonDamage;
       if (this.object.health < 0) {
         this.object.destroy();
         state.currency += this.object.value;
@@ -16143,7 +16186,7 @@ var EnemySpawner = class extends Component {
     obj.f = function() {
       state.health -= obj.damage;
       const index = state.currentEnemies.indexOf(obj);
-      const x = state.currentEnemies.splice(index, 1);
+      const x2 = state.currentEnemies.splice(index, 1);
       state.needsUpdate = true;
       obj.destroy();
     };
@@ -16174,10 +16217,9 @@ var LevelTracker = class extends Component {
   start() {
     state.levelUp = function() {
       this.level += 1;
-      this.maxEnemies += 10;
+      state.maxEnemies += 10;
       let spawner = state.EnemySpawner;
-      console.log("level up: ", this.level);
-      console.log("reward Up ");
+      console.log("Level Up");
       for (let i = 0; i < state.EnemySpawner.length; i++) {
         spawner[i].defaultReward += 1;
       }
@@ -16213,18 +16255,20 @@ __publicField(LevelTracker, "Properties", {
 });
 
 // js/poison_turret_3D.js
-var PoisonTurret3D = class extends Component {
-  start() {
+var PoisonTurret3D = class extends Turret3D {
+  init() {
+    this.x = function() {
+      console.log("test");
+    };
     state.poisonTurret3D = this;
   }
 };
 __publicField(PoisonTurret3D, "TypeName", "poison_turret_3D");
-/* Properties that are configurable in the editor */
 __publicField(PoisonTurret3D, "Properties", {
-  turret: { type: Type.Object },
-  base: { type: Type.Object },
-  bulletMesh: { type: Type.Mesh },
-  bulletMaterial: { type: Type.Material }
+  test: { type: Type.String, default: "test" }
+});
+__publicField(PoisonTurret3D, "x", function() {
+  console.log("test");
 });
 
 // js/turret-aimer.js
@@ -16250,14 +16294,14 @@ var TurretAimer = class extends Component {
     }
   }
   checkStatus() {
-    if (this.object.status != null) {
+    if (this.object.status != "") {
       this.object.target.poisoned = true;
       this.object.target.poisonStack += 1;
     }
   }
   checkDead() {
     if (this.object.target.health <= 0) {
-      state.currency += this.object.target.value;
+      state.currency += this.object.target.value + state.bonus;
       this.object.target.destroy();
       state.needsUpdate = true;
       state.enemiesDestroyed++;
@@ -16270,7 +16314,10 @@ var TurretAimer = class extends Component {
     let fired = false;
     for (const coll of overlaps) {
       if (fired == false && coll.object === this.object.target) {
-        this.object.turret.lookAt(this.object.target.getPositionWorld(), [0, 1, 0]);
+        this.object.turret.lookAt(
+          this.object.target.getPositionWorld(),
+          [0, 1, 0]
+        );
         if (this.timer > this.object.cd) {
           this.object.shoot(this.object.turret.getForwardWorld(g));
           this.object.target.health -= this.object.damage;
@@ -16284,7 +16331,6 @@ var TurretAimer = class extends Component {
     if (!fired) {
       this.object.target = null;
     }
-    ;
   }
   update(dt) {
     this.timer += dt;
@@ -16376,7 +16422,11 @@ var ProjectileSpawner = class extends Component {
     const obj = this.engine.scene.addObject();
     let mesh = obj.addComponent("mesh", this.object.bulletMesh);
     mesh.active = true;
-    obj.addComponent("collision", { shape: WL.Collider.Sphere, extents: [0.05, 0, 0], group: 1 << 0 });
+    obj.addComponent("collision", {
+      shape: WL.Collider.Sphere,
+      extents: [0.05, 0, 0],
+      group: 1 << 0
+    });
     obj.name = "steven";
     obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());
     const physics = obj.addComponent(ProjectilePhysics, { speed: 0.2 });
@@ -16386,156 +16436,85 @@ var ProjectileSpawner = class extends Component {
 };
 __publicField(ProjectileSpawner, "TypeName", "projectile-spawner");
 
-// js/default.js
+// js/turret.js
 var tempQuat24 = new Float32Array(8);
-var Default = class extends Component {
-  static onRegister(engine2) {
-    engine2.registerComponent(TurretAimer);
-    engine2.registerComponent(ProjectileSpawner);
-    engine2.registerComponent(DefaultTurret3D);
-  }
-  makeTurret(x) {
-    const obj = x.engine.scene.addObject();
-    obj.turret = state.defaultTurret3D.turret.clone(obj);
-    obj.base = state.defaultTurret3D.base.clone(obj);
-    obj.target = null;
-    obj.shoot = null;
-    obj.cd = x.shootingCD;
-    obj.name = "sam";
-    obj.status = null;
-    obj.damage = x.damage;
-    obj.bulletMesh = {
-      mesh: state.defaultTurret3D.bulletMesh,
-      material: state.defaultTurret3D.bulletMaterial
-    };
-    obj.addComponent("collision", {
-      collider: WL.Collider.Sphere,
-      extents: [5, 0, 0],
-      group: 1 << 5,
-      // this code is a test to see how to trigger Collision Onhit and onleave that has
-      // some documentation on wonderland, but I cant figre out how to use
-      // IF we can get it working it would make aiming and shooting signifficantly
-      //   more efficient
-      CollisionEventType: 1,
-      active: true
-    });
-    obj.addComponent(TurretAimer);
-    obj.addComponent(ProjectileSpawner);
-    obj.setTransformLocal(x.object.getTransformWorld(tempQuat24));
-    obj.setScalingLocal([0.2, 0.4, 0.2]);
-    obj.setRotationLocal([0, 0, 0, 1]);
-    obj.active = true;
-    state.turrets.push(obj);
-    obj.setDirty();
-  }
-};
-__publicField(Default, "TypeName", "default");
-/* Properties that are configurable in the editor */
-__publicField(Default, "Properties", {
-  param: Property.float(1)
-});
-
-// js/poison.js
-var tempQuat25 = new Float32Array(8);
-var Poison = class extends Component {
-  static onRegister(engine2) {
-    engine2.registerComponent(TurretAimer);
-    engine2.registerComponent(ProjectileSpawner);
-    engine2.registerComponent(PoisonTurret3D);
-  }
-  makeTurret(x) {
-    const obj = x.engine.scene.addObject();
-    obj.turret = state.poisonTurret3D.turret.clone(obj);
-    obj.base = state.poisonTurret3D.base.clone(obj);
-    console.log(obj);
-    obj.target = null;
-    obj.shoot = null;
-    obj.cd = x.shootingCD;
-    obj.name = "sam";
-    obj.status = "poisonTower";
-    obj.damage = x.damage;
-    obj.bulletMesh = {
-      mesh: state.poisonTurret3D.bulletMesh,
-      material: state.poisonTurret3D.bulletMaterial
-    };
-    obj.addComponent("collision", {
-      collider: WL.Collider.Sphere,
-      extents: [5, 0, 0],
-      group: 1 << 5,
-      // this code is a test to see how to trigger Collision Onhit and onleave that has
-      // some documentation on wonderland, but I cant figre out how to use
-      // IF we can get it working it would make aiming and shooting signifficantly
-      //   more efficient
-      CollisionEventType: 1,
-      active: true
-    });
-    obj.addComponent(TurretAimer);
-    obj.addComponent(ProjectileSpawner);
-    obj.setTransformLocal(x.object.getTransformWorld(tempQuat25));
-    obj.resetRotation();
-    obj.setScalingLocal([0.2, 0.4, 0.2]);
-    obj.active = true;
-    state.turrets.push(obj);
-    obj.setDirty();
-  }
-};
-__publicField(Poison, "TypeName", "poison");
-/* Properties that are configurable in the editor */
-__publicField(Poison, "Properties", {
-  param: Property.float(1)
-});
-
-// js/turret-spawner.js
-var TurretSpawner = class extends Component {
-  /// poison turret?
+var Turret = class extends Component {
   init() {
-    this.timer = 0;
-    this.name = "dave";
-    this.makeTurret = null;
-    state.turretSpawner = this;
-    state.defaultMesh = new Component("Object", { mesh: this.defaultMesh, material: this.defaultMaterial });
-    state.poisonMesh = new Component("mesh", { mesh: this.poisonMesh, material: this.poisonMaterial });
-    state.buildT = function() {
-      if (state.currency >= this.turretCost && state.pauseBuilding === false) {
-        let tempTurret = null;
-        console.log(state.selectedTurret);
-        if (state.selectedTurret === "default") {
-          tempTurret = new Default();
-          let turret = tempTurret.makeTurret(this);
-          state.spawnedTurrets += 1;
-          state.currency -= this.turretCost;
-          state.needsUpdate = true;
-        }
-        if (state.selectedTurret === "poison") {
-          tempTurret = new Poison();
-          let turret = tempTurret.makeTurret(this);
-          state.spawnedTurrets += 1;
-          state.currency -= this.turretCost;
-          state.needsUpdate = true;
-        }
-      }
-    }.bind(this);
   }
   static onRegister(engine2) {
     engine2.registerComponent(TurretAimer);
     engine2.registerComponent(ProjectileSpawner);
   }
   start() {
+    state.buildT = function(turret_spawner, type) {
+      if (state.currency < type.cost)
+        return;
+      console.log(type);
+      state.currency -= type.cost;
+      state.needsUpdate = true;
+      const obj = this.engine.scene.addObject();
+      obj.turret = type.turret.clone(obj);
+      obj.base = type.base.clone(obj);
+      obj.target = null;
+      obj.shoot = null;
+      obj.status = type.status;
+      obj.type = type.type;
+      obj.cd = type.cd;
+      obj.damage = type.damage;
+      obj.bulletMesh = {
+        mesh: type.bulletMesh,
+        material: type.bulletMaterial
+      };
+      obj.addComponent("collision", {
+        collider: WL.Collider.Sphere,
+        extents: [type.range, 0, 0],
+        group: 1 << 5,
+        // this code is a test to see how to trigger Collision Onhit and onleave that has
+        // some documentation on wonderland, but I cant figre out how to use
+        // IF we can get it working it would make aiming and shooting signifficantly
+        //   more efficient
+        CollisionEventType: 1,
+        active: true
+      });
+      obj.addComponent(TurretAimer);
+      obj.addComponent(ProjectileSpawner);
+      obj.setTransformLocal(turret_spawner.object.getTransformWorld(tempQuat24));
+      obj.resetRotation();
+      obj.setScalingLocal([0.2, 0.4, 0.2]);
+      obj.active = true;
+      console.log(obj.getComponents());
+      state.turrets.push(obj);
+      obj.setDirty();
+    }.bind(this);
+    console.log(this);
+  }
+};
+__publicField(Turret, "TypeName", "turret");
+
+// js/turret-spawner.js
+var TurretSpawner = class extends Component {
+  static onRegister(engine2) {
+    engine2.registerComponent(TurretAimer);
+    engine2.registerComponent(ProjectileSpawner);
+    engine2.registerComponent(DefaultTurret3D);
+    engine2.registerComponent(Turret);
+    engine2.registerComponent(Turret3D);
+    engine2.registerComponent(PoisonTurret3D);
+  }
+  /// poison turret?
+  init() {
+    this.timer = 0;
+    console.log(this.turretTemplate);
+    this.name = "dave";
+    this.makeTurret = null;
+    state.turretSpawner = this;
+  }
+  start() {
     console.log("start turret spawner");
   }
 };
 __publicField(TurretSpawner, "TypeName", "turret-spawner");
-__publicField(TurretSpawner, "Properties", {
-  defaultMesh: { type: Type.Mesh },
-  defaultMaterial: { type: Type.Material },
-  poisonMesh: { type: Type.Mesh },
-  poisonMaterial: { type: Type.Material },
-  shootingCD: { type: Type.Int, default: 1 },
-  damage: { type: Type.Int, default: 20 },
-  turretCost: { type: Type.Int, default: 25 },
-  defaultTurret: { type: Type.Object },
-  defaultBase: { type: Type.Object }
-});
+__publicField(TurretSpawner, "Properties", {});
 
 // js/CanvasUI.js
 var CanvasKeyboard = class {
@@ -16568,36 +16547,36 @@ var CanvasKeyboard = class {
     const hover = "#333";
     const backgroundColor = "#000";
     let y = padding;
-    let x = padding;
+    let x2 = padding;
     for (let i = 0; i < 10; i++) {
-      const btn = { type: "button", position: { x, y }, width, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i) };
+      const btn = { type: "button", position: { x: x2, y }, width, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i) };
       config2[`btn${i}`] = btn;
-      x += width + padding;
+      x2 += width + padding;
     }
     y += height + padding;
-    x = padding;
+    x2 = padding;
     for (let i = 0; i < 10; i++) {
-      const btn = { type: "button", position: { x, y }, width, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 10) };
+      const btn = { type: "button", position: { x: x2, y }, width, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 10) };
       config2[`btn${i + 10}`] = btn;
-      x += width + padding;
+      x2 += width + padding;
     }
     y += height + padding;
-    x = padding;
+    x2 = padding;
     for (let i = 0; i < 9; i++) {
       const w = i == 0 || i == 8 ? width * 1.5 + padding * 0.5 : width;
-      const btn = { type: "button", position: { x, y }, width: w, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 20) };
+      const btn = { type: "button", position: { x: x2, y }, width: w, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 20) };
       config2[`btn${i + 20}`] = btn;
-      x += w + padding;
+      x2 += w + padding;
     }
     y += height + padding;
-    x = padding;
+    x2 = padding;
     for (let i = 0; i < 5; i++) {
       const w = i == 0 || i == 4 ? width * 2 + padding : i == 2 ? width * 4 + 3 * padding : width;
-      const btn = { type: "button", position: { x, y }, width: w, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 30) };
+      const btn = { type: "button", position: { x: x2, y }, width: w, height, padding, paddingTop, backgroundColor, borderRadius: 6, hover, onSelect: this.onSelect.bind(this, i + 30) };
       if (i == 0)
         btn.fontSize = 20;
       config2[`btn${i + 30}`] = btn;
-      x += w + padding;
+      x2 += w + padding;
     }
     return config2;
   }
@@ -17014,21 +16993,21 @@ var CanvasUI = class {
   }
   //returns yaw, pitch, roll
   getEuler(out, quat) {
-    let x = quat[0], y = quat[1], z = quat[2], w = quat[3], x2 = x * x, y2 = y * y, z2 = z * z, w2 = w * w;
-    let unit = x2 + y2 + z2 + w2;
-    let test = x * w - y * z;
+    let x2 = quat[0], y = quat[1], z = quat[2], w = quat[3], x22 = x2 * x2, y2 = y * y, z2 = z * z, w2 = w * w;
+    let unit = x22 + y2 + z2 + w2;
+    let test = x2 * w - y * z;
     if (test > 0.499995 * unit) {
       out[0] = Math.PI / 2;
-      out[1] = 2 * Math.atan2(y, x);
+      out[1] = 2 * Math.atan2(y, x2);
       out[2] = 0;
     } else if (test < -0.499995 * unit) {
       out[0] = -Math.PI / 2;
-      out[1] = 2 * Math.atan2(y, x);
+      out[1] = 2 * Math.atan2(y, x2);
       out[2] = 0;
     } else {
-      out[0] = Math.asin(2 * (x * z - w * y));
-      out[1] = Math.atan2(2 * (x * w + y * z), 1 - 2 * (z2 + w2));
-      out[2] = Math.atan2(2 * (x * y + z * w), 1 - 2 * (y2 + z2));
+      out[0] = Math.asin(2 * (x2 * z - w * y));
+      out[1] = Math.atan2(2 * (x2 * w + y * z), 1 - 2 * (z2 + w2));
+      out[2] = Math.atan2(2 * (x2 * y + z * w), 1 - 2 * (y2 + z2));
     }
     return out;
   }
@@ -17145,15 +17124,15 @@ var CanvasUI = class {
       }
     }
   }
-  setPosition(x, y, z) {
+  setPosition(x2, y, z) {
     if (this.mesh === void 0)
       return;
-    this.mesh.position.set(x, y, z);
+    this.mesh.position.set(x2, y, z);
   }
-  setRotation(x, y, z) {
+  setRotation(x2, y, z) {
     if (this.mesh === void 0)
       return;
-    this.mesh.rotation.set(x, y, z);
+    this.mesh.rotation.set(x2, y, z);
   }
   updateElement(name, content) {
     let elm = this.content[name];
@@ -17172,13 +17151,13 @@ var CanvasUI = class {
   get panel() {
     return this.mesh;
   }
-  getElementAtLocation(x, y) {
+  getElementAtLocation(x2, y) {
     const elms = Object.entries(this.config).filter(([name, elm2]) => {
       if (typeof elm2 === "object" && name !== "panelSize" && name !== "body") {
         const pos = elm2.position;
         const width = elm2.width !== void 0 ? elm2.width : this.config.width;
         const height = elm2.height !== void 0 ? elm2.height : this.config.height;
-        return x >= pos.x && x < pos.x + width && y >= pos.y && y < pos.y + height;
+        return x2 >= pos.x && x2 < pos.x + width && y >= pos.y && y < pos.y + height;
       }
     });
     const elm = elms.length == 0 ? null : this.config[elms[0][0]];
@@ -17200,9 +17179,9 @@ var CanvasUI = class {
         this.needsUpdate = true;
       }
     } else {
-      const x = xy[0];
+      const x2 = xy[0];
       const y = xy[1];
-      const elm = this.getElementAtLocation(x, y);
+      const elm = this.getElementAtLocation(x2, y);
       if (elm === null) {
         if (this.selectedElements[index] !== void 0) {
           this.selectedElements[index] = void 0;
@@ -17407,18 +17386,18 @@ var CanvasUI = class {
     canvas2.height = h;
     return canvas2;
   }
-  fillRoundedRect(x, y, w, h, radius) {
+  fillRoundedRect(x2, y, w, h, radius) {
     const ctx = this.context;
     ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.lineTo(x + w - radius, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
-    ctx.lineTo(x + w, y + h - radius);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
-    ctx.lineTo(x + radius, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
-    ctx.lineTo(x, y + radius);
-    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.moveTo(x2 + radius, y);
+    ctx.lineTo(x2 + w - radius, y);
+    ctx.quadraticCurveTo(x2 + w, y, x2 + w, y + radius);
+    ctx.lineTo(x2 + w, y + h - radius);
+    ctx.quadraticCurveTo(x2 + w, y + h, x2 + w - radius, y + h);
+    ctx.lineTo(x2 + radius, y + h);
+    ctx.quadraticCurveTo(x2, y + h, x2, y + h - radius);
+    ctx.lineTo(x2, y + radius);
+    ctx.quadraticCurveTo(x2, y, x2 + radius, y);
     ctx.closePath();
     ctx.fill();
   }
@@ -17543,21 +17522,21 @@ var CanvasUI = class {
       config2.minScrollY = rect.height - textHeight;
     }
     let y = scrollY + rect.y + fontSize / 2;
-    let x;
+    let x2;
     switch (textAlign) {
       case "center":
-        x = rect.x + rect.width / 2;
+        x2 = rect.x + rect.width / 2;
         break;
       case "right":
-        x = rect.x + rect.width;
+        x2 = rect.x + rect.width;
         break;
       default:
-        x = rect.x;
+        x2 = rect.x;
         break;
     }
     lines.forEach((line2) => {
       if (y + lineHeight > 0)
-        context.fillText(line2, x, y);
+        context.fillText(line2, x2, y);
       y += lineHeight;
     });
   }
@@ -17885,6 +17864,7 @@ engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(PoisonTurret3D);
 engine.registerComponent(TurretSpawner);
+engine.registerComponent(Turret);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);
 engine.scene.load(`${Constants.ProjectName}.bin`).catch((e) => {

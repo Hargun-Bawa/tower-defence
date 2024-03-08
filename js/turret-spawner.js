@@ -2,71 +2,52 @@ import { Component, Property, Type } from '@wonderlandengine/api';
 import { TurretAimer } from './turret-aimer';
 import { state } from './game';
 import { ProjectileSpawner } from './projectile-spawner';
-import { Default } from './default';
-import { Poison } from './poison';
-import { DefaultTurret3D  } from './default_turret_3D';
+import { Turret } from './turret';
+import { Turret3D } from './Turret3D';
+import { DefaultTurret3D } from './default_turret_3D';
+import { PoisonTurret3D } from './poison_turret_3D';
 /**
  * turret-spawner
  * this code will allow the player to spawn turrets in the location
- * the cursor is pointing   
+ * the cursor is pointing
  */
 export class TurretSpawner extends Component {
-    static TypeName = 'turret-spawner';
-    static Properties = {
-        defaultMesh: { type: Type.Mesh },
-        defaultMaterial: { type: Type.Material },
-        poisonMesh: { type: Type.Mesh },
-        poisonMaterial: { type: Type.Material },
-        shootingCD: { type: Type.Int, default: 1 },
-        damage: { type: Type.Int, default: 20 },
-        turretCost: { type: Type.Int, default: 25 },
-        defaultTurret: { type: Type.Object},
-        defaultBase: {type: Type.Object},
+  static TypeName = 'turret-spawner';
+  static Properties = {};
+  static onRegister(engine) {
+    engine.registerComponent(TurretAimer);
+    engine.registerComponent(ProjectileSpawner);
+    engine.registerComponent(DefaultTurret3D);
+    engine.registerComponent(Turret);
+    engine.registerComponent(Turret3D);
+    engine.registerComponent(PoisonTurret3D);
+  }
+  /// poison turret?
+  init() {
+    this.timer = 0;
+    console.log(this.turretTemplate);
+    this.name = 'dave';
+    this.makeTurret = null;
+    state.turretSpawner = this;
+    // state.buildT = function () {
+    //   if (state.currency >= this.turretCost && state.pauseBuilding === false) {
+    //     state.spawnedTurrets += 1;
+    //     console.log(state.selectedTurret);
+    //     if (state.selectedTurret === 'default') {
+    //       turretTemplate.makeTurret(this, state.DefaultTurret3D);
+    //       state.currency -= state.DefaultTurret3D.cost;
+    //       state.needsUpdate = true;
+    //     }
+    //     if (state.selectedTurret === 'poison') {
+    //       turretTemplate.makeTurret(this, state.PoisonTurret3D);
+    //       state.currency -= state.PoisonTurret3D.cost;
+    //       state.needsUpdate = true;
+    //     }
+    //   }
+    // }.bind(this);
+  }
 
-    };
-
-
-    /// poison turret?
-
-    init() {
-        this.timer = 0;
-        this.name = 'dave';
-        this.makeTurret = null;
-        state.turretSpawner = this;
-        state.defaultMesh = new Component("Object", { mesh: this.defaultMesh, material: this.defaultMaterial });
-        state.poisonMesh = new Component("mesh", { mesh: this.poisonMesh, material: this.poisonMaterial });
-        state.buildT = function () {
-            if (state.currency >= this.turretCost && state.pauseBuilding === false) {
-
-                let tempTurret = null;
-                console.log(state.selectedTurret);
-                if (state.selectedTurret === "default") {
-                    tempTurret = new Default;
-
-                    let turret = tempTurret.makeTurret(this);
-                    state.spawnedTurrets += 1;
-                    state.currency -= this.turretCost;
-                    // state.needsUpdate is for the Hud update function specifically
-                    // if the hud just calles update as it wants it eventually breaks
-                    state.needsUpdate = true;
-                }
-                if (state.selectedTurret === "poison") {
-                    tempTurret = new Poison;
-                    let turret = tempTurret.makeTurret(this);
-                    state.spawnedTurrets += 1;
-                    state.currency -= this.turretCost;
-                    // state.needsUpdate is for the Hud update function specifically
-                    // if the hud just calles update as it wants it eventually breaks
-                    state.needsUpdate = true;
-                }
-            }
-        }.bind(this);
-    }
-    static onRegister(engine) {
-        engine.registerComponent(TurretAimer);
-        engine.registerComponent(ProjectileSpawner);
-    }
-    start() {
-        console.log('start turret spawner');
-    }
+  start() {
+    console.log('start turret spawner');
+  }
 }

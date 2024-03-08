@@ -152,7 +152,7 @@ export class WaypointMovement extends Component {
         if(this.object.timer > 1 && this.object.poisoned === true ) 
         {
             this.object.health -= this.object.poisonStack;
-            this.object.poisonStack -=1;
+            this.object.poisonStack -= state.poisonDamage;
             if(this.object.health < 0 )
             {
                 this.object.destroy();

@@ -2,17 +2,18 @@ import { Component, Property, Type } from '@wonderlandengine/api';
 import { TurretAimer } from './turret-aimer';
 import { ProjectileSpawner } from './projectile-spawner';
 import { state } from "./game";
+import { Turret } from "./turret";
 import { PoisonTurret3D } from './poison_turret_3D';
 
 /**
  * default
  */
 const tempQuat2 = new Float32Array(8);
-export class Poison extends Component {
+export class Poison extends Turret {
     static TypeName = 'poison';
     /* Properties that are configurable in the editor */
     static Properties = {
-        param: Property.float(1.0)
+        cost: 30,
     };
     static onRegister(engine) {
         engine.registerComponent(TurretAimer);
@@ -34,18 +35,19 @@ export class Poison extends Component {
         // NULL objects for function/property allocation from children
         obj.target = null;
         obj.shoot = null;
+        obj.type = "poision";
         obj.cd = x.shootingCD;
         obj.name = "sam";
         obj.status = "poisonTower";
         obj.damage = x.damage;
 
-      obj.bulletMesh = {
+        obj.bulletMesh = {
             mesh:state.poisonTurret3D.bulletMesh,
             material: state.poisonTurret3D.bulletMaterial,
         }
         obj.addComponent("collision", {
             collider: WL.Collider.Sphere,
-            extents: [5, 0, 0],
+            extents: [state.attackRange, 0, 0],
             group: 1 << 5,
             // this code is a test to see how to trigger Collision Onhit and onleave that has
             // some documentation on wonderland, but I cant figre out how to use

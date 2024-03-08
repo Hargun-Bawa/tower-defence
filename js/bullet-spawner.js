@@ -32,7 +32,6 @@ export class BulletSpawner extends Component {
 
     static onRegister(engine) {
         engine.registerComponent(BulletPhysics);
-
     }
 
     init() {
@@ -70,18 +69,15 @@ export class BulletSpawner extends Component {
             if (lastShotTimeGap > 500) {
                 const dir = [0, 0, 0];
                 this.object.getComponent('cursor').cursorRayObject.getForward(dir);
-
                 state.launch(dir);
                 this.lastShotTime = currentTime;
             }
         }
-
     }
 
     spawnBullet() {
         const obj = this.engine.scene.addObject();
         obj.scaleLocal([0.05, 0.05, 0.05]);
-
         obj.addComponent("mesh", {
             mesh: this.bulletMesh.mesh,
             material: this.bulletMaterial.material,
@@ -95,25 +91,21 @@ export class BulletSpawner extends Component {
         const physics = obj.addComponent(BulletPhysics, {
             speed: this.bulletSpeed,
         });
-        physics.active = true;
 
+        physics.active = true;
         return {
             object: obj,
             physics: physics
         };
     }
-
     //vibrates controller for haptic feedback
-
     onActivate() {
         if (!this.engine.xr) return;
         this.engine.xr.session.addEventListener(
             "selectstart", this.onTouchDown.bind(this));
     }
-
     xrSessionStart(session) {
         if (!this.active) return;
         session.addEventListener("selectstart", this.onTouchDown.bind(this));
     }
-
 };

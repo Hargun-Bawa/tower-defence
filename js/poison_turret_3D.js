@@ -1,17 +1,22 @@
-import {Component, Object3D, Property, Type} from '@wonderlandengine/api';
-import {state } from './game';
+import { Component, Object3D, Property, Type } from '@wonderlandengine/api';
+import { Turret3D } from './Turret3D';
+import { state } from './game';
 /**
  * poison_turret_3D
  */
-export class PoisonTurret3D extends Component {
-    static TypeName = 'poison_turret_3D';
-    /* Properties that are configurable in the editor */
-    static Properties = {
-        turret: {type: Type.Object},
-        base:{type: Type.Object},
-        bulletMesh: {type: Type.Mesh},
-        bulletMaterial: {type: Type.Material}
+export class PoisonTurret3D extends Turret3D {
+  static TypeName = 'poison_turret_3D';
+  static Properties = {
+    test: { type: Type.String, default: 'test' },
+  };
+  static x = function () {
+    console.log('test');
+  };
+
+  init() {
+    this.x = function () {
+      console.log('test');
     };
-   start() {
-        state.poisonTurret3D = this; }
+    state.poisonTurret3D = this;
+  }
 }

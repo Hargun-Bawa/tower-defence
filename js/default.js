@@ -37,6 +37,7 @@ export class Default extends Component {
         obj.cd = x.shootingCD;
         obj.name = "sam";
         obj.status = null;
+        obj.type = "default";
         obj.damage = x.damage;
         obj.bulletMesh = {
             mesh:state.defaultTurret3D.bulletMesh,

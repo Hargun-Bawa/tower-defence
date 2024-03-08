@@ -31,6 +31,7 @@ import {EnemySpawner} from './enemy-spawner.js';
 import {LevelTracker} from './level-tracker.js';
 import {PoisonTurret3D} from './poison_turret_3D.js';
 import {TurretSpawner} from './turret-spawner.js';
+import {Turret} from './turret.js';
 import {UIHandler} from './uiHandler.js';
 import {WaypointMovement} from './waypoint-movement.js';
 /* wle:auto-imports:end */
@@ -115,6 +116,7 @@ engine.registerComponent(EnemySpawner);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(PoisonTurret3D);
 engine.registerComponent(TurretSpawner);
+engine.registerComponent(Turret);
 engine.registerComponent(UIHandler);
 engine.registerComponent(WaypointMovement);
 /* wle:auto-register:end */
