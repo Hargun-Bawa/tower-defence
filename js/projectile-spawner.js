@@ -29,8 +29,8 @@ export class ProjectileSpawner extends Component {
     mesh.active = true;
     obj.addComponent('collision', {
       shape: WL.Collider.Sphere,
-      extents: [0.05, 0, 0],
-      group: 1 << 0,
+      extents: [0.1, 0, 0],
+      group: 1 << 4,
     });
     obj.name = 'steven';
     obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());

@@ -12,7 +12,7 @@ export class CelestialRotation extends Component {
     param: Property.float(1.0),
     timer: Property.float(0.0),
     rotated: Property.float(0.0),
-    degree: Property.float(0.05)
+    degree: Property.float(0.15)
   };
  
 
@@ -26,7 +26,7 @@ export class CelestialRotation extends Component {
   update(dt) {
     this.timer += dt;
     this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree);
-    this.rotated += 0.05;
+    this.rotated += this.degree;
     if(this.rotated > 65 && this.rotated < 295){
       if(state.day == true )
       {

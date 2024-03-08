@@ -55,7 +55,7 @@ export class TurretAimer extends Component {
     for (const coll of overlaps) {
       if (fired == false && coll.object === this.object.target) {
         this.object.turret.lookAt(
-          this.object.target.getPositionWorld(),
+          this.object.target.enem.getPositionWorld(),
           [0, 1, 0]
         );
         if (this.timer > this.object.cd) {
@@ -87,6 +87,7 @@ export class TurretAimer extends Component {
     // this function checks to see if there is an enemy target in default range
     if (this.object.target == null || this.object.target.objectId < 0) {
       this.seek();
+
     }
     // if there is a target in range, makes the turret look at and then fire at said target,
     // TODO find some way to lock the non Y axis rotation

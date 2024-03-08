@@ -15812,7 +15812,7 @@ var CelestialRotation = class extends Component {
   update(dt) {
     this.timer += dt;
     this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree);
-    this.rotated += 0.05;
+    this.rotated += this.degree;
     if (this.rotated > 65 && this.rotated < 295) {
       if (state.day == true) {
         state.levelUp();
@@ -15837,7 +15837,7 @@ __publicField(CelestialRotation, "Properties", {
   param: Property.float(1),
   timer: Property.float(0),
   rotated: Property.float(0),
-  degree: Property.float(0.05)
+  degree: Property.float(0.15)
 });
 
 // js/Turret3D.js
@@ -16152,6 +16152,7 @@ var EnemySpawner = class extends Component {
       active: true
     });
     obj.walked = 0;
+    obj.name = "dave";
     obj.timer = 0;
     obj.poisonStack = 0;
     obj.health = this.defaultHealth;
@@ -16287,7 +16288,7 @@ var TurretAimer = class extends Component {
     for (const coll of overlaps) {
       if (fired == false && coll.object === this.object.target) {
         this.object.turret.lookAt(
-          this.object.target.getPositionWorld(),
+          this.object.target.enem.getPositionWorld(),
           [0, 1, 0]
         );
         if (this.timer > this.object.cd) {
@@ -16327,7 +16328,7 @@ var ProjectilePhysics = class extends Component {
     this.object.getPositionWorld(this.position);
     this.object.setScalingWorld([0.1, 0.1, 0.1]);
     this.correctedSpeed = this.speed * 5;
-    this.collision = this.object.getComponent("collision", 0);
+    this.collision = this.object.getComponent("collision");
     if (!this.collision) {
       console.warn(
         "bullet-physics' component on object",
@@ -16341,11 +16342,6 @@ var ProjectilePhysics = class extends Component {
       console.log("dt is NaN");
       return;
     }
-    this.object.getPositionWorld(this.position);
-    if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
-      this.destroyBullet(0);
-      return;
-    }
     if (vec3_exports.length(this.position) > 175) {
       this.destroyBullet(0);
       return;
@@ -16355,7 +16351,10 @@ var ProjectilePhysics = class extends Component {
     vec3_exports.add(this.position, this.position, newDir2);
     this.object.setPositionLocal(this.position);
     let overlaps = this.collision.queryOverlaps();
-    for (let i = 0; i < overlaps.length; ++i) {
+    if (overlaps.length > 0) {
+      if (overlaps[0].object.parent.name === "centermass") {
+        console.log(overlaps);
+      }
       this.destroyBullet(0);
       return;
     }
@@ -16396,8 +16395,8 @@ var ProjectileSpawner = class extends Component {
     mesh.active = true;
     obj.addComponent("collision", {
       shape: WL.Collider.Sphere,
-      extents: [0.05, 0, 0],
-      group: 1 << 0
+      extents: [0.1, 0, 0],
+      group: 1 << 4
     });
     obj.name = "steven";
     obj.setPositionLocal(this.object.turret.children[3].getPositionWorld());

@@ -36,7 +36,7 @@ export class ProjectilePhysics extends Component {
         this.object.getPositionWorld(this.position);
         this.object.setScalingWorld([.1, .1, .1]);
         this.correctedSpeed = this.speed * 5;
-        this.collision = this.object.getComponent('collision', 0);
+        this.collision = this.object.getComponent('collision');
         if (!this.collision) {
             console.warn(
                 "bullet-physics' component on object",
@@ -50,13 +50,6 @@ export class ProjectilePhysics extends Component {
             console.log("dt is NaN");
             return;
         }
-        //update position
-        this.object.getPositionWorld(this.position);
-        //deactivate bullet if through the floor
-        if (this.position[1] <= state.floorHeight + this.collision.extents[0]) {
-            this.destroyBullet(0);
-            return;
-        }
         //deactivate bullet if travel distance too far
         if (vec3.length(this.position) > 175) {
             this.destroyBullet(0);
@@ -68,9 +61,15 @@ export class ProjectilePhysics extends Component {
         vec3.add(this.position, this.position, newDir);
         this.object.setPositionLocal(this.position);
         let overlaps = this.collision.queryOverlaps();
-        for (let i = 0; i < overlaps.length; ++i) {
+        if( overlaps.length > 0) {
+            if(overlaps[0].object.name === "centermass")
+            {
+            console.log(overlaps[0].object.parent.name);
+            }
+            
             this.destroyBullet(0);
             return;
+
         }
     }
     destroyBullet(time) {

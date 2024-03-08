@@ -63,17 +63,18 @@ export class EnemySpawner extends Component {
         obj.addComponent("collision", {
             shape: WL.Collider.Sphere,
             extents: [5, 0, 0],
-            group: 1 << 5,
+            group: (1 << 5 ),
             active: true,
         });
+
         // potential distance traveled for enemy selection
         obj.walked = 0;
+        obj.name = "dave";
         obj.timer = 0;
         obj.poisonStack = 0;
         obj.health = this.defaultHealth;
         obj.damage = this.defaultDamage;
         obj.value = this.defaultReward;
-    
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
         let o = this.object.getComponent(WaypointMovement);
