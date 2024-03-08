@@ -46,7 +46,7 @@ export class TurretAimer extends Component {
     }
   }
   fire() {
-    let g = new Float32Array(3);
+    let target_location = new Float32Array(3);
     // this part of the code checks to make sure the target is still in range, and then shoots
     // at the target and deletes it if the target is at less than or equal to 0 hp
     const collision = this.object.getComponent('collision');
@@ -62,7 +62,7 @@ export class TurretAimer extends Component {
           // currently shoot just launches the object in the direction of the target, whether or not the
           // projectile hits the target is irrelevant, damage is calculated here
 
-          this.object.shoot(this.object.turret.getForwardWorld(g));
+          this.object.shoot(this.object.turret.getForwardWorld(target_location));
           this.object.target.health -= this.object.damage;
           // currently the only status in the game is poison, so this code automatically sets the target to poisoned
           // future status effects will need to be added here

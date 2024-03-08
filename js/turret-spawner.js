@@ -29,24 +29,7 @@ export class TurretSpawner extends Component {
     this.name = 'dave';
     this.makeTurret = null;
     state.turretSpawner = this;
-    // state.buildT = function () {
-    //   if (state.currency >= this.turretCost && state.pauseBuilding === false) {
-    //     state.spawnedTurrets += 1;
-    //     console.log(state.selectedTurret);
-    //     if (state.selectedTurret === 'default') {
-    //       turretTemplate.makeTurret(this, state.DefaultTurret3D);
-    //       state.currency -= state.DefaultTurret3D.cost;
-    //       state.needsUpdate = true;
-    //     }
-    //     if (state.selectedTurret === 'poison') {
-    //       turretTemplate.makeTurret(this, state.PoisonTurret3D);
-    //       state.currency -= state.PoisonTurret3D.cost;
-    //       state.needsUpdate = true;
-    //     }
-    //   }
-    // }.bind(this);
   }
-
   start() {
     console.log('start turret spawner');
   }

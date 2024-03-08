@@ -77,22 +77,22 @@ export class EnemySpawner extends Component {
         obj.value = this.defaultReward;
         // create a new object that is a copt of the Waypoint Movement object 
         // belonging to the spawner
-        let o = this.object.getComponent(WaypointMovement);
-        o.speed = this.defaultSpeed;
+        let waypoint = this.object.getComponent(WaypointMovement);
+        waypoint.speed = this.defaultSpeed;
 
         //This code is meant to be how we track the health of the enemies, currently not doing anything
         obj.f = function () {
             state.health -= obj.damage;
             // if state.health <= 0 state.gameOver = true;
             const index = state.currentEnemies.indexOf(obj);
-            const x = state.currentEnemies.splice(index, 1);
+            state.currentEnemies.splice(index, 1);
             state.needsUpdate = true;
             obj.destroy()
         };
         // Add the copied movement object to the new enemy, including
         // the pathObject of the parent specified in the editor
 
-        obj.addComponent(WaypointMovement, o);
+        obj.addComponent(WaypointMovement, waypoint);
         obj.setScalingLocal([.2, .2, .2]);
         obj.active = true;
         obj.setDirty();
