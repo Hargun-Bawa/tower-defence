@@ -2,7 +2,7 @@ import { Component, Property } from '@wonderlandengine/api';
 import { glMatrix } from 'gl-matrix';
 import { state } from './game';
 /**
- * rtest
+ * celestial-rotation
  */
 const x = new Float32Array(4);
 export class CelestialRotation extends Component {
@@ -12,11 +12,20 @@ export class CelestialRotation extends Component {
     param: Property.float(1.0),
     timer: Property.float(0.0),
     rotated: Property.float(0.0),
+    degree: Property.float(0.05)
   };
+ 
+
+  // Day Night is calculated based on the angles of the sun and the moon
+  // changing this.degree will change how long the levels are
+  // sunset is currently at 65 degrees, and sunrize is at 295 degrees
+  // at 360 degrees, it is noon.
+
+  // Currently I'm pretty sure a full rotation takes 80 seconds. 
 
   update(dt) {
     this.timer += dt;
-    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.05);
+    this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree);
     this.rotated += 0.05;
     if(this.rotated > 65 && this.rotated < 295){
       if(state.day == true )
@@ -32,6 +41,10 @@ export class CelestialRotation extends Component {
       state.pauseEnemies = true;
       state.pauseBuilding = false;
       state.day = true;
+    }
+    if(this.rotated >= 359.95){
+      this.object.resetRotation();
+      this.rotated = 0;
     }
   }
 }

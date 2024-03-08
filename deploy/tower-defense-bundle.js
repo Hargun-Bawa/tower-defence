@@ -15418,6 +15418,8 @@ var state = {
   pauseBuilding: false,
   buttonFunctions: [
     function() {
+      if (state.currency - state.attackDamageCost < 0)
+        return;
       state.currency -= state.attackDamageCost;
       state.attackDamageCost += 50;
       state.attackDamage += 10;
@@ -15430,6 +15432,8 @@ var state = {
       return "ATTACK DAMAGE UPGRADE\n" + state.attackDamageCost.toString();
     },
     function() {
+      if (state.currency - state.attackRangeCost < 0)
+        return;
       state.currency -= state.attackRangeCost;
       state.attackRangeCost *= 2;
       state.attackRange += 0.5;
@@ -15440,6 +15444,8 @@ var state = {
       return "TURRET RANGE UPGRADE\n" + state.attackRangeCost.toString();
     },
     function() {
+      if (state.currency - state.attackSpeedCost < 0)
+        return;
       state.currency -= state.attackSpeedCost;
       state.attackSpeedCost += 50;
       state.attackSpeed -= 0.1;
@@ -15447,6 +15453,8 @@ var state = {
       return "ATTACK SPEED UPGRADE\n" + state.attackSpeedCost();
     },
     function() {
+      if (state.currency - state.profitUpCost < 0)
+        return;
       state.currency -= state.profitUpCost;
       state.profitUpCost *= 3;
       state.bonus += 2;
@@ -15454,9 +15462,14 @@ var state = {
       return "PROFIT UPGRADE\n" + state.profitUpCost.toString();
     },
     function() {
-      if (state.maxHealth - state.health) {
+      if (state.currency - state.healthUpCost < 0)
+        return;
+      if (state.maxHealth - state.health > 0) {
         state.currency -= state.maxHealth - state.health;
         state.health = state.maxHealth;
+        if (state.currency < 0)
+          state.health += state.currency;
+        state.currency = 0;
       } else {
         state.currency -= state.healthUpCost;
         state.healthUpCost *= 4;
@@ -15562,48 +15575,6 @@ __publicField(WasdControlsComponent, "Properties", {
   lockY: { type: Type.Bool, default: false },
   /** Object of which the orientation is used to determine forward direction */
   headObject: { type: Type.Object }
-});
-
-// js/DayNight.js
-var DayNight = class extends Component {
-  start() {
-    console.log("start() with param", this.param);
-  }
-  init() {
-    this.timer1 = 0;
-    this.r = 0.5;
-    this.g = 0.5;
-    this.b = 0.5;
-    this.mod = 5e-3;
-  }
-  //     update(dt) {
-  //         this.timer1 += dt;
-  //         let colour = new Float32Array(3);
-  //         if (this.timer1 > .125) {
-  //             this.r += this.mod;
-  //             this.g += this.mod;
-  //             this.b += this.mod;
-  //             this.timer1 = 0;
-  //             if (this.r > 1 || this.r < .2) {
-  //                 state.day = !state.day;
-  //                 state.pauseEnemies = !state.pauseEnemies;
-  //                 state.pauseBuilding = !state.pauseBuilding;
-  //                 this.mod *= -1;
-  //                 this.r += this.mod * 3;
-  //                 this.g += this.mod * 3;
-  //                 this.b += this.mod * 3;
-  //                 state.levelUp();
-  //             }
-  //             colour = [this.r, this.g, this.b];
-  //             this.object.getComponent('light').setColor(colour);
-  //         }
-  //     }
-  // }
-};
-__publicField(DayNight, "TypeName", "DayNight");
-/* Properties that are configurable in the editor */
-__publicField(DayNight, "Properties", {
-  dayTimer: { type: Type.Int, default: 2 }
 });
 
 // js/bullet-physics.js
@@ -15833,9 +15804,14 @@ __publicField(ButtonComponent, "Properties", {
 // js/celestial-rotation.js
 var x = new Float32Array(4);
 var CelestialRotation = class extends Component {
+  // Day Night is calculated based on the angles of the sun and the moon
+  // changing this.degree will change how long the levels are
+  // sunset is currently at 65 degrees, and sunrize is at 295 degrees
+  // at 360 degrees, it is noon.
+  // Currently I'm pretty sure a full rotation takes 80 seconds. 
   update(dt) {
     this.timer += dt;
-    this.object.rotateAxisAngleDegObject([1, 0, 0], 0.05);
+    this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree);
     this.rotated += 0.05;
     if (this.rotated > 65 && this.rotated < 295) {
       if (state.day == true) {
@@ -15849,6 +15825,10 @@ var CelestialRotation = class extends Component {
       state.pauseBuilding = false;
       state.day = true;
     }
+    if (this.rotated >= 359.95) {
+      this.object.resetRotation();
+      this.rotated = 0;
+    }
   }
 };
 __publicField(CelestialRotation, "TypeName", "celestial-rotation");
@@ -15856,7 +15836,8 @@ __publicField(CelestialRotation, "TypeName", "celestial-rotation");
 __publicField(CelestialRotation, "Properties", {
   param: Property.float(1),
   timer: Property.float(0),
-  rotated: Property.float(0)
+  rotated: Property.float(0),
+  degree: Property.float(0.05)
 });
 
 // js/Turret3D.js
@@ -16137,17 +16118,12 @@ var EnemySpawner = class extends Component {
   // and instatniates the timer for spawn delay
   init() {
     this.timer = 0;
-    this.drone = false;
     state.EnemySpawner.push(this);
     this.name = "paul";
     state.spawn = function(object) {
       let enemy = object.spawnEnemy();
       state.currentEnemies.push(enemy);
     }.bind(this);
-  }
-  start() {
-    console.log("start");
-    console.log(this.name);
   }
   // Not exactly sure why we need this but we do
   static onRegister(engine2) {
@@ -16193,7 +16169,6 @@ var EnemySpawner = class extends Component {
     obj.addComponent(WaypointMovement, o);
     obj.setScalingLocal([0.2, 0.2, 0.2]);
     obj.active = true;
-    obj.name = "dave";
     obj.setDirty();
   }
 };
@@ -16201,12 +16176,9 @@ __publicField(EnemySpawner, "TypeName", "enemy-spawner");
 /* Properties that are configurable in the editor */
 __publicField(EnemySpawner, "Properties", {
   defaultEnemy: { type: Type.Object },
-  defaultMesh: { type: Type.Mesh },
-  defaultMaterial: { type: Type.Material },
   spawnTimer: { type: Type.Float, default: 3 },
   defaultHealth: { type: Type.Int, default: 50 },
   defaultReward: { type: Type.Int, default: 10 },
-  specialRewardChance: { type: Type.Int, default: 1 },
   defaultSpeed: { type: Type.Float, default: 3 },
   defaultDamage: { type: Type.Int, default: 5 },
   poisoned: { type: Type.Bool, default: false }
@@ -17855,7 +17827,6 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
-engine.registerComponent(DayNight);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(ButtonComponent);
 engine.registerComponent(CelestialRotation);

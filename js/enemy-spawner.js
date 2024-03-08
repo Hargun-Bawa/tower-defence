@@ -14,12 +14,9 @@ export class EnemySpawner extends Component {
     /* Properties that are configurable in the editor */
     static Properties = {
         defaultEnemy: { type: Type.Object },
-        defaultMesh: { type: Type.Mesh },
-        defaultMaterial: { type: Type.Material },
         spawnTimer: { type: Type.Float, default: 3 },
         defaultHealth : { type: Type.Int, default: 50},
         defaultReward: { type: Type.Int, default: 10},
-        specialRewardChance: { type: Type.Int, default : 1},
         defaultSpeed: {type: Type.Float, default: 3.0},
         defaultDamage : {type :Type.Int, default : 5},
         poisoned: { type:Type.Bool, default: false},
@@ -30,17 +27,12 @@ export class EnemySpawner extends Component {
     // and instatniates the timer for spawn delay
     init() {
         this.timer = 0;
-        this.drone = false;
         state.EnemySpawner.push(this);
         this.name = "paul";
         state.spawn = function (object) {
             let enemy = object.spawnEnemy();
             state.currentEnemies.push(enemy);
         }.bind(this);
-    }
-    start() {
-        console.log("start");
-        console.log(this.name);
     }
     // Not exactly sure why we need this but we do
     static onRegister(engine) {
@@ -96,14 +88,12 @@ export class EnemySpawner extends Component {
             state.needsUpdate = true;
             obj.destroy()
         };
-
         // Add the copied movement object to the new enemy, including
         // the pathObject of the parent specified in the editor
 
         obj.addComponent(WaypointMovement, o);
         obj.setScalingLocal([.2, .2, .2]);
         obj.active = true;
-        obj.name = "dave";
         obj.setDirty();
     }
 }

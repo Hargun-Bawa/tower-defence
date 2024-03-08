@@ -53,6 +53,7 @@ export const state = {
   buttonFunctions: [
 
     function () {
+      if(state.currency - state.attackDamageCost < 0) return;
       state.currency -= state.attackDamageCost;
       state.attackDamageCost += 50;
       state.attackDamage += 10;
@@ -65,6 +66,7 @@ export const state = {
     },
 
     function () {
+      if(state.currency - state.attackRangeCost < 0) return;  
       state.currency -= state.attackRangeCost;
       state.attackRangeCost *=2;
       state.attackRange += .5;
@@ -76,6 +78,7 @@ export const state = {
     },
 
     function () {
+      if(state.currency - state.attackSpeedCost < 0) return;  
       state.currency -= state.attackSpeedCost;
       state.attackSpeedCost += 50;
       state.attackSpeed -= 0.1;
@@ -84,6 +87,7 @@ export const state = {
     },
 
     function () {
+      if(state.currency - state.profitUpCost < 0) return; 
       state.currency -= state.profitUpCost;
       state.profitUpCost *= 3;
       state.bonus += 2;
@@ -92,10 +96,13 @@ export const state = {
     },
 
     function () {
-        if(state.maxHealth - state.health )
+      if(state.currency - state.healthUpCost < 0) return;
+        if(state.maxHealth - state.health  > 0)
         {
           state.currency -= (state.maxHealth - state.health);
           state.health = state.maxHealth ;
+          if(state.currency < 0) state.health += state.currency;
+          state.currency = 0;
         }
         else 
         {
