@@ -15610,12 +15610,10 @@ var BulletPhysics = class extends Component {
     this.object.setPositionLocal(this.position);
     let overlaps = this.collision.queryOverlaps();
     for (let i = 0; i < overlaps.length; ++i) {
-      let t = overlaps[i].object.getComponent("score-trigger");
-      if (t && !this.scored) {
-        t.onHit();
-        this.destroyBullet(0);
-        return;
-      }
+      let t = overlaps[i].object.name;
+      console.log(t);
+      this.destroyBullet(0);
+      return;
     }
   }
   destroyBullet(time) {
@@ -15674,16 +15672,17 @@ var BulletSpawner = class extends Component {
   }
   spawnBullet() {
     const obj = this.engine.scene.addObject();
-    obj.scaleLocal([0.05, 0.05, 0.05]);
+    obj.scaleLocal([0.15, 0.15, 0.15]);
     obj.addComponent("mesh", {
       mesh: this.bulletMesh.mesh,
       material: this.bulletMaterial.material
     });
     obj.addComponent("collision", {
       shape: WL.Collider.Sphere,
-      extents: [0.05, 0, 0],
-      group: 1 << 0
+      extents: [0.15, 0, 0],
+      group: 1 << 5
     });
+    obj.damage = this.damage;
     const physics = obj.addComponent(BulletPhysics, {
       speed: this.bulletSpeed
     });
@@ -15712,7 +15711,8 @@ __publicField(BulletSpawner, "TypeName", "bullet-spawner");
 __publicField(BulletSpawner, "Properties", {
   bulletMesh: { type: Type.Mesh },
   bulletMaterial: { type: Type.Material },
-  bulletSpeed: { type: Type.Float, default: 1 }
+  bulletSpeed: { type: Type.Float, default: 1 },
+  damage: { type: Type.Float, default: 30 }
 });
 
 // js/button.js
@@ -15837,7 +15837,7 @@ __publicField(CelestialRotation, "Properties", {
   param: Property.float(1),
   timer: Property.float(0),
   rotated: Property.float(0),
-  degree: Property.float(0.15)
+  degree: Property.float(0.05)
 });
 
 // js/Turret3D.js
@@ -16183,6 +16183,98 @@ __publicField(EnemySpawner, "Properties", {
   defaultSpeed: { type: Type.Float, default: 3 },
   defaultDamage: { type: Type.Int, default: 5 },
   poisoned: { type: Type.Bool, default: false }
+});
+
+// js/joystick-movement.js
+var JoystickMovement = class extends Component {
+  init() {
+    this.lastTurnTime = 0;
+    this.anglePerTurn = 30;
+    this.turnIntervalTime = 100;
+    this.up = false;
+    this.right = false;
+    this.down = false;
+    this.left = false;
+  }
+  start() {
+    this.headObject = this.headObject || this.object;
+    this.engine.onXRSessionStart.push(this.setupVREvents.bind(this));
+  }
+  update() {
+    if (this.gamepad && this.gamepad.axes) {
+      let currentTime = Date.now();
+      let lastTurnTimeGap = Math.abs(currentTime - this.lastTurnTime);
+      this.left = false;
+      this.right = false;
+      if (this.gamepad.axes[2] > 0) {
+        this.left = true;
+      } else if (this.gamepad.axes[2] < 0) {
+        this.right = true;
+      }
+      this.up = false;
+      this.down = false;
+      if (this.gamepad.axes[3] > 0) {
+        this.down = true;
+      } else if (this.gamepad.axes[3] < 0) {
+        this.up = true;
+      }
+      let direction2 = [0, 0, 0];
+      let angle2 = 0;
+      if (this.up)
+        direction2[2] -= 1;
+      if (this.down)
+        direction2[2] += 1;
+      if (this.left)
+        angle2 = -this.anglePerTurn;
+      if (this.right)
+        angle2 = this.anglePerTurn;
+      let xStrength = Math.abs(this.gamepad.axes[2]);
+      let yStrength = Math.abs(this.gamepad.axes[3]);
+      if (yStrength > xStrength) {
+        vec3_exports.normalize(direction2, direction2);
+        direction2[2] *= this.moveSpeed;
+        vec3_exports.transformQuat(direction2, direction2, this.headObject.transformWorld);
+        this.headObject.translate(direction2);
+      } else if (lastTurnTimeGap > this.turnIntervalTime) {
+        this.headObject.rotateAxisAngleDegObject([0, 1, 0], angle2);
+        this.lastTurnTime = currentTime;
+      }
+    }
+  }
+  setupVREvents(s) {
+    this.session = s;
+    s.addEventListener("end", function() {
+      this.gamepad = null;
+      this.session = null;
+    }.bind(this));
+    if (s.inputSources && s.inputSources.length) {
+      for (let i = 0; i < s.inputSources.length; i++) {
+        let inputSource = s.inputSources[i];
+        if (inputSource.handedness == "left") {
+          this.gamepad = inputSource.gamepad;
+        }
+      }
+    }
+    s.addEventListener("inputsourceschange", function(e) {
+      if (e.added && e.added.length) {
+        for (let i = 0; i < e.added.length; i++) {
+          let inputSource = e.added[i];
+          if (inputSource.handedness == "left") {
+            this.gamepad = inputSource.gamepad;
+            console.log("left gamepad added");
+          }
+        }
+      }
+    }.bind(this));
+  }
+};
+__publicField(JoystickMovement, "TypeName", "joystick-movement");
+__publicField(JoystickMovement, "Properties", {
+  /** Movement speed in m/s. */
+  moveSpeed: { type: Type.Float, default: 0.1 },
+  turnAngle: { type: Type.Float, default: 30 },
+  /** Object of which the orientation is used to determine forward direction */
+  headObject: { type: Type.Object }
 });
 
 // js/level-tracker.js
@@ -17566,7 +17658,7 @@ var UIHandler = class extends Component {
     const content = { body: "Health: " + state.getHealth() + "\rMoney: " + state.getCurrency() };
     this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.updateConfig(this, config2.height, 100);
-    let ui2 = this.ui;
+    let ui = this.ui;
   }
   simplePanel2() {
     const config2 = {
@@ -17581,7 +17673,7 @@ var UIHandler = class extends Component {
     const content = { body: "blarfh: \rMoney: " };
     this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.updateConfig(this, config2.height, 100);
-    let ui2 = this.ui;
+    let ui = this.ui;
   }
   buttonsPanel() {
     function defaultTurret() {
@@ -17608,9 +17700,9 @@ var UIHandler = class extends Component {
       droneTurret: "<path>M 50 15 L 15 15 L 15 50 L 50 50 Z<path>",
       laser: "<path>M 54 32 L 10 10 L 10 54 Z</path>"
     };
-    this.ui2 = new CanvasUI(content, config, this.object, this.engine);
-    this.ui2.update();
-    let ui2 = this.ui2;
+    this.ui = new CanvasUI(content, config, this.object, this.engine);
+    this.ui.update();
+    let ui = this.ui;
   }
   scrollPanel() {
     const config2 = {
@@ -17632,7 +17724,7 @@ var UIHandler = class extends Component {
     };
     this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.update();
-    let ui2 = this.ui;
+    let ui = this.ui;
   }
   imagePanel() {
     const config2 = {
@@ -17652,7 +17744,7 @@ var UIHandler = class extends Component {
     };
     this.ui = new CanvasUI(content, config2, this.object, this.engine);
     this.ui.update();
-    let ui2 = this.ui;
+    let ui = this.ui;
   }
   inputTextPanel() {
     function onChanged(txt) {
@@ -17691,7 +17783,7 @@ var UIHandler = class extends Component {
     target.addDownFunction(this.onDown.bind(this));
     target.addUpFunction(this.onUpKeyboard.bind(this));
     this.ui.update();
-    let ui2 = this.ui;
+    let ui = this.ui;
   }
   onHover(_, cursor) {
     if (this.ui) {
@@ -17731,9 +17823,9 @@ var UIHandler = class extends Component {
   onHoverKeyboard(_, cursor) {
     if (!this.ui || !this.ui.keyboard || !this.ui.keyboard.keyboard)
       return;
-    const ui2 = this.ui.keyboard.keyboard;
-    const xy = ui2.worldToCanvas(cursor.cursorPos);
-    ui2.hover(0, xy);
+    const ui = this.ui.keyboard.keyboard;
+    const xy = ui.worldToCanvas(cursor.cursorPos);
+    ui.hover(0, xy);
     if (cursor.type == "finger-cursor") {
       this.onDown(_, cursor);
     }
@@ -17742,9 +17834,9 @@ var UIHandler = class extends Component {
   onMoveKeyboard(_, cursor) {
     if (!this.ui || !this.ui.keyboard || !this.ui.keyboard.keyboard)
       return;
-    const ui2 = this.ui.keyboard.keyboard;
-    const xy = ui2.worldToCanvas(cursor.cursorPos);
-    ui2.hover(0, xy);
+    const ui = this.ui.keyboard.keyboard;
+    const xy = ui.worldToCanvas(cursor.cursorPos);
+    ui.hover(0, xy);
     this.hapticFeedback(cursor.object, 0.5, 50);
   }
   onUpKeyboard(_, cursor) {
@@ -17849,6 +17941,7 @@ engine.registerComponent(ButtonComponent);
 engine.registerComponent(CelestialRotation);
 engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
+engine.registerComponent(JoystickMovement);
 engine.registerComponent(LevelTracker);
 engine.registerComponent(PoisonTurret3D);
 engine.registerComponent(TurretSpawner);

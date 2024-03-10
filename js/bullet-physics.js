@@ -67,12 +67,10 @@ export class BulletPhysics extends Component {
 
         let overlaps = this.collision.queryOverlaps();
         for (let i = 0; i < overlaps.length; ++i) {
-            let t = overlaps[i].object.getComponent("score-trigger");
-            if (t && !this.scored) {
-                t.onHit();
+            let t = overlaps[i].object.name;
+                console.log(t);
                 this.destroyBullet(0);
                 return;
-            }
         }
     }
     destroyBullet(time) {

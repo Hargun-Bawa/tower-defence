@@ -649,10 +649,11 @@
                 {
                     "type": "cursor",
                     "cursor": {
-                        "cursorObject": "512",
+                        "cursorObject": "665",
                         "collisionGroup": 0,
                         "cursorRayObject": "209",
-                        "cursorRayScalingAxis": "y"
+                        "cursorRayScalingAxis": "y",
+                        "useWebXRHitTest": false
                     }
                 },
                 {
@@ -703,7 +704,7 @@
                     "input": {
                         "type": "hand right"
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "vr-mode-active-switch",
@@ -734,13 +735,19 @@
                 {
                     "type": "input",
                     "input": {
-                        "type": "hand left"
+                        "type": "ray left"
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "vr-mode-active-switch",
                     "active": true
+                },
+                {
+                    "type": "joystick-movement",
+                    "joystick-movement": {
+                        "headObject": "17"
+                    }
                 }
             ],
             "translation": [
@@ -1394,25 +1401,25 @@
                     "type": "mesh",
                     "mesh": {
                         "mesh": "10",
-                        "material": "128"
+                        "material": "25"
                     }
                 }
             ],
             "translation": [
                 2.3841928964429826e-7,
-                0.0002447,
-                0.0
+                0.0002446,
+                -0.4332636
             ],
             "rotation": [
-                0.707,
+                0.7070002,
                 0.0,
                 0.0,
-                0.7072135
+                0.7072133
             ],
             "scaling": [
                 0.0049998,
                 0.3500002,
-                0.0049999
+                0.0049998
             ]
         },
         "212": {
@@ -1422,10 +1429,11 @@
                 {
                     "type": "cursor",
                     "cursor": {
-                        "cursorObject": "511",
-                        "collisionGroup": 0,
+                        "cursorObject": "666",
+                        "collisionGroup": 5,
                         "cursorRayObject": "213",
-                        "cursorRayScalingAxis": "y"
+                        "cursorRayScalingAxis": "y",
+                        "useWebXRHitTest": false
                     }
                 },
                 {
@@ -1448,6 +1456,14 @@
                 },
                 {
                     "type": "vr-mode-active-switch"
+                },
+                {
+                    "type": "bullet-spawner",
+                    "bullet-spawner": {
+                        "bulletMesh": "9",
+                        "bulletMaterial": "25",
+                        "bulletSpeed": 5.0
+                    }
                 }
             ],
             "translation": [
@@ -1501,8 +1517,8 @@
             ],
             "translation": [
                 2.384185791015625e-7,
-                0.0002447,
-                0.0
+                0.0002446,
+                -0.3894437
             ],
             "rotation": [
                 0.7072796,
@@ -1513,7 +1529,7 @@
             "scaling": [
                 0.0049998,
                 0.3499999,
-                0.0049999
+                0.0049998
             ]
         },
         "233": {
@@ -2231,9 +2247,9 @@
                 }
             ],
             "translation": [
-                9.353197,
-                5.3584237,
-                -14.1777362
+                1.8706398,
+                1.0716848,
+                -2.8355474
             ],
             "rotation": [
                 0.0,
@@ -2242,11 +2258,11 @@
                 1.0
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.2,
+                0.2,
+                0.2
             ],
-            "parent": "17"
+            "parent": "205"
         },
         "316": {
             "name": "Empty.000",
@@ -5157,6 +5173,23 @@
                 1.0,
                 1.0,
                 1.0
+            ],
+            "components": [
+                null,
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                40.0,
+                                0.0,
+                                40.0
+                            ]
+                        },
+                        "groups": 255
+                    }
+                }
             ]
         },
         "591": {
@@ -7002,79 +7035,6 @@
                 0.0393814
             ]
         },
-        "658": {
-            "name": "PhysicsBody.001",
-            "parent": "590",
-            "components": [
-                {
-                    "type": "physx",
-                    "physx": {
-                        "shape": "plane",
-                        "static": true,
-                        "groups": 144,
-                        "block": 144,
-                        "allowQuery": true
-                    }
-                }
-            ],
-            "rotation": [
-                0.4592302,
-                0.5376907,
-                0.4592294,
-                0.5376844
-            ],
-            "translation": [
-                2.309679985046387e-7,
-                0.0673107,
-                2.272427082061768e-7
-            ],
-            "scaling": [
-                1.0000025,
-                1.000001,
-                1.0000023
-            ]
-        },
-        "659": {
-            "name": "Collision.000",
-            "components": [
-                {
-                    "type": "collision",
-                    "collision": {
-                        "collider": "aabb",
-                        "aabb": {
-                            "extents": [
-                                0.5,
-                                2.0,
-                                2.0
-                            ]
-                        }
-                    }
-                },
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "8",
-                        "material": "22"
-                    }
-                }
-            ],
-            "rotation": [
-                0.0,
-                0.7071068,
-                0.0,
-                0.7071068
-            ],
-            "translation": [
-                15.1630144,
-                0.5633696,
-                -13.3589076
-            ],
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
         "660": {
             "name": "centermass",
             "parent": "531",
@@ -7108,11 +7068,11 @@
         },
         "661": {
             "name": "Test",
-            "parent": "17",
+            "parent": "205",
             "translation": [
-                -0.1616287,
-                0.1399602,
-                -19.6894721
+                -0.0323257,
+                0.027992,
+                -3.9378948
             ],
             "rotation": [
                 0.0,
@@ -7121,9 +7081,9 @@
                 1.0
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.2,
+                0.2,
+                0.2
             ],
             "components": [
                 {
@@ -7141,6 +7101,83 @@
                 },
                 {
                     "type": "cursor-target"
+                }
+            ]
+        },
+        "665": {
+            "name": "3DCursorHitLeft",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "128"
+                    }
+                }
+            ],
+            "parent": null,
+            "translation": [
+                0.0103949,
+                -0.2957165,
+                1.5582631
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0099999,
+                0.0099999,
+                0.0099999
+            ]
+        },
+        "666": {
+            "name": "3DCursorHitRight",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "9",
+                        "material": "128"
+                    }
+                }
+            ],
+            "parent": null,
+            "translation": [
+                0.0103949,
+                -0.2957165,
+                1.5582631
+            ],
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scaling": [
+                0.0099999,
+                0.0099999,
+                0.0099999
+            ]
+        },
+        "668": {
+            "name": "Collision.001",
+            "parent": "444",
+            "components": [
+                {
+                    "type": "collision",
+                    "collision": {
+                        "collider": "aabb",
+                        "aabb": {
+                            "extents": [
+                                1.0,
+                                1.0,
+                                9.0
+                            ]
+                        }
+                    }
                 }
             ]
         }

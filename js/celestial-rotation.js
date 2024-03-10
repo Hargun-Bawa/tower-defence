@@ -12,7 +12,7 @@ export class CelestialRotation extends Component {
     param: Property.float(1.0),
     timer: Property.float(0.0),
     rotated: Property.float(0.0),
-    degree: Property.float(0.15)
+    degree: Property.float(0.05)
   };
  
 

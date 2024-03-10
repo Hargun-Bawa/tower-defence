@@ -28,6 +28,7 @@ export class BulletSpawner extends Component {
         bulletMesh: { type: Type.Mesh },
         bulletMaterial: { type: Type.Material },
         bulletSpeed: { type: Type.Float, default: 1.0 },
+        damage: { type: Type.Float, default: 30}
     };
 
     static onRegister(engine) {
@@ -77,17 +78,17 @@ export class BulletSpawner extends Component {
 
     spawnBullet() {
         const obj = this.engine.scene.addObject();
-        obj.scaleLocal([0.05, 0.05, 0.05]);
+        obj.scaleLocal([0.15, 0.15, 0.15]);
         obj.addComponent("mesh", {
             mesh: this.bulletMesh.mesh,
             material: this.bulletMaterial.material,
         });
         obj.addComponent("collision", {
             shape: WL.Collider.Sphere,
-            extents: [0.05, 0, 0],
-            group: 1 << 0,
+            extents: [0.15, 0, 0],
+            group: 1 << 5 ,
         });
-
+        obj.damage = this.damage;
         const physics = obj.addComponent(BulletPhysics, {
             speed: this.bulletSpeed,
         });
