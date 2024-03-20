@@ -12,9 +12,10 @@ export class CelestialRotation extends Component {
     param: Property.float(1.0),
     timer: Property.float(0.0),
     rotated: Property.float(0.0),
-    degree: Property.float(0.05)
+    degree: Property.float(0.05),
+    skip: Property.float(0)
   };
- 
+
 
   // Day Night is calculated based on the angles of the sun and the moon
   // changing this.degree will change how long the levels are
@@ -22,29 +23,39 @@ export class CelestialRotation extends Component {
   // at 360 degrees, it is noon.
 
   // Currently I'm pretty sure a full rotation takes 80 seconds. 
+  start(){
+  state.s    = function() {
+    if(state.day === true)
+    {
+    this.skip = .5;
+    }
+  }.bind(this);
+};
 
   update(dt) {
     this.timer += dt;
-    this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree);
-    this.rotated += this.degree;
-    if(this.rotated > 65 && this.rotated < 295){
-      if(state.day == true )
-      {
+    this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree + this.skip);
+    this.rotated += this.degree + this.skip;
+    if (this.rotated > 65 && this.rotated < 295) {
+      if (state.day == true) {
         state.levelUp();
+        this.skip = 0;
       }
       state.pauseEnemies = false;
       state.pauseBuilding = true;
       state.day = false;
     }
-    else 
-    {
+    else {
       state.pauseEnemies = true;
       state.pauseBuilding = false;
       state.day = true;
     }
-    if(this.rotated >= 359.95){
+    if (this.rotated >= 359.95) {
       this.object.resetRotation();
       this.rotated = 0;
     }
-  }
+  };
+
 }
+
+

@@ -24,6 +24,8 @@ export const state = {
   currentEnemies: [],
   maxEnemies: 15,
   enemiesDestroyed: 0,
+  ore: [],
+  s: null,
 
   health: 100,
   maxHealth: 1000,
@@ -44,6 +46,7 @@ export const state = {
   needsUpdate: false,
   gameOver: false,
   shipHit: null,
+  skip: null,
   buildTime: 15,
 
   levelUp: null,

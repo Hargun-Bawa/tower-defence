@@ -15394,6 +15394,8 @@ var state = {
   currentEnemies: [],
   maxEnemies: 15,
   enemiesDestroyed: 0,
+  ore: [],
+  s: null,
   health: 100,
   maxHealth: 1e3,
   getHealth: function() {
@@ -15411,6 +15413,7 @@ var state = {
   needsUpdate: false,
   gameOver: false,
   shipHit: null,
+  skip: null,
   buildTime: 15,
   levelUp: null,
   day: true,
@@ -15541,6 +15544,7 @@ var WasdControlsComponent = class extends Component {
   press(e) {
     if (e.keyCode === 38 || e.keyCode === 87 || e.keyCode === 90) {
       this.up = true;
+      state.s();
     } else if (e.keyCode === 39 || e.keyCode === 68) {
       this.right = true;
     } else if (e.keyCode === 40 || e.keyCode === 83) {
@@ -15809,13 +15813,21 @@ var CelestialRotation = class extends Component {
   // sunset is currently at 65 degrees, and sunrize is at 295 degrees
   // at 360 degrees, it is noon.
   // Currently I'm pretty sure a full rotation takes 80 seconds. 
+  start() {
+    state.s = function() {
+      if (state.day === true) {
+        this.skip = 0.5;
+      }
+    }.bind(this);
+  }
   update(dt) {
     this.timer += dt;
-    this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree);
-    this.rotated += this.degree;
+    this.object.rotateAxisAngleDegObject([1, 0, 0], this.degree + this.skip);
+    this.rotated += this.degree + this.skip;
     if (this.rotated > 65 && this.rotated < 295) {
       if (state.day == true) {
         state.levelUp();
+        this.skip = 0;
       }
       state.pauseEnemies = false;
       state.pauseBuilding = true;
@@ -15837,7 +15849,8 @@ __publicField(CelestialRotation, "Properties", {
   param: Property.float(1),
   timer: Property.float(0),
   rotated: Property.float(0),
-  degree: Property.float(0.05)
+  degree: Property.float(0.05),
+  skip: Property.float(0)
 });
 
 // js/Turret3D.js
