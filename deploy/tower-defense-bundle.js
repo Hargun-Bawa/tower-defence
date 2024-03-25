@@ -15581,6 +15581,54 @@ __publicField(WasdControlsComponent, "Properties", {
   headObject: { type: Type.Object }
 });
 
+// js/Miner.js
+var Miner = class extends Component {
+  start() {
+  }
+  init() {
+    this.isMining = false;
+    this.timer = 0;
+  }
+  start() {
+    console.log("start() with param", this.param);
+  }
+  update(dt) {
+    this.distance = vec3_exports.distance(this.object.getPositionWorld(), state.ore[0].object.getPositionWorld());
+    this.distance1 = vec3_exports.distance(this.object.getPositionWorld(), this.Base.getPositionWorld());
+    if (this.isMining === false) {
+      console.log(state.ore[0]);
+      this.object.lookAt(state.ore[0].object.getPositionWorld(), [0, 1, 0]);
+      this.object.translateObject([0, 0, -this.speed * dt]);
+      if (this.distance < 0.1) {
+        this.isMining = true;
+      }
+    }
+    if (this.isMining === true) {
+      this.timer += dt;
+      if (this.timer > this.miningTime) {
+        this.object.lookAt(this.Base.getPositionWorld(), [0, 1, 0]);
+        this.object.translateObject([0, 0, -this.speed * dt]);
+        state.ore[0].max -= this.Value;
+      }
+      if (this.distance1 < 0.1) {
+        state.needsUpdate = true;
+        state.currency += this.Value;
+        this.isMining = false;
+        this.timer = 0;
+      }
+    }
+  }
+};
+__publicField(Miner, "TypeName", "Miner");
+/* Properties that are configurable in the editor */
+__publicField(Miner, "Properties", {
+  speed: { type: Type.Float, default: 1 },
+  miningTime: { type: Type.Float, default: 1 },
+  Ore: { type: Type.Object },
+  Base: { type: Type.Object },
+  Value: { type: Type.Float, default: 1 }
+});
+
 // js/bullet-physics.js
 var newDir = new Float32Array(3);
 var BulletPhysics = class extends Component {
@@ -16330,6 +16378,26 @@ __publicField(LevelTracker, "Properties", {
   level: { type: Type.Int, default: 1 },
   timer: { type: Type.Int, default: state.timer },
   day: { type: Type.Bool, default: true }
+});
+
+// js/ore.js
+var Ore = class extends Component {
+  start() {
+    console.log("start() with param", this.param);
+    state.ore.push(this);
+    console.log(this.object);
+  }
+  update(dt) {
+    console.log(this.max);
+    if (this.max <= 0) {
+      state.ore.delete(this);
+    }
+  }
+};
+__publicField(Ore, "TypeName", "Ore");
+/* Properties that are configurable in the editor */
+__publicField(Ore, "Properties", {
+  max: Property.float(500)
 });
 
 // js/poison_turret_3D.js
@@ -17949,6 +18017,7 @@ engine.registerComponent(PlayerHeight);
 engine.registerComponent(TeleportComponent);
 engine.registerComponent(VrModeActiveSwitch);
 engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(Miner);
 engine.registerComponent(BulletSpawner);
 engine.registerComponent(ButtonComponent);
 engine.registerComponent(CelestialRotation);
@@ -17956,6 +18025,7 @@ engine.registerComponent(DefaultTurret3D);
 engine.registerComponent(EnemySpawner);
 engine.registerComponent(JoystickMovement);
 engine.registerComponent(LevelTracker);
+engine.registerComponent(Ore);
 engine.registerComponent(PoisonTurret3D);
 engine.registerComponent(TurretSpawner);
 engine.registerComponent(Turret);

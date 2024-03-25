@@ -46,7 +46,7 @@ export class Miner extends Component {
             
             this.object.translateObject([0, 0, -this.speed * dt]);
 
-            if (this.distance < 1.5) {
+            if (this.distance < 0.1) {
                 this.isMining = true;
             }
         }
